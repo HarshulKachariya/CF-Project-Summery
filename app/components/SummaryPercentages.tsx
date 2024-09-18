@@ -122,7 +122,7 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
       />
 
       {!ReactApexChart ? (
-        <>Loading...</>
+        <ChartSkeleton />
       ) : (
         <Suspense fallback={<ChartSkeleton />}>
           <ReactApexChart
