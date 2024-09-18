@@ -1,1 +1,0 @@
-import{b as e}from"/build/_shared/chunk-BVJBT3X3.js";import{d as a}from"/build/_shared/chunk-T36URGAI.js";var l=a(e(),1),t=({className:n})=>(0,l.jsx)("div",{className:` animate-pulse transition-all bg-gray-200 ${n}`}),o=t;export{o as a};

@@ -7,8 +7,8 @@
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "build:demo": "esbuild app/workers/project.worker.tsx  --bundle --format=esm --minify --splitting --outdir=public/project",
-    "build:client": "esbuild app/workers/client.tsx --bundle --format=esm --minify --splitting --outdir=public/client",
+    "build:demo": "remix build && esbuild app/workers/project.worker.tsx  --bundle --format=esm --minify --splitting --outdir=public/project",
+    "build:client": "remix build && esbuild app/workers/client.tsx --bundle --format=esm --minify --splitting --outdir=public/client",
     "build:all": "npm run build:demo && npm run build:client",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"

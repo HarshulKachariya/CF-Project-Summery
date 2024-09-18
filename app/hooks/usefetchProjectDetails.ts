@@ -62,7 +62,13 @@ export function useFetchProjectDetails(
       }
     }
 
-    fetchData();
+    const timeOut = setTimeout(() => {
+      fetchData();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, [projectId, userId, compId]);
 
   return { data, isLoading, error };

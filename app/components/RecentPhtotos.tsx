@@ -4,14 +4,22 @@ import { useEffect, useState } from "react";
 import Skeleton from "./Skeletons/skeleton";
 import { CFGallery } from "./LightGallery";
 
-const RecentPhotos = ({ data }: any) => {
-  const [isLoading, setIsLoading] = useState(true);
+const RecentPhotos = ({ data, isLoading }: any) => {
+  const [photos, setPhotos] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
-  }, [data]);
+    function resize() {
+      if (window.innerWidth >= 1280) {
+        setPhotos(10);
+      } else if (window.innerWidth >= 768) {
+        setPhotos(8);
+      } else {
+        setPhotos(4);
+      }
+    }
+    resize();
+    window.addEventListener("resize", resize);
+  }, []);
 
   return (
     <div className="h-full">
@@ -27,24 +35,12 @@ const RecentPhotos = ({ data }: any) => {
           ))}
         </div>
       ) : (
-        <div className="w-full">
-          <CFGallery
-            zoom={true}
-            animateThumb={false}
-            zoomFromOrigin={false}
-            allowMediaOverlap={true}
-            toggleThumb={true}
-            backdropDuration={150}
-            showZoomInOutIcons={true}
-            actualSize={false}
-            mode="lg-slide"
-            alignThumbnails="left"
-            className="flex gap-[15px] flex-wrap"
-            mousewheel={true}
-          >
-            <div className="grid grid-cols-5 gap-4 w-full mt-4">
-              {data?.aws_files?.length > 0 ? (
-                data?.aws_files.map(
+        <div className="mt-2.5 ">
+          {data?.aws_files?.length > 0 ? (
+            <CFGallery className="grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-2.5">
+              {data?.aws_files
+                ?.slice(0, photos)
+                .map(
                   (
                     { image_id, file_path, is_image, file_name }: any,
                     i: number
@@ -63,12 +59,13 @@ const RecentPhotos = ({ data }: any) => {
                       />
                     </a>
                   )
-                )
-              ) : (
-                <img src="../../public/NoPage.svg" alt="No Photos" />
-              )}
+                )}
+            </CFGallery>
+          ) : (
+            <div className="w-full !h-[195px] flex justify-center items-center">
+              <img src="../../public/NoPage.svg" alt="No Photos" />
             </div>
-          </CFGallery>
+          )}
         </div>
       )}
     </div>

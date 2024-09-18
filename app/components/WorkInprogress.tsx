@@ -4,15 +4,7 @@ import CustomIcon from "./CustomIcon";
 import { useEffect, useState } from "react";
 import Skeleton from "./Skeletons/skeleton";
 
-const WorkInprogress = ({ data }: any) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
+const WorkInprogress = ({ data, isLoading }: any) => {
   const {
     cost_completed,
     current_cost_budget,
@@ -97,7 +89,7 @@ const WorkInprogress = ({ data }: any) => {
           <p className="flex justify-between items-center text-sm" key={i.id}>
             {i.label}{" "}
             {isLoading ? (
-              <Skeleton className="w-6 h-3 rounded-xl" />
+              <Skeleton className="odd:w-12 h-2.5 rounded-xl" />
             ) : (
               <span className={`${i.color} font-semibold`}>{i.value}</span>
             )}

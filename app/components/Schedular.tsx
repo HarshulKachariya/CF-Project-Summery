@@ -5,13 +5,17 @@ import { faCalendarDay } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
+import Skeleton from "~/components/Skeletons/skeleton";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const schedulerContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       console.log("Data fetching from Scheduler =====>>>>>.........");
       try {
         const formData = new FormData();
@@ -42,18 +46,23 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
         );
         // Return the data fetched from the API
         setData(response?.data?.data?.modules);
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
+
         console.log("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    // const timeOut = setTimeout(() => {
-    fetchData();
-    // }, 500);
+    const timeOut = setTimeout(() => {
+      fetchData();
+    }, 300);
 
-    // return () => {
-    //   clearTimeout(timeOut);
-    // };
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, [projectId, userId, compId]);
 
   useEffect(() => {
@@ -157,7 +166,9 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
 
   return (
     <div className="w-full relative">
-      <div className="lg:absolute mt-4 lg:mt-0 lg:top-4 z-50 ">
+      <div
+        className={`${!isLoading && "lg:absolute "} mt-4 lg:mt-0 lg:top-4 z-50`}
+      >
         <CustomIcon
           icon={faCalendarDay}
           label="Schedule"
@@ -166,12 +177,50 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
         />
       </div>
 
-      <div
-        ref={schedulerContainer}
-        style={{ width: "100%", height: "100%" }}
-      ></div>
+      {!isLoading ? (
+        <div
+          ref={schedulerContainer}
+          style={{ width: "100%", height: "100%" }}
+        ></div>
+      ) : (
+        <div className="mt-3 h-full">
+          <SchedulerSkeleton className={`${!isLoading && "min-h-48"}`} />
+        </div>
+      )}
     </div>
   );
 };
 
 export default Scheduler;
+
+const SchedulerSkeleton = ({ className }: any) => {
+  return (
+    <table className={`w-full border-2 ${className}`}>
+      <thead>
+        <tr className="bg-black/10 h-7">
+          {[...Array(6)].map((_, index) => (
+            <th key={index} className="font-normal">
+              <Skeleton className="h-3 w-40 mx-auto rounded-xl bg-gray-300" />
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {[...Array(6)].map((_, rowIndex) => (
+          <tr key={rowIndex}>
+            {[...Array(6)].map((_, colIndex) => (
+              <td key={colIndex} className="py-1">
+                <Skeleton
+                  className="h-2.5 rounded bg-gray-300 mx-auto"
+                  style={{
+                    width: `${Math.floor(Math.random() * 40) + 60}%`,
+                  }}
+                />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};

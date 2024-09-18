@@ -4,11 +4,13 @@ import { faBoxCircleCheck } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
+import Skeleton from "./Skeletons/skeleton";
 
 const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
+  const [isLoading, setisLoading] = useState(true);
   // const [ReactApexChart, setReactApexChart] = useState<any>();
   // useEffect(() => {
   //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
@@ -16,6 +18,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setisLoading(true);
       console.log("Data fetching from Action Items =====>>>>>.........");
 
       try {
@@ -47,14 +50,22 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
           response?.data
         );
         setData(response?.data?.data?.modules || []);
+        setisLoading(false);
       } catch (error) {
+        console.log("Error fetching data from Action Items =====>>>>>", error);
         console.error("Error fetching data:", error);
+      } finally {
+        setisLoading(false);
       }
     };
 
-    if (projectId) {
-      fetchData();
-    }
+    const timer = setTimeout(() => {
+      if (projectId) {
+        fetchData();
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [projectId, userId, compId]);
 
   const options: ApexOptions = {
@@ -135,19 +146,42 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         className="text-base"
       />
       {!ReactApexChart ? (
-        <>Loading...</>
+        <ActionItemsSkeleton />
       ) : (
-        <Suspense fallback={<div>Loading Chart...</div>}>
-          <ReactApexChart
-            type="bar"
-            height={307}
-            options={options}
-            series={series}
-          />
-        </Suspense>
+        <>
+          {!isLoading ? (
+            <Suspense>
+              <ReactApexChart
+                type="bar"
+                height={250}
+                options={options}
+                series={series}
+              />
+            </Suspense>
+          ) : (
+            <ActionItemsSkeleton />
+          )}
+        </>
       )}
     </div>
   );
 };
 
 export default ActionItems;
+
+const ActionItemsSkeleton = () => {
+  return (
+    <div className="space-y-4">
+      {[...Array(4)].map((_, index) => (
+        <div key={index} className="flex items-center space-x-2">
+          <Skeleton className="w-8 h-4" />
+          <Skeleton
+            className={`h-14 ${
+              index === 1 ? "w-3/4" : index === 2 ? "w-full" : "w-1/2"
+            }`}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};

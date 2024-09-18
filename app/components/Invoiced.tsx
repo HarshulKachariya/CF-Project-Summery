@@ -1,17 +1,9 @@
-import {
-  faAddressCard,
-  faFileChartColumn,
-  faUserGroup,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileChartColumn } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
 import Skeleton from "./Skeletons/skeleton";
-import { useEffect, useState } from "react";
 import CustomIcon from "./CustomIcon";
 
-const Invoiced = ({ data, customer_additional_contacts }: any) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
+const Invoiced = ({ data, isLoading }: any) => {
   const {
     amount_invoiced,
     original_contract_amount,
@@ -28,12 +20,6 @@ const Invoiced = ({ data, customer_additional_contacts }: any) => {
     (parseFloat(remain_to_invoice) / parseFloat(original_contract_amount)) *
     100
   ).toFixed(0);
-
-  useEffect(() => {
-    if (data && customer_additional_contacts) {
-      setIsLoading(false);
-    }
-  }, []);
 
   const Items = [
     {
@@ -71,28 +57,10 @@ const Invoiced = ({ data, customer_additional_contacts }: any) => {
   ];
 
   const commonStyle = `flex justify-between items-center text-sm`;
-  const mainDivStyle = `bg-white border  rounded-md  hover:shadow-lg hover:transition-shadow hover:duration-500 px-4 py-2.5 h-full`;
 
   return (
     <div className="flex flex-col gap-3">
-      <div className={mainDivStyle}>
-        <div className="flex justify-start items-center gap-3 w-full  ">
-          <div className="bg-[#ffe8d2dd] w-12 h-10 rounded-full flex justify-center items-center text-[#FB8056] ">
-            <FontAwesomeIcon icon={faUserGroup} className="text-base" />
-          </div>
-          <div className=" w-full">
-            Customer
-            <p className="flex justify-between items-center  font-semibold hover:text-[#FB8056] hover:cursor-pointer hover:transition-all hover:duration-700">
-              {data?.customer_name}{" "}
-              <span className="text-[#FB8056] font-semibold">
-                <FontAwesomeIcon icon={faAddressCard} className="text-sm" />
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className={mainDivStyle}>
+      <div>
         <CustomIcon
           icon={faFileChartColumn}
           label="Invoiced vs Actual"
@@ -119,28 +87,28 @@ const Invoiced = ({ data, customer_additional_contacts }: any) => {
 export default Invoiced;
 
 const InvoicedSkeleton = () => {
-  const skeletonStyle = ` w-6 h-2 rounded-xl`;
   const commonStyle = `flex justify-between items-center text-sm`;
 
   return (
     <div className="space-y-1 mt-3">
       <p className={commonStyle}>
         Total Project Amount (no/Tax){" "}
-        <Skeleton className={skeletonStyle}></Skeleton>
+        <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
       </p>
       <p className={commonStyle}>
         Invoiced to Date (no/Tax) (77%){" "}
-        <Skeleton className={skeletonStyle}></Skeleton>
+        <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
       </p>
       <p className={commonStyle}>
         Remaining to Invoice (no/Tax) (23%){" "}
-        <Skeleton className={skeletonStyle}></Skeleton>
+        <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
       </p>
       <p className={commonStyle}>
-        Total Actual Costs <Skeleton className={skeletonStyle}></Skeleton>
+        Total Actual Costs{" "}
+        <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
       </p>
       <p className={commonStyle}>
-        Gross Profit <Skeleton className={skeletonStyle}></Skeleton>
+        Gross Profit <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
       </p>
     </div>
   );
