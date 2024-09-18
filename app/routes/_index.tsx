@@ -29,6 +29,8 @@ export type IndexProps = {
   isLoading?: boolean;
 };
 
+//
+
 // export default function Index() {
 export default function Index({ projectId, userId, compId }: IndexProps) {
   // const projectId = "137869";
