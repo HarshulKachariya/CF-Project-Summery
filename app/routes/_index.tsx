@@ -29,12 +29,11 @@ export type IndexProps = {
   isLoading?: boolean;
 };
 
-export default function Index() {
-  // export default function Index({ projectId, userId, compId }: IndexProps) {
-
-  const projectId = "137869";
-  const compId = "408"; // You might want to make this dynamic too
-  const userId = "50304"; // You might want to make this dynamic too
+// export default function Index() {
+export default function Index({ projectId, userId, compId }: IndexProps) {
+  // const projectId = "137869";
+  // const compId = "408"; // You might want to make this dynamic too
+  // const userId = "50304"; // You might want to make this dynamic too
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
