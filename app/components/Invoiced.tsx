@@ -1,5 +1,6 @@
 import { faFileChartColumn } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
+
 import Skeleton from "./Skeletons/skeleton";
 import CustomIcon from "./CustomIcon";
 
@@ -11,15 +12,6 @@ const Invoiced = ({ data, isLoading }: any) => {
     total_actual_cost,
     gross_profit,
   } = data?.billing_vs_actual;
-
-  const invoicedPercentage = (
-    (parseFloat(amount_invoiced!) / parseFloat(original_contract_amount!)) *
-    100
-  ).toFixed(0);
-  const remainingPercentage = (
-    (parseFloat(remain_to_invoice) / parseFloat(original_contract_amount)) *
-    100
-  ).toFixed(0);
 
   const Items = [
     {
@@ -59,28 +51,30 @@ const Invoiced = ({ data, isLoading }: any) => {
   const commonStyle = `flex justify-between items-center text-sm`;
 
   return (
-    <div className="flex flex-col gap-3">
-      <div>
-        <CustomIcon
-          icon={faFileChartColumn}
-          label="Invoiced vs Actual"
-          bgColor="#F3ECF5"
-          color="#CE6698"
-        />
-        {isLoading ? (
-          <InvoicedSkeleton />
-        ) : (
-          <div className="space-y-1 mt-3">
-            {Items.map((i) => (
-              <p className={commonStyle} key={i.id}>
-                {i.label}{" "}
-                <span className={`${i.color} font-semibold`}>{i.value}</span>
-              </p>
-            ))}
-          </div>
-        )}
+    <>
+      <div className="flex flex-col gap-3">
+        <div>
+          <CustomIcon
+            icon={faFileChartColumn}
+            label="Invoiced vs Actual"
+            bgColor="#F3ECF5"
+            color="#CE6698"
+          />
+          {isLoading ? (
+            <InvoicedSkeleton />
+          ) : (
+            <div className="space-y-1 mt-3">
+              {Items.map((i) => (
+                <p className={commonStyle} key={i.id}>
+                  {i.label}{" "}
+                  <span className={`${i.color} font-semibold`}>{i.value}</span>
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

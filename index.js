@@ -4,6 +4,7 @@ async function getSummary(proId) {
   const rootId = "root1";
   const compId = "408"; // You might want to make this dynamic too
   const userId = "50304"; // You might want to make this dynamic too
+  const directoryId = "53740"; // You might want to make this dynamic too
 
   const root = document.getElementById(rootId);
   if (!root) {
@@ -20,6 +21,7 @@ async function getSummary(proId) {
       projectId: proId,
       compId,
       userId,
+      directoryId,
     });
     root.innerHTML = html;
 
@@ -28,15 +30,16 @@ async function getSummary(proId) {
     window.projectId = proId;
     window.userId = userId;
     window.compId = compId;
+    window.directoryId = directoryId;
 
     if (!componentLoaded) {
       const { hydrateComponent, Index } = await import(
         "./public/client/client.js"
       );
-      hydrateComponent(Index, rootId, proId, userId, compId);
+      hydrateComponent(Index, rootId, proId, userId, compId, directoryId);
       componentLoaded = true;
     } else if (window.updateComponent) {
-      window.updateComponent(proId, compId, userId);
+      window.updateComponent(proId, compId, userId, directoryId);
     }
   } catch (error) {
     console.error(`Error loading component: ${error}`);

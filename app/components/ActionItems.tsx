@@ -10,6 +10,7 @@ const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
+
   const [isLoading, setisLoading] = useState(true);
   // const [ReactApexChart, setReactApexChart] = useState<any>();
   // useEffect(() => {

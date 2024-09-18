@@ -7,13 +7,20 @@ const renderComponent = ({
   projectId,
   userId,
   compId,
+  directoryId,
 }: {
   projectId: string;
   userId: string;
   compId: string;
+  directoryId: string;
 }) => {
   const html = ReactDOMServer.renderToString(
-    <Index projectId={projectId} userId={userId} compId={compId} />
+    <Index
+      projectId={projectId}
+      userId={userId}
+      compId={compId}
+      directoryId={directoryId}
+    />
   );
   return html;
 };

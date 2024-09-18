@@ -27,15 +27,22 @@ export type IndexProps = {
   userId: string;
   compId: string;
   isLoading?: boolean;
+  directoryId?: string;
 };
 
 //
 
 // export default function Index() {
-export default function Index({ projectId, userId, compId }: IndexProps) {
+export default function Index({
+  projectId,
+  userId,
+  compId,
+  directoryId,
+}: IndexProps) {
   // const projectId = "137869";
   // const compId = "408"; // You might want to make this dynamic too
   // const userId = "50304"; // You might want to make this dynamic too
+  // const directoryId = "53740"; // You might want to make this dynamic too
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
@@ -91,7 +98,14 @@ export default function Index({ projectId, userId, compId }: IndexProps) {
           <div className="flex flex-col gap-2.5">
             <div className="common-card py-3 px-[15px] h-fit min-h-[65px]">
               <Suspense>
-                <Customer data={data} isLoading={isLoading} />
+                <Customer
+                  data={data}
+                  isLoading={isLoading}
+                  projectId={projectId}
+                  userId={userId}
+                  compId={compId}
+                  directoryId={directoryId}
+                />
               </Suspense>
             </div>
             <div className="common-card py-3 px-[15px] h-full min-h-[177px]">

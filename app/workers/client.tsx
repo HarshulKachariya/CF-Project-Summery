@@ -7,22 +7,34 @@ function hydrateComponent(
   containerId: string,
   projectId: string,
   userId: string,
-  compId: string
+  compId: string,
+  directoryId: string
 ) {
   const container = document.getElementById(containerId);
   if (container) {
     const root = hydrateRoot(
       container,
-      <Component projectId={projectId} userId={userId} compId={compId} />
+      <Component
+        projectId={projectId}
+        userId={userId}
+        compId={compId}
+        directoryId={directoryId}
+      />
     );
 
     (window as any).updateComponent = (
       newProId: string,
       newCompId: string,
-      newUserId: string
+      newUserId: string,
+      directoryId: string
     ) => {
       root.render(
-        <Component projectId={newProId} userId={newUserId} compId={newCompId} />
+        <Component
+          projectId={newProId}
+          userId={newUserId}
+          compId={newCompId}
+          directoryId={directoryId}
+        />
       );
     };
   }
