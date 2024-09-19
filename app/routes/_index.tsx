@@ -30,8 +30,6 @@ export type IndexProps = {
   directoryId?: string;
 };
 
-//
-
 // export default function Index() {
 export default function Index({
   projectId,
