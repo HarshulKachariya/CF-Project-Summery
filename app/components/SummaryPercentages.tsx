@@ -8,7 +8,6 @@ import Spiner from "./Skeletons/spin";
 const ReactApexChart = require("react-apexcharts").default;
 
 const SummaryPercentages = ({ data, isLoading }: any) => {
-  if (!data) return;
   // const [ReactApexChart, setReactApexChart] = useState<any>();
 
   // useEffect(() => {
@@ -177,7 +176,7 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     <>
       <CustomIcon icon="fa-solid fa-sack-dollar" label="Summary Percentages" />
       <div className="summary_details_block_body">
-        {!ReactApexChart || !isLoading ? (
+        {!ReactApexChart ? (
           <Spiner />
         ) : (
           <Suspense>

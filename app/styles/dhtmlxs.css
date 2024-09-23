@@ -15,9 +15,6 @@
 }
 
 /* dhx_resize_denied dhx_move_denied */
-.dhx_cal_data {
-  @apply !important;
-}
 
 .dhx_cal_container {
   width: 100% !important;

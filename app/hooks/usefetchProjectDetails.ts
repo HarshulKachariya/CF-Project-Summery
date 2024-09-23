@@ -34,7 +34,6 @@ export function useFetchProjectDetails(
         formData.append("record_type", "project");
         formData.append("version", "web");
         formData.append("from", "panel");
-        formData.append("for", "remix");
         formData.append("iframe_call", "0");
         formData.append("tz", tz);
         formData.append("tzid", "Asia/Calcutta");

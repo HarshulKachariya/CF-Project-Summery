@@ -58,7 +58,7 @@ export default function Index({
 
   return (
     <>
-      <div>
+      <div key={projectId}>
         <Suspense>
           <Top data={data} isLoading={isLoading} />
         </Suspense>

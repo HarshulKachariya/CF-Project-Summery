@@ -88,7 +88,9 @@ const Top = ({ data, isLoading }: any) => {
       id: 5,
       label: "Schedule Completed",
       label2: `${
-        data?.progress.toFixed(0) !== "0" ? data?.progress.toFixed(0) : "0"
+        Number(data?.progress).toFixed(0) !== "0"
+          ? Number(data?.progress).toFixed(0)
+          : "0"
       }%`,
       values: ``,
       icon: "fa-solid fa-calendar-days",

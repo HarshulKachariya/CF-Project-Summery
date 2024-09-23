@@ -24,4 +24,6 @@ export const base_url = origin.includes("cfdev")
   ? `https://api-cfdev.contractorforeman.net`
   : origin.includes("beta")
   ? `https://api-beta.contractorforeman.net`
-  : `https://api.contractorforeman.net`;
+  : origin.includes("app")
+  ? `https://api.contractorforeman.net`
+  : `https://api-beta.contractorforeman.net`;

@@ -28,6 +28,8 @@ function hydrateComponent(
       newUserId: string,
       directoryId: string
     ) => {
+      root.unmount();
+
       root.render(
         <Component
           projectId={newProId}

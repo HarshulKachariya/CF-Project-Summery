@@ -126,10 +126,7 @@ const Customer = ({
                 </a>
                 <div className="d-flex align-items-center">
                   <Tooltip title="Contact Details" placement="top">
-                    <span
-                      className="icon_link customer-contact-detail"
-                      onClick={handleModalOpen}
-                    >
+                    <span className="icon_link" onClick={handleModalOpen}>
                       <i
                         className="fa-regular fa-address-card"
                         aria-hidden="true"
