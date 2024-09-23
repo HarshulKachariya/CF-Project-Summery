@@ -1,7 +1,7 @@
 import { faFileChartColumn } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
 
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 import CustomIcon from "./CustomIcon";
 
 const Invoiced = ({ data, isLoading }: any) => {

@@ -4,7 +4,8 @@ import { faBoxCircleCheck } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
-import Skeleton from "./Skeletons/skeleton";
+import Spiner from "./Skeletons/spin";
+import { curr_date, tz } from "~/helpers";
 
 const ReactApexChart = require("react-apexcharts").default;
 
@@ -31,9 +32,9 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         formData.append("version", "web");
         formData.append("from", "panel");
         formData.append("iframe_call", "0");
-        formData.append("tz", "+5:30");
+        formData.append("tz", tz);
         formData.append("tzid", "Asia/Calcutta");
-        formData.append("curr_time", new Date().toISOString());
+        formData.append("curr_time", curr_date);
         formData.append("force_login", "0");
         formData.append("global_project", "");
         formData.append("user_id", userId.toString() ?? "0");
@@ -142,7 +143,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
       <CustomIcon icon="fa-solid fa-box-circle-check" label="Action Items" />
       <div className="summary_details_block_body">
         {!ReactApexChart ? (
-          <ActionItemsSkeleton />
+          <Spiner />
         ) : (
           <>
             {!isLoading ? (
@@ -155,7 +156,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
                 />
               </Suspense>
             ) : (
-              <ActionItemsSkeleton />
+              <Spiner />
             )}
           </>
         )}
@@ -165,20 +166,3 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
 };
 
 export default ActionItems;
-
-const ActionItemsSkeleton = () => {
-  return (
-    <div className="space-y-4">
-      {[...Array(4)].map((_, index) => (
-        <div key={index} className="flex items-center space-x-2">
-          <Skeleton className="w-8 h-4" />
-          <Skeleton
-            className={`h-14 ${
-              index === 1 ? "w-3/4" : index === 2 ? "w-full" : "w-1/2"
-            }`}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};

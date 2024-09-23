@@ -8,7 +8,7 @@
 // } from "@fortawesome/pro-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "~/helpers";
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 import { Tooltip } from "antd";
 
 interface ItemsProps {
@@ -88,7 +88,7 @@ const Top = ({ data, isLoading }: any) => {
       id: 5,
       label: "Schedule Completed",
       label2: `${
-        billing_vs_actual?.progress !== "0" ? billing_vs_actual?.progress : "0"
+        data?.progress.toFixed(0) !== "0" ? data?.progress.toFixed(0) : "0"
       }%`,
       values: ``,
       icon: "fa-solid fa-calendar-days",

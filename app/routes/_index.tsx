@@ -56,8 +56,6 @@ export default function Index({
 
   const { project_summary, wip_widget, customer_additional_contacts } = data;
 
-  const commonStyle = `common-card`;
-
   return (
     <>
       <div key={Math.random()}>

@@ -33,6 +33,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "comlink": "^4.4.1",
+    "dayjs": "^1.11.13",
     "dhtmlx-scheduler": "^7.1.1",
     "isbot": "^4.1.0",
     "lightgallery": "^2.7.2",

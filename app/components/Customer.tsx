@@ -4,7 +4,7 @@ import {
   faArrowUpRightFromSquare,
   faUserGroup,
 } from "@fortawesome/pro-solid-svg-icons";
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 
 import axios from "axios";
 import MapComponent from "./Map";

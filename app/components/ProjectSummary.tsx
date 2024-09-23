@@ -5,7 +5,7 @@ import {
   faEquals,
 } from "@fortawesome/sharp-regular-svg-icons";
 import { faCalculator } from "@fortawesome/pro-duotone-svg-icons";
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 

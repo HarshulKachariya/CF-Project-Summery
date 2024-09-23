@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { IndexProps } from "~/routes/_index";
+import { curr_date, tz } from "~/helpers";
 
 interface ProjectData {
   project_summary: any;
@@ -33,10 +34,11 @@ export function useFetchProjectDetails(
         formData.append("record_type", "project");
         formData.append("version", "web");
         formData.append("from", "panel");
+        formData.append("for", "remix");
         formData.append("iframe_call", "0");
-        formData.append("tz", "+5:30");
+        formData.append("tz", tz);
         formData.append("tzid", "Asia/Calcutta");
-        formData.append("curr_time", new Date().toISOString());
+        formData.append("curr_time", curr_date);
         formData.append("force_login", "0");
         formData.append("global_project", "");
         formData.append("user_id", userId.toString());

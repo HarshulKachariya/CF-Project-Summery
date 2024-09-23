@@ -1,7 +1,7 @@
 import { faFileImage } from "@fortawesome/pro-solid-svg-icons";
 import CustomIcon from "./CustomIcon";
 import { useEffect, useState } from "react";
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 import { CFGallery } from "./LightGallery";
 
 const RecentPhotos = ({ data, isLoading }: any) => {
@@ -68,7 +68,10 @@ const RecentPhotos = ({ data, isLoading }: any) => {
               </CFGallery>
             ) : (
               <div className="w-full !h-[195px] flex justify-center items-center">
-                <img src="../../public/NoPage.svg" alt="No Photos" />
+                <img
+                  src="../remix_build/project_summery/NoPage.svg"
+                  alt="No Photos"
+                />
               </div>
             )}
           </>

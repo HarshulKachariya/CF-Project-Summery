@@ -3,7 +3,7 @@
 }
 
 .dhx_cal_data {
-  @apply overflow-y-hidden !important;
+  @apply hidden !important;
 }
 
 .dhx_cal_date {
@@ -15,6 +15,18 @@
 }
 
 /* dhx_resize_denied dhx_move_denied */
-/* .dhx_cal_data {
-  @apply hidden !important;
-} */
+.dhx_cal_data {
+  @apply !important;
+}
+
+.dhx_cal_container {
+  width: 100% !important;
+  height: calc(268px - 10px) !important;
+  border: none;
+  background-color: white;
+}
+
+.dhx_multi_day_icon,
+.dhx_multi_day_icon_small {
+  display: none !important;
+}

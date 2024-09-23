@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import "dhtmlx-scheduler/codebase/dhtmlxscheduler.css";
+// import "dhtmlx-scheduler/codebase/dhtmlxscheduler.css";
 import "../styles/dhtmlxs.css";
-import { faCalendarDay } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
-import Skeleton from "~/components/Skeletons/skeleton";
+
+import Spiner from "./Skeletons/spin";
+import { curr_date, tz } from "~/helpers";
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>();
@@ -36,7 +37,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const url = `https://api-beta.contractorforeman.net/service.php?op=get_schedule_calendar_events&project=${projectId}&for=dashboard_summary&start_date_range=2024-9-01+00%3A00%3A00&version=web&from=panel&iframe_call=0&tz=%2B5%3A30&tzid=Asia%2FCalcutta&curr_time=2024-09-23+15%3A22%3A24&force_login=0&global_project=&user_id=${userId}&company_id=${compId}`;
+        const url = `https://api-beta.contractorforeman.net/service.php?op=get_schedule_calendar_events&project=${projectId}&for=dashboard_summary&start_date_range=2024-9-01+00%3A00%3A00&version=web&from=panel&iframe_call=0&tz=${tz}&tzid=Asia%2FCalcutta&curr_time=${curr_date}&force_login=0&global_project=&user_id=${userId}&company_id=${compId}`;
 
         const response = await axios.get(url);
 
@@ -170,14 +171,11 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       <div className="summary_details_block_body summary_schedule">
         {!isLoading ? (
           <div className="summary_scheduled_dashboard">
-            <div
-              ref={schedulerContainer}
-              style={{ width: "100%", height: "100%" }}
-            ></div>
+            <div ref={schedulerContainer} className="dhx_cal_container"></div>
           </div>
         ) : (
           <div className="mt-3 h-full">
-            <SchedulerSkeleton className={`${!isLoading && "min-h-48"}`} />
+            <Spiner className={`${!isLoading && "min-h-48"}`} />
           </div>
         )}
       </div>
@@ -186,35 +184,3 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
 };
 
 export default Scheduler;
-
-const SchedulerSkeleton = ({ className }: any) => {
-  return (
-    <table className={`w-full border-2 ${className}`}>
-      <thead>
-        <tr className="bg-black/10 h-7">
-          {[...Array(6)].map((_, index) => (
-            <th key={index} className="font-normal">
-              <Skeleton className="h-3 w-40 mx-auto rounded-xl bg-gray-300" />
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {[...Array(6)].map((_, rowIndex) => (
-          <tr key={rowIndex}>
-            {[...Array(6)].map((_, colIndex) => (
-              <td key={colIndex} className="py-1">
-                <Skeleton
-                  className="h-2.5 rounded bg-gray-300 mx-auto"
-                  style={{
-                    width: `${Math.floor(Math.random() * 40) + 60}%`,
-                  }}
-                />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};

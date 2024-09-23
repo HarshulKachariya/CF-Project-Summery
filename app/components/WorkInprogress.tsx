@@ -2,7 +2,7 @@ import { faFileLines } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 import { useEffect, useState } from "react";
-import Skeleton from "./Skeletons/skeleton";
+import Skeleton from "./Skeletons/spin";
 import { Tooltip } from "antd";
 
 const WorkInprogress = ({ data, isLoading }: any) => {
