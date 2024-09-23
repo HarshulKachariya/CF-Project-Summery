@@ -72,8 +72,10 @@ const Top = ({ data, isLoading }: any) => {
       id: 4,
       label: "Start/End Date",
       label2: `${
-        data?.start_date && data?.end_date !== ""
-          ? data?.start_date + "-" + data?.end_date
+        data?.start_date || data?.end_date !== ""
+          ? data?.start_date !== ""
+            ? data.start_date
+            : data?.start_date + "-" + data?.end_date
           : "-"
       }`,
       values: ``,
@@ -86,7 +88,7 @@ const Top = ({ data, isLoading }: any) => {
       id: 5,
       label: "Schedule Completed",
       label2: `${
-        billing_vs_actual?.progress === "0" ? billing_vs_actual?.progress : "0"
+        billing_vs_actual?.progress !== "0" ? billing_vs_actual?.progress : "0"
       }%`,
       values: ``,
       icon: "fa-solid fa-calendar-days",

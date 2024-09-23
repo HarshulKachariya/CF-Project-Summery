@@ -8,160 +8,161 @@ import { IndexProps } from "~/routes/_index";
 import Skeleton from "~/components/Skeletons/skeleton";
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any>();
+  const [scheduler, setscheduler] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const schedulerContainer = useRef<HTMLDivElement>(null);
 
+  // Function to dynamically load the DHTMLX scheduler script
+  const loadSchedulerScript = () => {
+    return new Promise<void>((resolve, reject) => {
+      if (document.getElementById("dhtmlxSchedulerScript")) {
+        resolve();
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = "dhtmlxSchedulerScript";
+      script.src =
+        "https://cdn.contractorforeman.net/lib/js/scheduler/5.3.14/dhtmlxscheduler_v5.3.14_custom.min.js";
+      script.onload = () => resolve();
+      script.onerror = () =>
+        reject(new Error("Failed to load scheduler script"));
+      document.body.appendChild(script);
+    });
+  };
+
+  // Fetch events data
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      console.log("Data fetching from Scheduler =====>>>>>.........");
       try {
-        const formData = new FormData();
-        formData.append("op", "get_schedule_calendar_events");
-        formData.append("project_id", projectId.toString() ?? "0");
-        formData.append("for", "dashboard_summary");
-        formData.append("start_date_range", "2024-9-01 00:00:00");
-        formData.append("version", "web");
-        formData.append("from", "panel");
-        formData.append("iframe_call", "0");
-        formData.append("tz", "+5:30");
-        formData.append("tzid", "Asia/Calcutta");
-        formData.append("curr_time", "2024-08-31 15:50:38");
-        formData.append("force_login", "0");
-        formData.append("global_project", "");
-        formData.append("user_id", userId.toString() ?? "0");
-        formData.append("company_id", compId.toString() ?? "0");
+        const url = `https://api-beta.contractorforeman.net/service.php?op=get_schedule_calendar_events&project=${projectId}&for=dashboard_summary&start_date_range=2024-9-01+00%3A00%3A00&version=web&from=panel&iframe_call=0&tz=%2B5%3A30&tzid=Asia%2FCalcutta&curr_time=2024-09-23+15%3A22%3A24&force_login=0&global_project=&user_id=${userId}&company_id=${compId}`;
 
-        const response = await axios.post(
-          `https://api-cfdev.contractorforeman.net/service.php?opp=get_schedule_calendar_events&c=${
-            compId ? Number(compId) : 0
-          }&u=${userId ? Number(userId) : 0}&p=manage_projects`,
-          formData
-        );
-        console.log(
-          "Data fetching Successfull from Scheduler  =====>>>>>",
-          response?.data
-        );
-        // Return the data fetched from the API
-        setData(response?.data?.data?.modules);
-        setIsLoading(false);
+        const response = await axios.get(url);
+
+        setData(response?.data?.data);
       } catch (error) {
-        setIsLoading(false);
-
         console.log("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    const timeOut = setTimeout(() => {
+    const timer = setTimeout(() => {
       fetchData();
-    }, 300);
+    }, 100);
 
     return () => {
-      clearTimeout(timeOut);
+      clearTimeout(timer);
     };
   }, [projectId, userId, compId]);
 
+  // Initialize the scheduler after the script is loaded
   useEffect(() => {
-    const loadScheduler = async () => {
-      const scheduler: any = (await import("dhtmlx-scheduler")).default;
+    if (isLoading || !schedulerContainer.current) return;
 
-      if (schedulerContainer.current) {
-        // Define the scheduler configuration
-        scheduler.config.header = ["date", "prev", "today", "next"];
-        scheduler.config.multi_day = false;
-        scheduler.config.first_hour = 0;
-        scheduler.config.last_hour = 24;
-        scheduler.config.scale_width = 0;
-        scheduler.config.readonly = true;
-        scheduler.config.drag_resize = false;
-        scheduler.config.drag_move = false;
-        scheduler.xy.scale_width = 0;
-        // scheduler.config.responsive = true;
-        scheduler.config.left_border = false;
+    loadSchedulerScript().then(() => {
+      const scheduler = (window as any).Scheduler.getSchedulerInstance();
+      scheduler.config.start_on_monday = false;
+      scheduler.config.header = ["date", "today", "prev", "next"];
+      scheduler.config.hour_date = "%h:%i %A";
+      scheduler.config.xml_date = "%Y-%m-%d %h:%i %a";
+      scheduler.config.limit_time_select = true;
+      scheduler.config.details_on_create = true;
+      scheduler.config.details_on_dblclick = true;
+      scheduler.config.prevent_cache = true;
+      scheduler.config.repeat_precise = true;
+      scheduler.config.multi_day = true;
+      scheduler.config.occurrence_timestamp_in_utc = true;
+      scheduler.config.include_end_by = true;
+      scheduler.config.event_duration = 30; // set default event duration
+      scheduler.config.auto_end_date = true;
+      scheduler.config.readonly = true;
 
-        // Function to reset the scheduler configuration
-        const resetConfig = () => {
-          if (
-            typeof window !== "undefined" &&
-            (window as any).innerWidth < 768
-          ) {
-            scheduler.config.header = ["prev", "date", "next"];
-            scheduler.xy.scale_width = 40;
-            scheduler.templates.week_scale_date = function (date: Date) {
-              return scheduler.date.date_to_str("%D")(date);
-            };
-          } else {
-            scheduler.config.header = ["date", "today", "prev", "next"];
-            scheduler.xy.scale_width = 50;
-            scheduler.templates.week_scale_date = function (date: Date) {
-              return scheduler.date.date_to_str("%D, %F %j")(date);
-            };
-          }
-          // Only update the view after initialization
-          if (schedulerContainer.current) {
-            scheduler.updateView();
-          }
-          return true;
+      scheduler.config.time_step = 30; // time interval
+      scheduler.config.first_hour = 0; //define start Time Hour
+      scheduler.config.last_hour = 23.5; //define Last Time Hour
+      scheduler.config.scroll_hour = 7; //sets the initial position of the vertical scroll in the scheduler (an hour in the 24-hour clock format)
+      scheduler.config.full_day = true; //define whether include Full Day option
+      scheduler.config.default_date = "%M %j, %Y";
+      scheduler.locale.labels.section_title = "Title";
+      scheduler.locale.labels.section_assigned_to = "Assigned To";
+      scheduler.locale.labels.export_tab = "<i class='fa fa-print'></i>";
+      scheduler.config.dblclick_create = false;
+      scheduler.config.className = "dhtmlXTooltip tooltip";
+      scheduler.config.timeout_to_display = 50;
+      scheduler.config.timeout_to_hide = 50;
+      scheduler.config.delta_x = 15;
+      scheduler.config.delta_y = -20;
+      scheduler.config.drag_in = false;
+      scheduler.config.drag_move = false;
+      scheduler.config.drag_create = false;
+
+      scheduler.ignore_week = (date: Date) => {
+        return date.getDay() === 0 || date.getDay() === 6; // Ignore Saturday and Sunday
+      };
+
+      scheduler.templates.week_date = (start: Date) => {
+        const end = scheduler.date.add(start, 6, "day");
+        const formatDate = (date: Date) => {
+          const day = date.getDate() - 1;
+          const month = date.toLocaleString("default", { month: "short" });
+          return `${day} ${month}`;
         };
+        return `Sun, ${formatDate(
+          start
+        )} ${start.getFullYear()} - Sat, ${formatDate(
+          end
+        )} ${end.getFullYear()}`;
+      };
 
-        // Initialize the scheduler after setting configuration
-        const currentDate = new Date();
-        scheduler.init(schedulerContainer.current, currentDate, "week");
+      scheduler.templates.event_class = (start: any, end: any, event: any) => {
+        return event.assigned_to
+          ? `assignee_${event.assigned_to}`
+          : "assignee_none";
+      };
 
-        scheduler.parse(data); // Populate the scheduler with data
+      // Custom event rendering
+      scheduler.templates.event_class = (start: any, end: any, event: any) => {
+        return `custom-event ${
+          event.assigned_to ? `assignee_${event.assigned_to}` : "assignee_none"
+        }`;
+      };
 
-        resetConfig(); // Call resetConfig after initialization
+      scheduler.templates.event_bar_text = (
+        start: any,
+        end: any,
+        event: any
+      ) => {
+        return `<div class="event-title">${event.text}</div>`;
+      };
 
-        // Attach event listeners for responsiveness
-        scheduler.attachEvent("onBeforeViewChange", resetConfig);
-        scheduler.attachEvent("onSchedulerResize", resetConfig);
+      // Customize multi-day events
+      scheduler.templates.event_bar_date = () => "";
+      scheduler.templates.event_bar_text = (
+        start: any,
+        end: any,
+        event: any
+      ) => {
+        return `<div class="custom-event-content">${event.text}</div>`;
+      };
 
-        scheduler.templates.event_class = function (
-          start: any,
-          end: any,
-          event: any
-        ) {
-          return event.classname || "";
-        };
+      const currentDate = new Date();
+      scheduler.init(schedulerContainer.current, currentDate, "week");
 
-        // scheduler.templates.week_scale_date = function (date: Date) {
-        //   return scheduler.date.date_to_str("%D, %F %j")(date);
-        // };
-
-        scheduler.ignore_week = function (date: Date) {
-          if (date.getDay() === 0 || date.getDay() === 6) return true;
-        };
-
-        scheduler.templates.week_date = function (start: Date) {
-          const end = scheduler.date.add(start, 6, "day");
-          const formatDate = (date: Date) => {
-            const day = date.getDate() - 1;
-            const month = date.toLocaleString("default", { month: "short" });
-            return `${day} ${month}`;
-          };
-          return `Sun, ${formatDate(
-            start
-          )} ${start.getFullYear()} - Sat, ${formatDate(
-            end
-          )} ${end.getFullYear()}`;
-        };
-
-        // Add event listener for window resize to make the scheduler responsive
-        window.addEventListener("resize", resetConfig);
+      if (!isLoading && data && data.length > 0) {
+        scheduler.parse(data, "json");
       }
-    };
 
-    loadScheduler();
+      // window.addEventListener("resize", resetConfig);
 
-    return () => {
-      import("dhtmlx-scheduler").then((module: any) =>
-        module.default.clearAll()
-      );
-    };
-  }, [data]); // Ensure this effect runs when 'data' changes
+      return () => {
+        scheduler.clearAll();
+        scheduler.destructor();
+        // window.removeEventListener("resize", resetConfig);
+      };
+    });
+  }, [data, isLoading, projectId, userId, compId]);
 
   return (
     <>

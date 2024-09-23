@@ -117,7 +117,7 @@ const Customer = ({
               <>
                 <a
                   href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                    isNaN(Number(directoryId)) ?? 0
+                    Number(directoryId) ?? 0
                   }`} //make dynamic
                   target="_blank"
                   className="link_custom"
@@ -142,7 +142,7 @@ const Customer = ({
                   >
                     <a
                       href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                        isNaN(Number(directoryId)) ?? 0
+                        Number(directoryId) ?? 0
                       }?type=customer`} //make dynamic
                       target="_blank"
                       className="jump-directory"
@@ -172,7 +172,7 @@ const Customer = ({
                   >
                     <a
                       href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                        isNaN(Number(directoryId)) ?? 0
+                        (Number(directoryId)) ?? 0
                       }?type=customer`} //make dynamic
                       target="_blank"
                       className="text-sm"
