@@ -58,7 +58,7 @@ export default function Index({
 
   return (
     <>
-      <div key={Math.random()}>
+      <div>
         <Suspense>
           <Top data={data} isLoading={isLoading} />
         </Suspense>

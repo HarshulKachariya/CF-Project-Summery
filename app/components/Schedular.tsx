@@ -6,7 +6,7 @@ import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 
 import Spiner from "./Skeletons/spin";
-import { curr_date, tz } from "~/helpers";
+import { base_url, curr_date, tz } from "~/helpers";
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>();
@@ -37,7 +37,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const url = `https://api-beta.contractorforeman.net/service.php?op=get_schedule_calendar_events&project=${projectId}&for=dashboard_summary&start_date_range=2024-9-01+00%3A00%3A00&version=web&from=panel&iframe_call=0&tz=${tz}&tzid=Asia%2FCalcutta&curr_time=${curr_date}&force_login=0&global_project=&user_id=${userId}&company_id=${compId}`;
+        const url = `${base_url}/service.php?op=get_schedule_calendar_events&project=${projectId}&for=dashboard_summary&start_date_range=2024-9-01+00%3A00%3A00&version=web&from=panel&iframe_call=0&tz=${tz}&tzid=Asia%2FCalcutta&curr_time=${curr_date}&force_login=0&global_project=&user_id=${userId}&company_id=${compId}`;
 
         const response = await axios.get(url);
 

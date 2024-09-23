@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  faAddressCard,
-  faArrowUpRightFromSquare,
-  faUserGroup,
-} from "@fortawesome/pro-solid-svg-icons";
+
 import Skeleton from "./Skeletons/spin";
 
 import axios from "axios";
 import MapComponent from "./Map";
 import { CFModal } from "./antdmodal";
 import { Tooltip } from "antd";
+import { base_url } from "~/helpers";
 
 const Customer = ({
   data,
@@ -22,8 +19,6 @@ const Customer = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [dirData, setDirData] = useState<any>([]);
-
-  console.log("datdadada", dirData);
 
   const fetchData = async () => {
     try {
@@ -104,6 +99,11 @@ const Customer = ({
     },
   ];
 
+  const origin =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://api-cfdev.contractorforeman.net";
+
   return (
     <>
       <>
@@ -116,7 +116,7 @@ const Customer = ({
             {!isLoading ? (
               <>
                 <a
-                  href={`https://app-cfdev.contractorforeman.net/manage-directory/${
+                  href={`${origin}/manage-directory/${
                     Number(directoryId) ?? 0
                   }`} //make dynamic
                   target="_blank"
@@ -141,7 +141,7 @@ const Customer = ({
                     placement="top"
                   >
                     <a
-                      href={`https://app-cfdev.contractorforeman.net/manage-directory/${
+                      href={`${origin}/manage-directory/${
                         Number(directoryId) ?? 0
                       }?type=customer`} //make dynamic
                       target="_blank"
@@ -154,36 +154,6 @@ const Customer = ({
                     </a>
                   </Tooltip>
                 </div>
-                {/* <span className="text-[#FB8056] flex justify-center items-center space-x-1 font-semibold hover:cursor-pointer">
-                  <Tooltip title="Contact Details" placement="top">
-                    <span
-                      className={`text-sm hover:bg-[#f3ddd7] p-1 px-2 rounded-sm ${CommonTransition}`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faAddressCard}
-                        onClick={handleModalOpen}
-                        className="text-sm"
-                      />
-                    </span>
-                  </Tooltip>
-                  <Tooltip
-                    title="Open the Contact Details in New Tab"
-                    placement="top"
-                  >
-                    <a
-                      href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                        (Number(directoryId)) ?? 0
-                      }?type=customer`} //make dynamic
-                      target="_blank"
-                      className="text-sm"
-                    >
-                      <FontAwesomeIcon
-                        icon={faArrowUpRightFromSquare}
-                        className="text-sm text-[#223558]"
-                      />
-                    </a>
-                  </Tooltip>
-                </span> */}
               </>
             ) : (
               <Skeleton className="h-2.5 rounded-xl w-2/3" />
@@ -201,11 +171,7 @@ const Customer = ({
         title={"Conatct Details"}
         footer={
           <div className="text-right">
-            <a
-              className="label_ans_link"
-              href="https://app-cfdev.contractorforeman.net"
-              target="_blank"
-            >
+            <a className="label_ans_link" href={base_url} target="_blank">
               View full Details
             </a>
           </div>

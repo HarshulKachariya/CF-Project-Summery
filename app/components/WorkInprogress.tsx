@@ -6,6 +6,9 @@ import Skeleton from "./Skeletons/spin";
 import { Tooltip } from "antd";
 
 const WorkInprogress = ({ data, isLoading }: any) => {
+  if (!data) {
+    return;
+  }
   const {
     cost_completed,
     current_cost_budget,

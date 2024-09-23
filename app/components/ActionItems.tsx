@@ -5,7 +5,7 @@ import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import Spiner from "./Skeletons/spin";
-import { curr_date, tz } from "~/helpers";
+import { base_url, curr_date, tz } from "~/helpers";
 
 const ReactApexChart = require("react-apexcharts").default;
 
@@ -41,7 +41,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         formData.append("company_id", compId.toString() ?? "0");
 
         const response = await axios.post(
-          `https://api-cfdev.contractorforeman.net/service.php?opp=get_project_reference_detail&c=${
+          `${base_url}/service.php?opp=get_project_reference_detail&c=${
             compId ? Number(compId) : 0
           }&u=${userId ? Number(userId) : 0}&p=manage_projects`,
           formData

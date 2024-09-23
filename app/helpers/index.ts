@@ -18,3 +18,10 @@ export const formatCurrency = (value: any) => {
 export const curr_date = dayjs().format("YYYY-MM-DD HH:mm:ss");
 
 export const tz = dayjs().format("Z");
+let origin = typeof window !== "undefined" ? window.location.origin : "";
+
+export const base_url = origin.includes("cfdev")
+  ? `https://api-cfdev.contractorforeman.net`
+  : origin.includes("beta")
+  ? `https://api-beta.contractorforeman.net`
+  : `https://api.contractorforeman.net`;

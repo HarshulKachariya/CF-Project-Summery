@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { IndexProps } from "~/routes/_index";
-import { curr_date, tz } from "~/helpers";
+import { base_url, curr_date, tz } from "~/helpers";
 
 interface ProjectData {
   project_summary: any;
@@ -45,7 +45,7 @@ export function useFetchProjectDetails(
         formData.append("company_id", compId.toString());
 
         const response = await axios.post(
-          `https://api-cfdev.contractorforeman.net/service.php?opp=get_project_detail&c=${
+          `${base_url}/service.php?opp=get_project_detail&c=${
             Number(compId) ?? 0
           }&u=${Number(userId) ?? 0}&p=manage_projects`,
           formData
