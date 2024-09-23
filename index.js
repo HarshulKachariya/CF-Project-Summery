@@ -1,9 +1,9 @@
 let componentLoaded = false;
 
-async function getSummary(proId) {
+async function getSummary(proId = 140199) {
   const rootId = "root1";
-  const compId = "408"; // You might want to make this dynamic too
-  const userId = "50304"; // You might want to make this dynamic too
+  const compId = "422"; // You might want to make this dynamic too
+  const userId = "51602"; // You might want to make this dynamic too
   const directoryId = "53740"; // You might want to make this dynamic too
 
   const root = document.getElementById(rootId);
@@ -59,3 +59,5 @@ function handleButtonClick(proId) {
 buttons.forEach((button) => {
   button.addEventListener("click", () => handleButtonClick(button.innerHTML));
 });
+
+getSummary();

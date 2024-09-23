@@ -171,7 +171,10 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       <div className="summary_details_block_body summary_schedule">
         {!isLoading ? (
           <div className="summary_scheduled_dashboard">
-            <div ref={schedulerContainer} className="dhx_cal_container"></div>
+            <div
+              ref={schedulerContainer}
+              className="dhx_cal_container remix_calender"
+            ></div>
           </div>
         ) : (
           <div className="mt-3 h-full">

@@ -1,20 +1,28 @@
 .dhx_cal_header {
-  @apply bg-[#2235581a] p-0 m-0 left-0 w-full  !important;
+  background-color: rgba(34, 53, 88, 0.1); /* Equivalent to #2235581a */
+  padding: 0;
+  margin: 0;
+  left: 0;
+  width: 100% !important;
 }
 
 .dhx_cal_data {
-  @apply hidden !important;
+  display: none !important;
 }
 
 .dhx_cal_date {
-  @apply text-sm md:text-base !important;
+  font-size: 0.875rem !important; /* Equivalent to text-sm */
+}
+
+@media (min-width: 768px) {
+  .dhx_cal_date {
+    font-size: 1rem !important; /* Equivalent to md:text-base */
+  }
 }
 
 .dhx_scale_time {
-  @apply overflow-y-hidden !important;
+  overflow-y: hidden !important;
 }
-
-/* dhx_resize_denied dhx_move_denied */
 
 .dhx_cal_container {
   width: 100% !important;

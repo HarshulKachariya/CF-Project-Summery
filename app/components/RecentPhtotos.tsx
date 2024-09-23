@@ -67,9 +67,12 @@ const RecentPhotos = ({ data, isLoading }: any) => {
                   )}
               </CFGallery>
             ) : (
-              <div className="w-full !h-[195px] flex justify-center items-center">
+              <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ height: "195px" }}
+              >
                 <img
-                  src="../remix_build/project_summery/NoPage.svg"
+                  src="././remix_build/project_summery/NoPage.svg"
                   alt="No Photos"
                 />
               </div>
