@@ -9,6 +9,7 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "~/helpers";
 import Skeleton from "./Skeletons/skeleton";
+import { Tooltip } from "antd";
 
 interface ItemsProps {
   id: any;
@@ -19,6 +20,8 @@ interface ItemsProps {
   values?: any;
   color?: string;
   summaryClassName?: string;
+  tooltipText?: string;
+  tooltipLabel?: string;
 }
 
 const Top = ({ data, isLoading }: any) => {
@@ -40,8 +43,8 @@ const Top = ({ data, isLoading }: any) => {
       values: `${formatCurrency(Number(billing_vs_actual?.gross_profit))}`,
       icon: "fa-solid fa-chart-mixed",
       summaryClassName: "project_summary_grossprofit",
-      // color: `#9ABA04`,
-      // bgColor: `#F1F4E6`,
+      tooltipText: "Invoiced to Date Minus Total Actual Costs",
+      tooltipLabel: "Invoiced to Date Minus Total Actual Costs",
     },
     {
       id: 2,
@@ -52,8 +55,6 @@ const Top = ({ data, isLoading }: any) => {
       values: ``,
       icon: "fa-solid fa-user-vneck",
       summaryClassName: "project_summary_sitemanager",
-      // color: `#7FB2FF`,
-      // bgColor: `#ECF3FE`,
     },
     {
       id: 3,
@@ -107,6 +108,8 @@ const Top = ({ data, isLoading }: any) => {
           values,
           color,
           summaryClassName,
+          tooltipText,
+          tooltipLabel,
         }: ItemsProps) => (
           <div className="col-xxl col-xl-4 col-lg-6 col-12" key={id}>
             <div
@@ -130,10 +133,18 @@ const Top = ({ data, isLoading }: any) => {
                 <h6>{label}</h6>
                 {!isLoading ? (
                   <p className="d-flex justify-content-between">
-                    <span className="truncate font-medium">{label2}</span>
-                    <span className="project_summery_amt text-success">
-                      {values}
-                    </span>
+                    <Tooltip title={tooltipLabel} placement="top">
+                      <span className="truncate font-medium">{label2}</span>
+                    </Tooltip>
+                    {values ? (
+                      <Tooltip title={tooltipText} placement="top">
+                        <span className="project_summery_amt text-success">
+                          {values}
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      <></>
+                    )}
                   </p>
                 ) : (
                   <Skeleton className="rounded-xl h-3.5" />

@@ -166,17 +166,20 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   return (
     <>
       <CustomIcon icon="fa-solid fa-calendar-days" label="Schedule" />
-
-      {!isLoading ? (
-        <div
-          ref={schedulerContainer}
-          style={{ width: "100%", height: "100%" }}
-        ></div>
-      ) : (
-        <div className="mt-3 h-full">
-          <SchedulerSkeleton className={`${!isLoading && "min-h-48"}`} />
-        </div>
-      )}
+      <div className="summary_details_block_body summary_schedule">
+        {!isLoading ? (
+          <div className="summary_scheduled_dashboard">
+            <div
+              ref={schedulerContainer}
+              style={{ width: "100%", height: "100%" }}
+            ></div>
+          </div>
+        ) : (
+          <div className="mt-3 h-full">
+            <SchedulerSkeleton className={`${!isLoading && "min-h-48"}`} />
+          </div>
+        )}
+      </div>
     </>
   );
 };

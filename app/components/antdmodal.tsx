@@ -74,34 +74,15 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
           <div className="modal-draggable-header d-flex justify-content-between">
             <div className="d-flex align-items-center">
               {icon ? <div className="modal_head_icon">{icon}</div> : <></>}
-              <div
-                className={`w-[calc(100%-54px)] ${headerClassName} ${
-                  subTitle && "flex flex-col"
-                }`}
-              >
-                <CFTypography
-                  title="h5"
-                  className="truncate !text-[17px] !mb-0 !text-primary-900 font-semibold dark:!text-white/90"
-                >
-                  {title}
-                </CFTypography>
-                {subTitle && (
-                  <CFTypography
-                    title="small"
-                    className={`truncate text-13 !mb-0 text-[#777] font-normal ${subTitleClass}`}
-                  >
-                    {subTitle}
-                  </CFTypography>
-                )}
+              <div className="d-flex align-items-center flex-column">
+                <h2>{title}</h2>
+                {subTitle && <p>{subTitle}</p>}
               </div>
             </div>
             <div className={`${rightSideClassName}`}>
               {headerRightIcon && headerRightIcon}
               {closeIcon ? (
-                <CFCloseButton
-                  onClick={closeModalHandler}
-                  iconClassName="!w-[18px] !h-[18px]"
-                />
+                <CFCloseButton onClick={closeModalHandler} />
               ) : (
                 <></>
               )}
@@ -112,6 +93,7 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
         )}
       </>
     );
+    const customFooter = footer ? footer : null;
     return (
       <ClientOnly>
         {() => (
@@ -122,7 +104,7 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
             maskClosable={maskClosable}
             centered={centered}
             onCancel={closeModalHandler}
-            footer={false}
+            footer={customFooter}
             closable={false}
             rootClassName={rootClassName}
             mask={mask}
@@ -132,7 +114,7 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
             <div ref={ref} className={`${modalBody}`}>
               {children}
             </div>
-            {footer ? (
+            {/* {footer ? (
               <div
                 className={`py-2.5 px-4 gap-2.5 justify-center flex border-t border-gray-300`}
               >
@@ -140,7 +122,7 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
               </div>
             ) : (
               <></>
-            )}
+            )} */}
           </Modal>
         )}
       </ClientOnly>

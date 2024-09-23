@@ -72,23 +72,23 @@ const Customer = ({
 
   const ModalData = [
     {
-      name: "company",
+      name: "Company",
       value: dirData?.company_name,
     },
     {
-      name: "name",
+      name: "Name",
       value: dirData?.first_name,
     },
     {
-      name: "phone",
+      name: "Phone",
       value: dirData?.phone,
     },
     {
-      name: "cell",
+      name: "Cell",
       value: dirData?.cell,
     },
     {
-      name: "email",
+      name: "Email",
       value: dirData?.email,
     },
     {
@@ -103,9 +103,6 @@ const Customer = ({
         dirData?.state,
     },
   ];
-
-  const CommonTransition =
-    "hover:text-[#FB8056] hover:cursor-pointer hover:transition-colors hover:duration-700";
 
   return (
     <>
@@ -197,22 +194,21 @@ const Customer = ({
       <CFModal
         open={isModalVisible}
         size="800px"
-        className="p-0 m-0"
+        className="p-0 m-0 remix_customer_contact_modal"
         rootClassName="new_modal_ui"
         closeModalHandler={() => setIsModalVisible(false)}
         icon={<i className="fa-regular fa-address-card" aria-hidden="true"></i>}
         title={"Conatct Details"}
         footer={
-          <>
-            <hr />
+          <div className="text-right">
             <a
-              className={`flex justify-end items-end w-full  underline hover:underline text-primary-900  ${CommonTransition}`}
+              className="label_ans_link"
               href="https://app-cfdev.contractorforeman.net"
               target="_blank"
             >
               View full Details
             </a>
-          </>
+          </div>
         }
       >
         <div className="d-flex justify-content-between">

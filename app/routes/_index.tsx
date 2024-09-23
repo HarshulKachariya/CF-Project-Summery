@@ -139,17 +139,17 @@ export default function Index({
               </Suspense>
             </div>
           </div>
-        </div>
-        <div className="col-lg-12 col-md-12 col-12">
-          <div className="common_summary_block summary_details_block summary_schedule_block">
-            <Suspense>
-              <Scheduler
-                projectId={projectId}
-                userId={userId}
-                compId={compId}
-                isLoading={isLoading}
-              />
-            </Suspense>
+          <div className="col-lg-12 col-md-12 col-12">
+            <div className="common_summary_block summary_details_block summary_schedule_block">
+              <Suspense>
+                <Scheduler
+                  projectId={projectId}
+                  userId={userId}
+                  compId={compId}
+                  isLoading={isLoading}
+                />
+              </Suspense>
+            </div>
           </div>
         </div>
       </div>
