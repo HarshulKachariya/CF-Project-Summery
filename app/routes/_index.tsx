@@ -60,32 +60,90 @@ export default function Index({
 
   return (
     <>
-      <div
-        className="space-y-4 w-full p-4 overflow-y-auto sidebar"
-        key={Math.random()}
-      >
-        <div className="w-full">
-          <Suspense>
-            <Top data={data} isLoading={isLoading} />
-          </Suspense>
+      <div key={Math.random()}>
+        <Suspense>
+          <Top data={data} isLoading={isLoading} />
+        </Suspense>
+
+        <div className="row g-3 mt-1">
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="common_summary_block summary_details_block summary_projectsummery_block">
+              <Suspense>
+                <ProjectSummary data={project_summary} isLoading={isLoading} />
+              </Suspense>
+            </div>
+          </div>
+
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="common_summary_block summary_details_block summary_costs_block">
+              <Suspense>
+                <SummaryPercentages data={data} isLoading={isLoading} />
+              </Suspense>
+            </div>
+          </div>
+
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="common_summary_block summary_details_block summary_actionitems_block ">
+              <Suspense>
+                <ActionItems
+                  projectId={projectId}
+                  userId={userId}
+                  compId={compId}
+                  isLoading={isLoading}
+                />
+              </Suspense>
+            </div>
+          </div>
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="row h-100">
+              <div className="col-12 pb-sm">
+                <div className="common_summary_block profile_info_block d-flex project_summary_customer align-items-center">
+                  <Suspense>
+                    <Customer
+                      data={data}
+                      isLoading={isLoading}
+                      projectId={projectId}
+                      userId={userId}
+                      compId={compId}
+                      directoryId={directoryId}
+                    />
+                  </Suspense>
+                </div>
+              </div>
+              <div className="col-12 summary_billingactual_height">
+                <div className="common_summary_block summary_details_block summary_billingactual_block">
+                  <Suspense>
+                    <Invoiced
+                      data={data}
+                      customer_additional_contacts={
+                        customer_additional_contacts
+                      }
+                      isLoading={isLoading}
+                    />
+                  </Suspense>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="common_summary_block summary_details_block wip_details_block">
+              <Suspense>
+                <WorkInprogress data={wip_widget} isLoading={isLoading} />
+              </Suspense>
+            </div>
+          </div>
+          <div className="col-xxl-4 col-xl-6 col-12">
+            <div className="common_summary_block summary_details_block summary_recentphotos_block">
+              <Suspense>
+                <RecentPhotos data={data} isLoading={isLoading} />
+              </Suspense>
+            </div>
+          </div>
         </div>
-
-        <div className="grid 2xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-2.5 mt-2.5">
-          <div className={`${commonStyle} py-3 px-[15px] min-h-[300px]`}>
+        <div className="col-lg-12 col-md-12 col-12">
+          <div className="common_summary_block summary_details_block summary_schedule_block">
             <Suspense>
-              <ProjectSummary data={project_summary} isLoading={isLoading} />
-            </Suspense>
-          </div>
-
-          <div className={`${commonStyle} py-3 px-[15px] min-h-[300px]`}>
-            <Suspense>
-              <SummaryPercentages data={data} isLoading={isLoading} />
-            </Suspense>
-          </div>
-
-          <div className={`${commonStyle} py-3 px-[15px] min-h-[300px]`}>
-            <Suspense>
-              <ActionItems
+              <Scheduler
                 projectId={projectId}
                 userId={userId}
                 compId={compId}
@@ -93,51 +151,6 @@ export default function Index({
               />
             </Suspense>
           </div>
-          <div className="flex flex-col gap-2.5">
-            <div className="common-card py-3 px-[15px] h-fit min-h-[65px]">
-              <Suspense>
-                <Customer
-                  data={data}
-                  isLoading={isLoading}
-                  projectId={projectId}
-                  userId={userId}
-                  compId={compId}
-                  directoryId={directoryId}
-                />
-              </Suspense>
-            </div>
-            <div className="common-card py-3 px-[15px] h-full min-h-[177px]">
-              <Suspense>
-                <Invoiced
-                  data={data}
-                  customer_additional_contacts={customer_additional_contacts}
-                  isLoading={isLoading}
-                />
-              </Suspense>
-            </div>
-          </div>
-
-          <div className={`${commonStyle}  py-3 px-[15px] min-h-[260px]`}>
-            <Suspense>
-              <WorkInprogress data={wip_widget} isLoading={isLoading} />
-            </Suspense>
-          </div>
-          <div className={`${commonStyle}  py-3 px-[15px] min-h-[260px]`}>
-            <Suspense>
-              <RecentPhotos data={data} isLoading={isLoading} />
-            </Suspense>
-          </div>
-        </div>
-
-        <div className={`${commonStyle}  py-3 px-[15px] min-h-[268px]`}>
-          <Suspense>
-            <Scheduler
-              projectId={projectId}
-              userId={userId}
-              compId={compId}
-              isLoading={isLoading}
-            />
-          </Suspense>
         </div>
       </div>
     </>

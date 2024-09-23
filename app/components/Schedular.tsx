@@ -6,7 +6,6 @@ import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import Skeleton from "~/components/Skeletons/skeleton";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
@@ -165,17 +164,8 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   }, [data]); // Ensure this effect runs when 'data' changes
 
   return (
-    <div className="w-full relative">
-      <div
-        className={`${!isLoading && "lg:absolute "} mt-4 lg:mt-0 lg:top-4 z-50`}
-      >
-        <CustomIcon
-          icon={faCalendarDay}
-          label="Schedule"
-          bgColor="#ECF3FF"
-          color="#78AEFE"
-        />
-      </div>
+    <>
+      <CustomIcon icon="fa-solid fa-calendar-days" label="Schedule" />
 
       {!isLoading ? (
         <div
@@ -187,7 +177,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
           <SchedulerSkeleton className={`${!isLoading && "min-h-48"}`} />
         </div>
       )}
-    </div>
+    </>
   );
 };
 

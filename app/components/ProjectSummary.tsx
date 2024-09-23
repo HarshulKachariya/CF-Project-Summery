@@ -25,19 +25,13 @@ const ProjectSummary = ({ data, isLoading }: any) => {
   } = data;
 
   return (
-    <div className="space-y-2 text-sm">
-      <CustomIcon
-        icon={faCalculator}
-        label="Project Summary"
-        color={`#78AEFE`}
-        bgColor={`#ECF3FF`}
-        className="text-base"
-      />
+    <>
+      <CustomIcon icon="fa-solid fa-calculator" label="Project Summary" />
 
-      <div className="flex flex-col gap-3">
+      <div className="summary_details_block_body">
         {/* top */}
-        <div className="border border-gray-300 w-full h-full rounded-md space-y-0.5 px-4 py-1.5 relative">
-          <p className="flex justify-between items-center text-sm">
+        <ul className="project_summery_list mt-sm">
+          <li className="d-flex justify-content-between">
             Original Contract Amount (w/Tax){" "}
             <span className="text-emerald-600 font-semibold">
               {!isLoading ? (
@@ -46,8 +40,8 @@ const ProjectSummary = ({ data, isLoading }: any) => {
                 <Skeleton className="w-12 h-2.5 rounded-xl" />
               )}
             </span>
-          </p>
-          <p className="flex justify-between items-center text-sm">
+          </li>
+          <p className="d-flex justify-content-between ">
             Change Orders (w/Tax)
             <span className="text-emerald-600 font-semibold">
               {!isLoading ? (
@@ -57,81 +51,83 @@ const ProjectSummary = ({ data, isLoading }: any) => {
               )}
             </span>
           </p>
-          <div className="w-6 h-6  rounded-full bg-white shadow-lg shadow-black/20 absolute -bottom-2 right-1/2  flex justify-center items-center">
-            <FontAwesomeIcon icon={faPlus} className="text-xs" />
-          </div>
-        </div>
+          <i className="fa-regular fa-plus maths-symbols"></i>
+        </ul>
 
         {/* middle */}
-        <p className="flex justify-between items-center text-sm bg-gray-200 px-4 py-2 rounded-md ">
-          Total Project Amount (w/Tax)
-          <span className="text-blue-950 font-semibold">
-            {!isLoading ? (
-              formatCurrency(Number(total_project_amount))
-            ) : (
-              <Skeleton className="w-12 h-2.5 rounded-xl" />
-            )}
-          </span>
-        </p>
+        <ul className="project_summery_list mt-md project-contract-total">
+          <li className="d-flex justify-content-between">
+            <span> Total Project Amount (w/Tax)</span>
+            <span className="project_summery_amt">
+              {!isLoading ? (
+                formatCurrency(Number(total_project_amount))
+              ) : (
+                <Skeleton className="w-12 h-2.5 rounded-xl" />
+              )}
+            </span>
+          </li>
+        </ul>
 
         {/* bootom */}
-        <div className="border border-gray-300 w-full h-full rounded-md space-y-0.5 px-4 py-1.5 relative">
-          <div className="w-6 h-6 rounded-full bg-white shadow-lg shadow-black/20 absolute -top-3 right-1/2  flex justify-center items-center">
-            <FontAwesomeIcon icon={faMinus} className="text-xs" />
-          </div>
-          <p className="flex justify-between items-center text-sm">
-            Customer Payments
-            <span className="text-red-500 font-semibold">
+        <ul className="project_summery_list mt-md">
+          <i className="fa-regular fa-minus maths-symbols"></i>
+          <li className="d-flex justify-content-between">
+            <span>Customer Payments</span>
+            <span className="project_summery_amt text-danger">
               {!isLoading ? (
                 formatCurrency(Number(invoice_payments))
               ) : (
                 <Skeleton className="w-10 h-2.5 rounded-xl" />
               )}
             </span>
-          </p>
-          <p className="flex justify-between items-center text-sm">
-            Unpaid Invoices
-            <span className="text-red-500 font-semibold">
+          </li>
+          <li className="d-flex justify-content-between">
+            <span>Unpaid Invoices</span>
+            <span className="project_summery_amt text-danger">
               {!isLoading ? (
                 formatCurrency(Number(unpaid_invoices))
               ) : (
                 <Skeleton className="w-12 h-2.5 rounded-xl" />
               )}
             </span>
-          </p>
-        </div>
+          </li>
+        </ul>
 
         {/* Final block */}
-        <div className="relative px-4 py-1.5">
-          <div className="border border-dashed  w-full "></div>
-          <div className="w-6 h-6 rounded-full bg-white shadow-lg shadow-black/20 absolute -top-1 right-1/2  flex justify-center items-center">
-            <FontAwesomeIcon icon={faEquals} className="text-xs" />
-          </div>
-          <p className="flex justify-between items-center font-bold text-sm mt-3">
-            Remaining to Invoice
+        <ul className="project_summery_list mt-md project-remaining-balance">
+          <i
+            className="fa-regular fa-equals maths-symbols"
+            aria-hidden="true"
+          ></i>
+          <li className="d-flex justify-content-between">
             <span>
+              <b>Remaining to Invoice</b>
+            </span>
+            <span className="project_summery_amt">
               {!isLoading ? (
                 formatCurrency(Number(remain_invoices))
               ) : (
                 <Skeleton className="w-12 h-2.5 rounded-xl" />
               )}
             </span>
-          </p>
+          </li>
           {contract_amount_held && (
-            <p className="flex justify-between items-center font-bold text-sm ">
-              Current Retention Held
+            <li className="d-flex justify-content-between">
               <span>
+                <b>Current Retention Held</b>
+              </span>
+              <span className="project_summery_amt">
                 {!isLoading ? (
                   formatCurrency(Number(contract_amount_held))
                 ) : (
                   <Skeleton className="w-10 h-2.5 rounded-xl" />
                 )}
               </span>
-            </p>
+            </li>
           )}
-        </div>
+        </ul>
       </div>
-    </div>
+    </>
   );
 };
 

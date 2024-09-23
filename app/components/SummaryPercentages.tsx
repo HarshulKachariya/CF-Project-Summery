@@ -112,28 +112,23 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
   }
 
   return (
-    <div className="h-full">
-      <CustomIcon
-        icon={faSackDollar}
-        label="Summary Percentages"
-        bgColor="#FEF6E5"
-        color="#F8AB07"
-        className="text-base"
-      />
-
-      {!ReactApexChart ? (
-        <ChartSkeleton />
-      ) : (
-        <Suspense fallback={<ChartSkeleton />}>
-          <ReactApexChart
-            type="bar"
-            options={options}
-            series={series}
-            height={250}
-          />
-        </Suspense>
-      )}
-    </div>
+    <>
+      <CustomIcon icon="fa-solid fa-sack-dollar" label="Summary Percentages" />
+      <div className="summary_details_block_body">
+        {!ReactApexChart ? (
+          <ChartSkeleton />
+        ) : (
+          <Suspense fallback={<ChartSkeleton />}>
+            <ReactApexChart
+              type="bar"
+              options={options}
+              series={series}
+              height={250}
+            />
+          </Suspense>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -141,7 +136,7 @@ export default SummaryPercentages;
 
 const ChartSkeleton = () => {
   return (
-    <div className="relative h-64 ">
+    <div className="relative h-64">
       {/* Y-axis labels */}
       <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between py-2">
         {[...Array(6)].map((_, index) => (

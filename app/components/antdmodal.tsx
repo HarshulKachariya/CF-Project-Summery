@@ -68,7 +68,50 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
         }
       }
     }, [open]);
-
+    const customHeader = (
+      <>
+        {header ? (
+          <div className="modal-draggable-header d-flex justify-content-between">
+            <div className="d-flex align-items-center">
+              {icon ? <div className="modal_head_icon">{icon}</div> : <></>}
+              <div
+                className={`w-[calc(100%-54px)] ${headerClassName} ${
+                  subTitle && "flex flex-col"
+                }`}
+              >
+                <CFTypography
+                  title="h5"
+                  className="truncate !text-[17px] !mb-0 !text-primary-900 font-semibold dark:!text-white/90"
+                >
+                  {title}
+                </CFTypography>
+                {subTitle && (
+                  <CFTypography
+                    title="small"
+                    className={`truncate text-13 !mb-0 text-[#777] font-normal ${subTitleClass}`}
+                  >
+                    {subTitle}
+                  </CFTypography>
+                )}
+              </div>
+            </div>
+            <div className={`${rightSideClassName}`}>
+              {headerRightIcon && headerRightIcon}
+              {closeIcon ? (
+                <CFCloseButton
+                  onClick={closeModalHandler}
+                  iconClassName="!w-[18px] !h-[18px]"
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+      </>
+    );
     return (
       <ClientOnly>
         {() => (
@@ -83,54 +126,9 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
             closable={false}
             rootClassName={rootClassName}
             mask={mask}
+            title={customHeader}
             {...props}
           >
-            {header ? (
-              <div className="flex items-center justify-between w-full py-2.5 px-4 border-b border-gray-200 dark:border-white/10">
-                <div className="flex items-center w-[calc(100%-40px)]">
-                  {icon ? (
-                    <div className="w-8 h-8 flex items-center justify-center bg-[#e4ecf68c] dark:bg-dark-500 mr-2.5 text-primary-900 dark:text-white/90 rounded-full">
-                      {icon}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                  <div
-                    className={`w-[calc(100%-54px)] ${headerClassName} ${
-                      subTitle && "flex flex-col"
-                    }`}
-                  >
-                    <CFTypography
-                      title="h5"
-                      className="truncate !text-[17px] !mb-0 !text-primary-900 font-semibold dark:!text-white/90"
-                    >
-                      {title}
-                    </CFTypography>
-                    {subTitle && (
-                      <CFTypography
-                        title="small"
-                        className={`truncate text-13 !mb-0 text-[#777] font-normal ${subTitleClass}`}
-                      >
-                        {subTitle}
-                      </CFTypography>
-                    )}
-                  </div>
-                </div>
-                <div className={`${rightSideClassName}`}>
-                  {headerRightIcon && headerRightIcon}
-                  {closeIcon ? (
-                    <CFCloseButton
-                      onClick={closeModalHandler}
-                      iconClassName="!w-[18px] !h-[18px]"
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
             <div ref={ref} className={`${modalBody}`}>
               {children}
             </div>

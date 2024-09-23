@@ -19,32 +19,32 @@ const Invoiced = ({ data, isLoading }: any) => {
       label: "Total Project Amount (no/Tax)",
       value: `${formatCurrency(original_contract_amount)}
 `,
-      color: "text-emerald-600",
+      color: "text-success",
     },
     {
       id: 2,
       label: "Invoiced to Date (no/Tax)",
       value: `${formatCurrency(Number(amount_invoiced))}
 `,
-      color: "text-emerald-600",
+      color: "text-success",
     },
     {
       id: 3,
       label: "Remaining to Invoice (no/Tax)",
       value: `${formatCurrency(Number(remain_to_invoice))}`,
-      color: "text-emerald-600",
+      color: "text-success",
     },
     {
       id: 4,
       label: "Total Actual Costs",
       value: `${formatCurrency(Number(total_actual_cost))}`,
-      color: "text-red-600",
+      color: "text-danger",
     },
     {
       id: 5,
       label: "Gross Profit",
       value: `${formatCurrency(Number(gross_profit))}`,
-      color: "text-emerald-600",
+      color: "text-success",
     },
   ];
 
@@ -52,27 +52,25 @@ const Invoiced = ({ data, isLoading }: any) => {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
-        <div>
-          <CustomIcon
-            icon={faFileChartColumn}
-            label="Invoiced vs Actual"
-            bgColor="#F3ECF5"
-            color="#CE6698"
-          />
-          {isLoading ? (
-            <InvoicedSkeleton />
-          ) : (
-            <div className="space-y-1 mt-3">
-              {Items.map((i) => (
-                <p className={commonStyle} key={i.id}>
-                  {i.label}{" "}
-                  <span className={`${i.color} font-semibold`}>{i.value}</span>
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
+      <CustomIcon
+        icon="fa-solid fa-file-chart-column"
+        label="Invoiced vs Actual"
+      />
+      <div className="summary_details_block_body">
+        {isLoading ? (
+          <InvoicedSkeleton />
+        ) : (
+          <ul className="mt-sm">
+            {Items.map((i) => (
+              <li className="d-flex justify-content-between" key={i.id}>
+                <span>{i.label}</span>
+                <span className={`${i.color} project_summery_amt`}>
+                  {i.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );

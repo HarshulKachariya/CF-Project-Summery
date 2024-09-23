@@ -1,14 +1,25 @@
-import {
-  faCalculator,
-  faCalendar,
-  faCalendarDays,
-  faChartMixed,
-  faUserTie,
-  faUserVneck,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faCalculator,
+//   faCalendar,
+//   faCalendarDays,
+//   faChartMixed,
+//   faUserTie,
+//   faUserVneck,
+// } from "@fortawesome/pro-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatCurrency } from "~/helpers";
 import Skeleton from "./Skeletons/skeleton";
+
+interface ItemsProps {
+  id: any;
+  bgColor?: string;
+  icon?: any;
+  label: string;
+  label2?: string;
+  values?: any;
+  color?: string;
+  summaryClassName?: string;
+}
 
 const Top = ({ data, isLoading }: any) => {
   console.log("data from top", data);
@@ -27,9 +38,10 @@ const Top = ({ data, isLoading }: any) => {
           : "0"
       }%)`,
       values: `${formatCurrency(Number(billing_vs_actual?.gross_profit))}`,
-      icon: faChartMixed,
-      color: `#9ABA04`,
-      bgColor: `#F1F4E6`,
+      icon: "fa-solid fa-chart-mixed",
+      summaryClassName: "project_summary_grossprofit",
+      // color: `#9ABA04`,
+      // bgColor: `#F1F4E6`,
     },
     {
       id: 2,
@@ -38,9 +50,10 @@ const Top = ({ data, isLoading }: any) => {
         data?.site_manager_name !== "" ? data?.site_manager_name : "-"
       }`,
       values: ``,
-      icon: faUserVneck,
-      color: `#7FB2FF`,
-      bgColor: `#ECF3FE`,
+      icon: "fa-solid fa-user-vneck",
+      summaryClassName: "project_summary_sitemanager",
+      // color: `#7FB2FF`,
+      // bgColor: `#ECF3FE`,
     },
     {
       id: 3,
@@ -49,9 +62,10 @@ const Top = ({ data, isLoading }: any) => {
         data?.project_manager_name !== "" ? data?.project_manager_name : "-"
       }`,
       values: ``,
-      icon: faUserTie,
-      color: "#57A6EC",
-      bgColor: "#EEF4FC",
+      icon: "fa-solid fa-user-tie",
+      summaryClassName: "project_summary_projectmanager",
+      // color: "#57A6EC",
+      // bgColor: "#EEF4FC",
     },
     {
       id: 4,
@@ -62,57 +76,73 @@ const Top = ({ data, isLoading }: any) => {
           : "-"
       }`,
       values: ``,
-      icon: faCalendar,
-      color: "#A54BFF",
-      bgColor: "#F4EAFF",
+      icon: "fa-solid fa-calendar",
+      summaryClassName: "project_summary_date",
+      // color: "#A54BFF",
+      // bgColor: "#F4EAFF",
     },
     {
       id: 5,
-      label: " Schedule Completed",
+      label: "Schedule Completed",
       label2: `${
         billing_vs_actual?.progress === "0" ? billing_vs_actual?.progress : "0"
       }%`,
       values: ``,
-      icon: faCalendarDays,
-      color: `#9ABA04`,
-      bgColor: `#F1F4E6`,
+      icon: "fa-solid fa-calendar-days",
+      summaryClassName: "project_summary_schedule",
+      // color: `#9ABA04`,
+      // bgColor: `#F1F4E6`,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mt-3">
-      {Items.map(({ id, bgColor, icon, label, label2, values, color }) => (
-        <div
-          className="rounded-lg border bg-white hover:shadow-lg hover:transition-shadow hover:duration-500 px-4 py-2.5"
-          key={id}
-        >
-          <div className="flex items-center gap-3">
+    <div className="row g-3 summary_top_block_info">
+      {Items.map(
+        ({
+          id,
+          bgColor,
+          icon,
+          label,
+          label2,
+          values,
+          color,
+          summaryClassName,
+        }: ItemsProps) => (
+          <div className="col-xxl col-xl-4 col-lg-6 col-12" key={id}>
             <div
-              style={{ backgroundColor: bgColor }}
-              className="w-10 h-10 rounded-full flex justify-center items-center flex-shrink-0"
+              className={`common_summary_block profile_info_block d-flex ${summaryClassName}`}
             >
-              <FontAwesomeIcon
+              <div
+                style={{ backgroundColor: bgColor }}
+                className="profile_info_icon"
+              >
+                {/* <FontAwesomeIcon
                 icon={icon}
                 style={{ color: color }}
                 className="text-lg"
-              />
-            </div>
-            <div className="flex-grow min-w-0">
-              <div className="text-sm truncate">{label}</div>
-              {!isLoading ? (
-                <p className="flex justify-between items-center text-sm ">
-                  <span className="truncate font-medium">{label2}</span>
-                  <span className="text-emerald-600 font-semibold ml-1 text-green-500 ">
-                    {values}
-                  </span>
-                </p>
-              ) : (
-                <Skeleton className="rounded-xl h-3.5" />
-              )}
+              /> */}
+                <i
+                  className={`${icon}`} // Using the icon prop directly in className
+                  style={{ color: color }}
+                ></i>
+              </div>
+              <div className="profile_info_content">
+                <h6>{label}</h6>
+                {!isLoading ? (
+                  <p className="d-flex justify-content-between">
+                    <span className="truncate font-medium">{label2}</span>
+                    <span className="project_summery_amt text-success">
+                      {values}
+                    </span>
+                  </p>
+                ) : (
+                  <Skeleton className="rounded-xl h-3.5" />
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 };

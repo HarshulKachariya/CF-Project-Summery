@@ -138,33 +138,29 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   }
 
   return (
-    <div className="h-full">
-      <CustomIcon
-        icon={faBoxCircleCheck}
-        label="Action Items"
-        bgColor="#F0E5FF"
-        color="#684CC7"
-        className="text-base"
-      />
-      {!ReactApexChart ? (
-        <ActionItemsSkeleton />
-      ) : (
-        <>
-          {!isLoading ? (
-            <Suspense>
-              <ReactApexChart
-                type="bar"
-                height={250}
-                options={options}
-                series={series}
-              />
-            </Suspense>
-          ) : (
-            <ActionItemsSkeleton />
-          )}
-        </>
-      )}
-    </div>
+    <>
+      <CustomIcon icon="fa-solid fa-box-circle-check" label="Action Items" />
+      <div className="summary_details_block_body">
+        {!ReactApexChart ? (
+          <ActionItemsSkeleton />
+        ) : (
+          <>
+            {!isLoading ? (
+              <Suspense>
+                <ReactApexChart
+                  type="bar"
+                  height={250}
+                  options={options}
+                  series={series}
+                />
+              </Suspense>
+            ) : (
+              <ActionItemsSkeleton />
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

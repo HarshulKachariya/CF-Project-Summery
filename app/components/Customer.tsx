@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressCard,
   faArrowUpRightFromSquare,
@@ -109,26 +108,56 @@ const Customer = ({
     "hover:text-[#FB8056] hover:cursor-pointer hover:transition-colors hover:duration-700";
 
   return (
-    <div>
-      <div className="flex justify-start items-center gap-3 w-full  ">
-        <div className="bg-[#ffe8d2dd] w-12 h-10 rounded-full flex justify-center items-center text-[#FB8056] ">
-          <FontAwesomeIcon icon={faUserGroup} className="text-base" />
+    <>
+      <>
+        <div className="profile_info_icon">
+          <i className="fa-solid fa-user-group"></i>
         </div>
-        <div className=" w-full">
-          Customer
-          <p className="flex justify-between items-center  font-semibold hover:text-[#FB8056] hover:cursor-pointer hover:transition-all hover:duration-700">
+        <div className="profile_info_content">
+          <h6>Customer</h6>
+          <h5 className="d-flex justify-content-between align-items-center text-wrap">
             {!isLoading ? (
-              <div className="flex justify-between items-center font-semibold w-full">
+              <>
                 <a
                   href={`https://app-cfdev.contractorforeman.net/manage-directory/${
                     isNaN(Number(directoryId)) ?? 0
                   }`} //make dynamic
                   target="_blank"
-                  className={`font-semibold ${CommonTransition}`}
+                  className="link_custom"
                 >
                   {data?.customer_name}
                 </a>
-                <span className="text-[#FB8056] flex justify-center items-center space-x-1 font-semibold hover:cursor-pointer ">
+                <div className="d-flex align-items-center">
+                  <Tooltip title="Contact Details" placement="top">
+                    <span
+                      className="icon_link customer-contact-detail"
+                      onClick={handleModalOpen}
+                    >
+                      <i
+                        className="fa-regular fa-address-card"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                  </Tooltip>
+                  <Tooltip
+                    title="Open the Contact Details in New Tab"
+                    placement="top"
+                  >
+                    <a
+                      href={`https://app-cfdev.contractorforeman.net/manage-directory/${
+                        isNaN(Number(directoryId)) ?? 0
+                      }?type=customer`} //make dynamic
+                      target="_blank"
+                      className="jump-directory"
+                    >
+                      <i
+                        className="fa-regular fa-arrow-up-right-from-square"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </Tooltip>
+                </div>
+                {/* <span className="text-[#FB8056] flex justify-center items-center space-x-1 font-semibold hover:cursor-pointer">
                   <Tooltip title="Contact Details" placement="top">
                     <span
                       className={`text-sm hover:bg-[#f3ddd7] p-1 px-2 rounded-sm ${CommonTransition}`}
@@ -157,20 +186,21 @@ const Customer = ({
                       />
                     </a>
                   </Tooltip>
-                </span>
-              </div>
+                </span> */}
+              </>
             ) : (
               <Skeleton className="h-2.5 rounded-xl w-2/3" />
             )}{" "}
-          </p>
+          </h5>
         </div>
-      </div>
+      </>
       <CFModal
         open={isModalVisible}
         size="800px"
-        className="p-0 m-0 "
+        className="p-0 m-0"
+        rootClassName="new_modal_ui"
         closeModalHandler={() => setIsModalVisible(false)}
-        icon={<FontAwesomeIcon className="w-3.5 h-3.5" icon={faAddressCard} />}
+        icon={<i className="fa-regular fa-address-card" aria-hidden="true"></i>}
         title={"Conatct Details"}
         footer={
           <>
@@ -185,23 +215,25 @@ const Customer = ({
           </>
         }
       >
-        <div className="flex justify-between items-center gap-3 w-full">
-          <div className="w-1/2">
+        <div className="d-flex justify-content-between">
+          <ul className="contact_details_list">
             {ModalData &&
               ModalData.map(({ name, value }: any, i) => (
-                <div
+                <li
                   className="capitalize flex justify-between items-center gap-x-1 w-full py-1"
                   key={i}
                 >
-                  <p className="font-bold w-1/4 text-start">{name}</p>
+                  <div className="d-flex align-items-start">
+                    <span className="contact_label">{name}</span>
 
-                  <span
-                    dangerouslySetInnerHTML={{ __html: value }}
-                    className="w-3/4 text-left"
-                  ></span>
-                </div>
+                    <span
+                      dangerouslySetInnerHTML={{ __html: value }}
+                      className="contact_ans"
+                    ></span>
+                  </div>
+                </li>
               ))}
-          </div>
+          </ul>
 
           <MapComponent
             latitude={dirData?.latitude}
@@ -210,7 +242,7 @@ const Customer = ({
           />
         </div>
       </CFModal>
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CustomIconProps {
   icon?: any;
@@ -7,6 +7,7 @@ interface CustomIconProps {
   color?: string;
   iconClassName?: string;
   label?: string;
+  children?: any;
 }
 
 const CustomIcon = ({
@@ -14,22 +15,30 @@ const CustomIcon = ({
   className,
   bgColor,
   color,
-  iconClassName,
   label,
+  children,
 }: CustomIconProps) => {
   return (
-    <div className="flex gap-2 items-center">
-      <div
-        style={{ backgroundColor: bgColor }}
-        className={`bg-blue-100 w-8 h-8 rounded-full flex justify-center items-center ${className}`}
-      >
-        <FontAwesomeIcon
-          icon={icon}
-          style={{ color: color }}
-          className={iconClassName}
-        />
+    <div className="summary_details_block_head">
+      <div className="d-flex align-items-center">
+        <div
+          style={{ backgroundColor: bgColor }}
+          className={`header_icon ${className}`}
+        >
+          {/* <FontAwesomeIcon
+            icon={icon}
+            style={{ color: color }}
+            className={iconClassName}
+            
+          /> */}
+          <i
+            className={`${icon}`} // Using the icon prop directly in className
+            style={{ color: color }}
+          ></i>
+        </div>
+        <span className="d-block ml-9">{label}</span>
+        {children}
       </div>
-      <span className="font-semibold text-base">{label}</span>
     </div>
   );
 };
