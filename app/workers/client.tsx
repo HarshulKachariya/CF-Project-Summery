@@ -8,7 +8,8 @@ function hydrateComponent(
   projectId: string,
   userId: string,
   compId: string,
-  directoryId: string
+  directoryId: string,
+  loadGanttCalendarSummary: () => string
 ) {
   const container = document.getElementById(containerId);
   if (container) {
@@ -19,14 +20,16 @@ function hydrateComponent(
         userId={userId}
         compId={compId}
         directoryId={directoryId}
+        loadGanttCalendarSummary={loadGanttCalendarSummary}
       />
     );
-
+    console.log("from client", loadGanttCalendarSummary());
     (window as any).updateComponent = (
       newProId: string,
       newCompId: string,
       newUserId: string,
-      directoryId: string
+      directoryId: string,
+      loadGanttCalendarSummary: () => string
     ) => {
       root.render(
         <Component
@@ -34,6 +37,7 @@ function hydrateComponent(
           userId={newUserId}
           compId={newCompId}
           directoryId={directoryId}
+          loadGanttCalendarSummary={loadGanttCalendarSummary}
         />
       );
     };
@@ -42,6 +46,5 @@ function hydrateComponent(
 
 // Export both the function and the component
 export { hydrateComponent, Index };
-
 // Also export hydrateComponent as default for compatibility
 export default hydrateComponent;

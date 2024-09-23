@@ -1,10 +1,13 @@
 import { faFileLines } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
-import CustomIcon from "./CustomIcon";
+import CustomIcon from "../ant-design/CustomIcon";
 import { useEffect, useState } from "react";
 import Skeleton from "./Skeletons/skeleton";
+import Spiner from "./Skeletons/spin";
 
 const WorkInprogress = ({ data, isLoading }: any) => {
+  if (!data) return;
+
   const {
     cost_completed,
     current_cost_budget,
@@ -77,25 +80,30 @@ const WorkInprogress = ({ data, isLoading }: any) => {
 
   return (
     <>
-      <CustomIcon
-        icon={faFileLines}
-        label="Work In Progress (WIP)"
-        bgColor="#F3EEFD"
-        color="#8C55E9"
-      />
+      {isLoading ? (
+        <Spiner />
+      ) : (
+        <div>
+          <CustomIcon
+            icon={faFileLines}
+            label="Work In Progress (WIP)"
+            bgColor="#F3EEFD"
+            color="#8C55E9"
+          />
 
-      <div className="pt-2.5 flex flex-col gap-[1px] lg:gap-[1.7px]">
-        {Items.map((i) => (
-          <p className="flex justify-between items-center text-sm" key={i.id}>
-            {i.label}{" "}
-            {isLoading ? (
-              <Skeleton className="odd:w-12 h-2.5 rounded-xl" />
-            ) : (
-              <span className={`${i.color} font-semibold`}>{i.value}</span>
-            )}
-          </p>
-        ))}
-      </div>
+          <div className="pt-2.5 flex flex-col gap-[1px] lg:gap-[1.7px]">
+            {Items.map((i) => (
+              <p
+                className="flex justify-between items-center text-sm"
+                key={i.id}
+              >
+                {i.label}{" "}
+                <span className={`${i.color} font-semibold`}>{i.value}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

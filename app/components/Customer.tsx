@@ -5,12 +5,12 @@ import {
   faArrowUpRightFromSquare,
   faUserGroup,
 } from "@fortawesome/pro-solid-svg-icons";
-import Skeleton from "./Skeletons/skeleton";
 
 import axios from "axios";
 import MapComponent from "./Map";
-import { CFModal } from "./antdmodal";
+import { CFModal } from "../ant-design/antdmodal";
 import { Tooltip } from "antd";
+import Spiner from "./Skeletons/spin";
 
 const Customer = ({
   data,
@@ -23,8 +23,6 @@ const Customer = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [dirData, setDirData] = useState<any>([]);
-
-  console.log("datdadada", dirData);
 
   const fetchData = async () => {
     try {
@@ -109,19 +107,21 @@ const Customer = ({
     "hover:text-[#FB8056] hover:cursor-pointer hover:transition-colors hover:duration-700";
 
   return (
-    <div>
-      <div className="flex justify-start items-center gap-3 w-full  ">
-        <div className="bg-[#ffe8d2dd] w-12 h-10 rounded-full flex justify-center items-center text-[#FB8056] ">
-          <FontAwesomeIcon icon={faUserGroup} className="text-base" />
-        </div>
-        <div className=" w-full">
-          Customer
-          <p className="flex justify-between items-center  font-semibold hover:text-[#FB8056] hover:cursor-pointer hover:transition-all hover:duration-700">
-            {!isLoading ? (
+    <>
+      {isLoading ? (
+        <Spiner />
+      ) : (
+        <div className="flex justify-start items-center gap-3 w-full ">
+          <div className="bg-[#ffe8d2dd] w-12 h-10 rounded-full flex justify-center items-center text-[#FB8056] ">
+            <FontAwesomeIcon icon={faUserGroup} className="text-base" />
+          </div>
+          <div className=" w-full">
+            Customer
+            <p className="flex justify-between items-center  font-semibold hover:text-[#FB8056] hover:cursor-pointer hover:transition-all hover:duration-700">
               <div className="flex justify-between items-center font-semibold w-full">
                 <a
                   href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                    isNaN(Number(directoryId)) ?? 0
+                    Number(directoryId) ?? 0
                   }`} //make dynamic
                   target="_blank"
                   className={`font-semibold ${CommonTransition}`}
@@ -146,7 +146,7 @@ const Customer = ({
                   >
                     <a
                       href={`https://app-cfdev.contractorforeman.net/manage-directory/${
-                        isNaN(Number(directoryId)) ?? 0
+                        Number(directoryId) ?? 0
                       }?type=customer`} //make dynamic
                       target="_blank"
                       className="text-sm"
@@ -159,12 +159,11 @@ const Customer = ({
                   </Tooltip>
                 </span>
               </div>
-            ) : (
-              <Skeleton className="h-2.5 rounded-xl w-2/3" />
-            )}{" "}
-          </p>
+            </p>
+          </div>
         </div>
-      </div>
+      )}
+
       <CFModal
         open={isModalVisible}
         size="800px"
@@ -210,7 +209,7 @@ const Customer = ({
           />
         </div>
       </CFModal>
-    </div>
+    </>
   );
 };
 

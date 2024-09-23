@@ -1,17 +1,21 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import { faSackDollar } from "@fortawesome/pro-solid-svg-icons";
-import CustomIcon from "./CustomIcon";
+import { CFTypography } from "~/ant-design/CFTypography";
+import CustomIcon from "../ant-design/CustomIcon";
 import Skeleton from "./Skeletons/skeleton";
+import Spiner from "./Skeletons/spin";
 
-const ReactApexChart = require("react-apexcharts").default;
+// const ReactApexChart = require("react-apexcharts").default;
 
 const SummaryPercentages = ({ data, isLoading }: any) => {
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  if (!data) return;
 
-  // useEffect(() => {
-  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  // }, []);
+  const [ReactApexChart, setReactApexChart] = useState<any>();
+
+  useEffect(() => {
+    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  }, []);
 
   const billing_vs_actual = data?.billing_vs_actual || {};
   const all_item_total = data?.all_item_total || {};
@@ -77,16 +81,77 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     tooltip: {
       shared: true,
       intersect: false,
+      custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+        let title = w.globals.labels[dataPointIndex];
+        let data1 = series[0][dataPointIndex];
+        let data2 = series[1][dataPointIndex];
+
+        let label1 = "";
+        let label2 = "";
+        if (dataPointIndex === 0) {
+          label1 = "Committed Cost";
+          label2 = "Estimated Cost";
+          data1 = commitedTotal;
+          data2 = estimatedTotal;
+        } else if (dataPointIndex === 1) {
+          label1 = "Actual Cost";
+          label2 = "Estimated Cost";
+          data1 = actualTotal;
+          data2 = estimatedTotal;
+        } else if (dataPointIndex === 2) {
+          label1 = "Actual Labor Cost";
+          label2 = "Budgeted Labor";
+          data1 = laborActualTotal;
+          data2 = laborActualTotal;
+        } else if (dataPointIndex === 3) {
+          label1 = "Contract Billings";
+          label2 = "Contract Amount";
+          data1 = amountInvoiced;
+          data2 = originalContractAmount;
+        }
+
+        return (
+          "\
+                            <div class='tooltip-box-block'>\
+                                <div class='tooltip_inner_block'>\
+                                    <div class='bg-[#ECEFF1] border-b border-solid border-[#ddd] text-13 font-medium leading-4 p-1.5 mb-1'>" +
+          title +
+          "</div>\
+                                    <div class='tooltip-box-body'>\
+                                        <div class='tooltip-group-div !py-1 gap-1'>\
+                                            <div class='flex items-center text-xs text-primary-900'>\
+                                                <small class='w-2.5 h-2.5 bg-[#63759A] rounded-full mr-0.5 inline-block'></small>\
+                                                " +
+          label1 +
+          ": </div>\
+                                                <CFTypography title='small' class='text-xs text-primary-900'> " +
+          data1 +
+          "</CFTypography >\
+                                        </div >\
+                                        <div class='tooltip-group-div !py-1 gap-1'>\
+                                            <div class='flex items-center text-xs text-primary-900'>\
+                                            <small class='w-2.5 h-2.5 bg-[#F9BE3F] rounded-full mr-0.5 inline-block'></small>\
+                                            " +
+          label2 +
+          ": </div >\
+                                            <CFTypography title='small' class='text-xs text-primary-900'> " +
+          data2 +
+          "</CFTypography>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>"
+        );
+      },
       y: {
         formatter: function (val: number) {
           return formatCurrency(Number(val));
         },
       },
     },
-    colors: ["#7989A9", "#F9C75C"],
+    colors: ["#7d89a9", "#f5c85e"],
     legend: {
       show: false,
-      position: "top",
     },
   };
 
@@ -112,28 +177,34 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
   }
 
   return (
-    <div className="h-full">
-      <CustomIcon
-        icon={faSackDollar}
-        label="Summary Percentages"
-        bgColor="#FEF6E5"
-        color="#F8AB07"
-        className="text-base"
-      />
-
-      {!ReactApexChart ? (
-        <ChartSkeleton />
+    <>
+      {isLoading ? (
+        <Spiner />
       ) : (
-        <Suspense fallback={<ChartSkeleton />}>
-          <ReactApexChart
-            type="bar"
-            options={options}
-            series={series}
-            height={250}
+        <div className="h-full">
+          <CustomIcon
+            icon={faSackDollar}
+            label="Summary Percentages"
+            bgColor="#FEF6E5"
+            color="#F8AB07"
+            className="text-base"
           />
-        </Suspense>
+
+          {!ReactApexChart ? (
+            <Spiner />
+          ) : (
+            <Suspense>
+              <ReactApexChart
+                type="bar"
+                options={options}
+                series={series}
+                height={250}
+              />
+            </Suspense>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

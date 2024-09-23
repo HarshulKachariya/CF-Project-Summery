@@ -18,7 +18,21 @@ export function useFetchProjectDetails(
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  async function clearBrowserCache() {
+    if ("caches" in window) {
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames.map((cacheName) => caches.delete(cacheName))
+      );
+      console.log("Browser cache cleared!");
+    } else {
+      console.log("Cache API is not supported in this browser.");
+    }
+  }
+
   useEffect(() => {
+    // clearBrowserCache();
+    // setData(null);
     async function fetchData() {
       try {
         setIsLoading(true);

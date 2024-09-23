@@ -11,6 +11,8 @@ import { formatCurrency } from "~/helpers";
 import Skeleton from "./Skeletons/skeleton";
 
 const Top = ({ data, isLoading }: any) => {
+  if (!data) return;
+
   console.log("data from top", data);
   const { billing_vs_actual } = data;
 
@@ -70,7 +72,7 @@ const Top = ({ data, isLoading }: any) => {
       id: 5,
       label: " Schedule Completed",
       label2: `${
-        billing_vs_actual?.progress === "0" ? billing_vs_actual?.progress : "0"
+        billing_vs_actual?.progress !== "0" ? billing_vs_actual?.progress : "0"
       }%`,
       values: ``,
       icon: faCalendarDays,

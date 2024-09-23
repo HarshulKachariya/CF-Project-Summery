@@ -2,20 +2,26 @@ import React, { useEffect, useState, Suspense, lazy } from "react";
 import { ApexOptions } from "apexcharts";
 import { faBoxCircleCheck } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
-import CustomIcon from "./CustomIcon";
+import CustomIcon from "../ant-design/CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import Skeleton from "./Skeletons/skeleton";
+import Spiner from "./Skeletons/spin";
 
-const ReactApexChart = require("react-apexcharts").default;
+// const ReactApexChart = require("react-apexcharts").default;
 
-const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
+const ActionItems = ({
+  projectId,
+  userId,
+  compId,
+  loadGanttCalendarSummary,
+}: IndexProps) => {
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
-  // useEffect(() => {
-  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  // }, []);
+  const [ReactApexChart, setReactApexChart] = useState<any>();
+  useEffect(() => {
+    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,10 +90,10 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         dataLabels: {
           total: {
             enabled: true,
-            offsetX: 0,
+            offsetX: 10,
             style: {
               fontSize: "13px",
-              fontWeight: 900,
+              fontWeight: 1000,
             },
           },
         },
@@ -134,23 +140,25 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
 
   if (data?.length <= 0) {
     console.log("<<<<<==== Data not Available ====>>>>>");
-    return <div>Loading Charts</div>;
+    return;
   }
 
   return (
-    <div className="h-full">
-      <CustomIcon
-        icon={faBoxCircleCheck}
-        label="Action Items"
-        bgColor="#F0E5FF"
-        color="#684CC7"
-        className="text-base"
-      />
-      {!ReactApexChart ? (
-        <ActionItemsSkeleton />
+    <>
+      {isLoading ? (
+        <Spiner />
       ) : (
-        <>
-          {!isLoading ? (
+        <div className="h-full">
+          <CustomIcon
+            icon={faBoxCircleCheck}
+            label="Action Items"
+            bgColor="#F0E5FF"
+            color="#684CC7"
+            className="text-base"
+          />
+          {!ReactApexChart ? (
+            <Spiner />
+          ) : (
             <Suspense>
               <ReactApexChart
                 type="bar"
@@ -159,12 +167,10 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
                 series={series}
               />
             </Suspense>
-          ) : (
-            <ActionItemsSkeleton />
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

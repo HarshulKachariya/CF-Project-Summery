@@ -2,9 +2,12 @@ import { faFileChartColumn } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
 
 import Skeleton from "./Skeletons/skeleton";
-import CustomIcon from "./CustomIcon";
+import CustomIcon from "../ant-design/CustomIcon";
+import Spiner from "./Skeletons/spin";
 
 const Invoiced = ({ data, isLoading }: any) => {
+  if (!data) return;
+
   const {
     amount_invoiced,
     original_contract_amount,
@@ -52,17 +55,18 @@ const Invoiced = ({ data, isLoading }: any) => {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
-        <div>
-          <CustomIcon
-            icon={faFileChartColumn}
-            label="Invoiced vs Actual"
-            bgColor="#F3ECF5"
-            color="#CE6698"
-          />
-          {isLoading ? (
-            <InvoicedSkeleton />
-          ) : (
+      {isLoading ? (
+        <Spiner />
+      ) : (
+        <div className="flex flex-col gap-3">
+          <div>
+            <CustomIcon
+              icon={faFileChartColumn}
+              label="Invoiced vs Actual"
+              bgColor="#F3ECF5"
+              color="#CE6698"
+            />
+
             <div className="space-y-1 mt-3">
               {Items.map((i) => (
                 <p className={commonStyle} key={i.id}>
@@ -71,9 +75,9 @@ const Invoiced = ({ data, isLoading }: any) => {
                 </p>
               ))}
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
