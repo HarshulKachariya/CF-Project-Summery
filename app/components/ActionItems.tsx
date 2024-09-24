@@ -7,17 +7,17 @@ import { IndexProps } from "~/routes/_index";
 import Spiner from "./Skeletons/spin";
 import { base_url, curr_date, Int, tz } from "~/helpers";
 
-// const ReactApexChart = require("react-apexcharts").default;
+const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [actionItemsChart, setActionItemsChart] = useState<any>({});
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  const [ReactApexChart, setReactApexChart] = useState<any>();
-  useEffect(() => {
-    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  }, []);
+  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  // useEffect(() => {
+  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {

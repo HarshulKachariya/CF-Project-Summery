@@ -32,18 +32,17 @@ export type IndexProps = {
   directoryId?: string;
 };
 
-export default function Index() {
-  // export default function Index({
-  //   projectId,
-  //   userId,
-  //   compId,
-  //   directoryId,
-  // }: IndexProps) {
-
-  const projectId = "137342";
-  const compId = "408"; // You might want to make this dynamic too
-  const userId = "50304"; // You might want to make this dynamic too
-  const directoryId = "54584"; // You might want to make this dynamic too
+// export default function Index() {
+export default function Index({
+  projectId,
+  userId,
+  compId,
+  directoryId,
+}: IndexProps) {
+  // const projectId = "137342";
+  // const compId = "408"; // You might want to make this dynamic too
+  // const userId = "50304"; // You might want to make this dynamic too
+  // const directoryId = "54584"; // You might want to make this dynamic too
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
