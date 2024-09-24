@@ -26,58 +26,69 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
 
   const total_project_amount = data?.billing_vs_actual?.amount_invoiced || 0;
 
+  // Function to handle NaN or 0 values
+  const formatValue = (value: any) => {
+    return isNaN(value) || value === null ? 0 : value;
+  };
+
   const Items: ItemsProps[] = [
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
-      value: `${formatCurrency(Number(original_contract_amount), currencyCode)}
+      value: `${formatCurrency(
+        formatValue(original_contract_amount),
+        currencyCode
+      )}
 `,
       color: "text-success",
     },
     {
       id: 2,
       label: "Invoiced to Date (no/Tax)",
-      value: `${formatCurrency(Number(total_project_amount), currencyCode)}
+      value: `${formatCurrency(formatValue(total_project_amount), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
       label: "Current Cost Budget",
-      value: `${formatCurrency(Number(current_cost_budget), currencyCode)}`,
+      value: `${formatCurrency(
+        formatValue(current_cost_budget),
+        currencyCode
+      )}`,
       color: "text-danger",
     },
     {
       id: 4,
       label: "Total Actual Costs",
-      value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
+      value: `${formatCurrency(formatValue(total_actual_cost), currencyCode)}`,
       color: "text-danger",
     },
     {
       id: 5,
       label: "Cost % Complete",
-      value: `${Number(cost_completed!).toFixed(2)}%`,
+      value: `${formatValue(cost_completed!).toFixed(2)}%`,
       color: "",
       tooltipText: "Total Actual Costs Divided by Current Cost Budget",
     },
     {
       id: 6,
       label: "Forecasted % Complete",
-      value: `${Number(forcast_completed)}%`,
+      value: `${formatValue(forcast_completed)}%`,
       color: "",
       tooltipText: "Project Manager input",
     },
     {
       id: 7,
       label: "Earned Revenue",
-      value: `${formatCurrency(Number(earned_revenue), currencyCode)}`,
+      value: `${formatCurrency(formatValue(earned_revenue), currencyCode)}`,
       color: "text-success",
       tooltipText: "Current Contact Value Multiplied by forecasted % Complete",
     },
     {
       id: 8,
       label: "Over Billings",
-      value: `${formatCurrency(Number(over_billing), currencyCode)}`,
+      value: `${formatCurrency(formatValue(over_billing), currencyCode)}`,
       color: "text-success",
       tooltipText:
         "Earned Revenue Minus Current Billings if Earned Revenue is less than Current Billings",
@@ -85,7 +96,7 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
     {
       id: 9,
       label: " Under Billings",
-      value: `${formatCurrency(Number(under_billing), currencyCode)}`,
+      value: `${formatCurrency(formatValue(under_billing), currencyCode)}`,
       color: "text-danger",
       tooltipText:
         "Earned Revenue Minus Current Billings if Earned Revenue is greater than Current Billings",
