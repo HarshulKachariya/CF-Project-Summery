@@ -74,8 +74,6 @@ const Customer = ({
     { name: "Email", value: dirData?.email },
     { name: "Address", value: address },
   ].filter((item) => item.value && item.value.trim() !== "");
-  console.log("modal data ==>>>>>>>", ModalData);
-  console.log("address ==>>>>>>>", address !== ",,,");
 
   return (
     <>
@@ -170,16 +168,18 @@ const Customer = ({
               ))}
             </ul>
           ) : (
-            <p>No contact details available.</p>
+            <></>
           )}
 
-          {(dirData.latitude || dirData.longitude) && address && (
-            <MapComponent
-              latitude={dirData?.latitude}
-              longitude={dirData?.longitude}
-              address={address}
-            />
-          )}
+          {dirData.latitude ||
+            dirData.longitude ||
+            (address && (
+              <MapComponent
+                latitude={dirData?.latitude}
+                longitude={dirData?.longitude}
+                address={address}
+              />
+            ))}
         </div>
       </CFModal>
     </>

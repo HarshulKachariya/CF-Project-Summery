@@ -16,7 +16,7 @@ interface ItemsProps {
   link?: any;
 }
 
-const Top = ({ data, isLoading }: any) => {
+const Top = ({ data, isLoading, currencyCode }: any) => {
   const { billing_vs_actual } = data || {};
 
   const Items: ItemsProps[] = [
@@ -31,7 +31,10 @@ const Top = ({ data, isLoading }: any) => {
             ).toFixed(2)
           : "0"
       }%)`,
-      values: `${formatCurrency(Number(billing_vs_actual?.gross_profit))}`,
+      values: `${formatCurrency(
+        Number(billing_vs_actual?.gross_profit),
+        currencyCode
+      )}`,
       icon: "fa-solid fa-chart-mixed",
       summaryClassName: "project_summary_grossprofit",
       tooltipText: "Invoiced to Date Minus Total Actual Costs",
@@ -47,6 +50,7 @@ const Top = ({ data, isLoading }: any) => {
       link: data?.site_manager_id
         ? `${redirect_url}/manage-directory/${data.site_manager_id}`
         : null,
+      tooltipLabel: data?.site_manager_name,
     },
     {
       id: 3,
@@ -58,6 +62,7 @@ const Top = ({ data, isLoading }: any) => {
       link: data?.project_manager_id
         ? `${redirect_url}/manage-directory/${data.project_manager_id}`
         : null,
+      tooltipLabel: data?.project_manager_name,
     },
     {
       id: 4,
@@ -76,6 +81,17 @@ const Top = ({ data, isLoading }: any) => {
       values: "",
       icon: "fa-solid fa-calendar",
       summaryClassName: "project_summary_date",
+      tooltipLabel: (() => {
+        if (data?.start_date && data?.end_date) {
+          return `${data.start_date} - ${data.end_date}`;
+        } else if (data?.start_date) {
+          return data.start_date;
+        } else if (data?.end_date) {
+          return data.end_date;
+        } else {
+          return "-";
+        }
+      })(),
     },
     {
       id: 5,
@@ -84,6 +100,11 @@ const Top = ({ data, isLoading }: any) => {
       values: "",
       icon: "fa-solid fa-calendar-days",
       summaryClassName: "project_summary_schedule",
+      tooltipLabel: `${
+        Number(data?.progress || 0) > 0
+          ? Number(data?.progress || 0).toFixed(0) + "%"
+          : ""
+      }`,
     },
   ];
 
@@ -117,7 +138,10 @@ const Top = ({ data, isLoading }: any) => {
                 <h6>{label}</h6>
                 {!isLoading ? (
                   <p className="d-flex justify-content-between">
-                    <Tooltip title={tooltipLabel} placement="top">
+                    <Tooltip
+                      title={tooltipLabel !== "" && tooltipLabel}
+                      placement="top"
+                    >
                       {link && label2 !== "-" ? (
                         <a
                           href={link}

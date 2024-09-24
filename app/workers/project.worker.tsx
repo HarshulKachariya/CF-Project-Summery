@@ -8,11 +8,13 @@ const renderComponent = ({
   userId,
   compId,
   directoryId,
+  currencyCode,
 }: {
   projectId: string;
   userId: string;
   compId: string;
   directoryId: string;
+  currencyCode: string;
 }) => {
   const html = ReactDOMServer.renderToString(
     <Index
@@ -20,6 +22,7 @@ const renderComponent = ({
       userId={userId}
       compId={compId}
       directoryId={directoryId}
+      currencyCode={currencyCode}
     />
   );
   return html;

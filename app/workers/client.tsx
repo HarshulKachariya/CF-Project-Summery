@@ -8,7 +8,8 @@ function hydrateComponent(
   projectId: string,
   userId: string,
   compId: string,
-  directoryId: string
+  directoryId: string,
+  currencyCode: string
 ) {
   const container = document.getElementById(containerId);
   if (container) {
@@ -19,6 +20,7 @@ function hydrateComponent(
         userId={userId}
         compId={compId}
         directoryId={directoryId}
+        currencyCode={currencyCode}
       />
     );
 
@@ -26,7 +28,8 @@ function hydrateComponent(
       newProId: string,
       newCompId: string,
       newUserId: string,
-      directoryId: string
+      directoryId: string,
+      currencyCode: string
     ) => {
       root.unmount();
 
@@ -36,6 +39,7 @@ function hydrateComponent(
           userId={newUserId}
           compId={newCompId}
           directoryId={directoryId}
+          currencyCode={currencyCode}
         />
       );
     };

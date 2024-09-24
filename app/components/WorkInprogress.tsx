@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import Skeleton from "./Skeletons/spin";
 import { Tooltip } from "antd";
 
-const WorkInprogress = ({ data, isLoading }: any) => {
-  if (!data) {
-    return;
-  }
+const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
   const {
     cost_completed,
     current_cost_budget,
@@ -18,33 +15,35 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     over_billing,
     total_actual_cost,
     under_billing,
-  } = data;
+  } = data?.wip_widget || {};
+
+  const total_project_amount = data?.billing_vs_actual?.amount_invoiced || 0;
 
   const Items = [
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
-      value: `${formatCurrency(Number(original_contract_amount))}
+      value: `${formatCurrency(Number(original_contract_amount), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 2,
       label: "Invoiced to Date (no/Tax)",
-      value: `${formatCurrency(Number(original_contract_amount))}
+      value: `${formatCurrency(Number(total_project_amount), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
       label: "Current Cost Budget",
-      value: `${formatCurrency(Number(current_cost_budget))}`,
+      value: `${formatCurrency(Number(current_cost_budget), currencyCode)}`,
       color: "text-danger",
     },
     {
       id: 4,
       label: "Total Actual Costs",
-      value: `${formatCurrency(Number(total_actual_cost))}`,
+      value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
       color: "text-danger",
     },
     {
@@ -62,19 +61,19 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     {
       id: 7,
       label: "Earned Revenue",
-      value: `${formatCurrency(Number(earned_revenue))}`,
+      value: `${formatCurrency(Number(earned_revenue), currencyCode)}`,
       color: "text-success",
     },
     {
       id: 8,
       label: "Over Billings",
-      value: `${formatCurrency(Number(over_billing))}`,
+      value: `${formatCurrency(Number(over_billing), currencyCode)}`,
       color: "text-success",
     },
     {
       id: 9,
       label: " Under Billings",
-      value: `${formatCurrency(Number(under_billing))}`,
+      value: `${formatCurrency(Number(under_billing), currencyCode)}`,
       color: "text-danger",
     },
   ];

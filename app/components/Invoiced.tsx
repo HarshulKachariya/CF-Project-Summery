@@ -4,7 +4,7 @@ import { formatCurrency } from "~/helpers";
 import Skeleton from "./Skeletons/spin";
 import CustomIcon from "./CustomIcon";
 
-const Invoiced = ({ data, isLoading }: any) => {
+const Invoiced = ({ data, isLoading, currencyCode }: any) => {
   const {
     amount_invoiced,
     original_contract_amount,
@@ -17,33 +17,33 @@ const Invoiced = ({ data, isLoading }: any) => {
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
-      value: `${formatCurrency(original_contract_amount)}
+      value: `${formatCurrency(original_contract_amount, currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 2,
       label: "Invoiced to Date (no/Tax)",
-      value: `${formatCurrency(Number(amount_invoiced))}
+      value: `${formatCurrency(Number(amount_invoiced), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
       label: "Remaining to Invoice (no/Tax)",
-      value: `${formatCurrency(Number(remain_to_invoice))}`,
+      value: `${formatCurrency(Number(remain_to_invoice), currencyCode)}`,
       color: "text-success",
     },
     {
       id: 4,
       label: "Total Actual Costs",
-      value: `${formatCurrency(Number(total_actual_cost))}`,
+      value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
       color: "text-danger",
     },
     {
       id: 5,
       label: "Gross Profit",
-      value: `${formatCurrency(Number(gross_profit))}`,
+      value: `${formatCurrency(Number(gross_profit), currencyCode)}`,
       color: "text-success",
     },
   ];

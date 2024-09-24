@@ -7,17 +7,17 @@ import { IndexProps } from "~/routes/_index";
 import Spiner from "./Skeletons/spin";
 import { base_url, curr_date, Int, tz } from "~/helpers";
 
-// const ReactApexChart = require("react-apexcharts").default;
+const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [actionItemsChart, setActionItemsChart] = useState<any>({});
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  const [ReactApexChart, setReactApexChart] = useState<any>();
-  useEffect(() => {
-    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  }, []);
+  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  // useEffect(() => {
+  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,6 +81,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_close),
         Number(data?.open_incomplete_item?.opnIncoRFI?.total_close),
         Number(data?.open_incomplete_item?.opnIncoToDo?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_close),
       ],
       open: [
         Number(data?.open_incomplete_item?.opnIncoBills?.total_open),
@@ -89,6 +90,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_open),
         Number(data?.open_incomplete_item?.opnIncoRFI?.total_open),
         Number(data?.open_incomplete_item?.opnIncoToDo?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_open),
       ],
       due: [
         Number(data?.open_incomplete_item?.opnIncoBills?.total_due),
@@ -97,6 +99,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_due),
         Number(data?.open_incomplete_item?.opnIncoRFI?.total_due),
         Number(data?.open_incomplete_item?.opnIncoToDo?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_due),
       ],
     }));
   }, [data]);
@@ -126,7 +129,15 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
       },
     },
     xaxis: { categories: ["OPEN", "DUE", "CLOSED"], tickPlacement: "on" },
-    colors: ["#684CC7", "#e01f35", "#282691"],
+    colors: [
+      "#D53E4F",
+      "#303A52",
+      "#684CC7",
+      "#3836A1",
+      "#F46D43",
+      "#2494A4",
+      "#CC9F5D",
+    ],
     legend: {
       show: true,
       position: "top",
@@ -140,29 +151,34 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     data?.open_incomplete_item?.opnIncoPunchlist[0] || {};
   const opnIncoRFI = data?.open_incomplete_item?.opnIncoRFI[0] || {};
   const ToDos = data?.open_incomplete_item?.opnIncoToDo[0] || {};
-
-  console.log("invoices", invoices);
-  console.log("bills", bills);
-  console.log("pos", pos);
-  console.log("opnIncoPunchlist", opnIncoPunchlist);
-  console.log("opnIncoRFI", opnIncoRFI);
-  console.log("ToDos", ToDos);
+  const Compliance =
+    (data?.open_incomplete_item?.opnIncoCompliance > 0 &&
+      data?.open_incomplete_item?.opnIncoCompliance[0]) ||
+    {};
 
   const series = [
-    {
-      name: "Invoices",
-      data: [
-        Number(invoices?.total_open) || 0,
-        Number(invoices?.total_due) || 0,
-        Number(invoices?.total_close) || 0,
-      ],
-    },
     {
       name: "Bills",
       data: [
         Number(bills?.bill_count) || 0,
         Number(bills[0]?.bill_count) || 0,
         Number(bills[1]?.bill_count) || 0,
+      ],
+    },
+    {
+      name: "Compliance",
+      data: [
+        Number(Compliance?.total_open) || 0,
+        Number(Compliance[0]?.total_due) || 0,
+        Number(Compliance[1]?.total_close) || 0,
+      ],
+    },
+    {
+      name: "Invoices",
+      data: [
+        Number(invoices?.total_open) || 0,
+        Number(invoices?.total_due) || 0,
+        Number(invoices?.total_close) || 0,
       ],
     },
     {
@@ -174,7 +190,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
       ],
     },
     {
-      name: "Punchlist",
+      name: "Punchlists",
       data: [
         Number(opnIncoPunchlist?.total_open) || 0,
         Number(opnIncoPunchlist?.total_due) || 0,
@@ -182,7 +198,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
       ],
     },
     {
-      name: "RFI",
+      name: "RFI's",
       data: [
         Number(opnIncoRFI?.total_open) || 0,
         Number(opnIncoRFI?.bill_count) || 0,
