@@ -11,7 +11,7 @@ const Invoiced = ({ data, isLoading }: any) => {
     remain_to_invoice,
     total_actual_cost,
     gross_profit,
-  } = data?.billing_vs_actual;
+  } = data?.billing_vs_actual || {};
 
   const Items = [
     {
@@ -47,8 +47,6 @@ const Invoiced = ({ data, isLoading }: any) => {
       color: "text-success",
     },
   ];
-
-  const commonStyle = `flex justify-between items-center text-sm`;
 
   return (
     <>

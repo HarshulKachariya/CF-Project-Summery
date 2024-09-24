@@ -1,7 +1,9 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { useFetchProjectDetails } from "~/hooks/usefetchProjectDetails";
 import Customer from "~/components/Customer";
+import Spiner from "~/components/Skeletons/spin";
+import { generateHtml } from "~/helpers";
 
 // Lazy-loaded components
 const ProjectSummary = lazy(() => import("../components/ProjectSummary"));
@@ -23,24 +25,25 @@ export const meta: MetaFunction = () => {
 };
 
 export type IndexProps = {
-  projectId: string;
-  userId: string;
-  compId: string;
+  projectId?: string;
+  userId?: string;
+  compId?: string;
   isLoading?: boolean;
   directoryId?: string;
 };
 
-// export default function Index() {
-export default function Index({
-  projectId,
-  userId,
-  compId,
-  directoryId,
-}: IndexProps) {
-  // const projectId = "137869";
-  // const compId = "408"; // You might want to make this dynamic too
-  // const userId = "50304"; // You might want to make this dynamic too
-  // const directoryId = "53740"; // You might want to make this dynamic too
+export default function Index() {
+  // export default function Index({
+  //   projectId,
+  //   userId,
+  //   compId,
+  //   directoryId,
+  // }: IndexProps) {
+
+  const projectId = "137342";
+  const compId = "408"; // You might want to make this dynamic too
+  const userId = "50304"; // You might want to make this dynamic too
+  const directoryId = "54584"; // You might want to make this dynamic too
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
@@ -52,9 +55,8 @@ export default function Index({
   console.log("COMPiD =======>>>>>>>>", compId);
   console.log("Loading =======>>>>>>>>", isLoading);
 
-  if (!data) return;
-
-  const { project_summary, wip_widget, customer_additional_contacts } = data;
+  const { project_summary, wip_widget, customer_additional_contacts } =
+    data || {};
 
   return (
     <>

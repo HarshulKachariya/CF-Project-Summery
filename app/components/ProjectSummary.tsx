@@ -10,8 +10,6 @@ import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 
 const ProjectSummary = ({ data, isLoading }: any) => {
-  if (!data) return;
-
   console.log("Project summery ===>>>>>>>>>", data);
 
   const {
@@ -22,7 +20,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
     remain_invoices,
     total_project_amount,
     unpaid_invoices,
-  } = data;
+  } = data || {};
 
   return (
     <>
@@ -45,7 +43,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
             <span>Change Orders (w/Tax)</span>
             <span className="project_summery_amt text-success">
               {!isLoading ? (
-                formatCurrency(Number(change_orders!))
+                formatCurrency(Number(change_orders))
               ) : (
                 <Skeleton className="w-10 h-2.5 rounded-xl" />
               )}
@@ -111,7 +109,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
               )}
             </span>
           </li>
-          {contract_amount_held && (
+          {Number(contract_amount_held) !== 0 && (
             <li className="d-flex justify-content-between">
               <span>
                 <b>Current Retention Held</b>
