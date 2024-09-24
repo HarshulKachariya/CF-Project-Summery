@@ -74,8 +74,8 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
           return `${val.toFixed(0)}%`;
         },
       },
-      min: 0,
-      max: 1000,
+      // min: 0,
+      // max: 1000,
     },
     dataLabels: {
       enabled: false,
