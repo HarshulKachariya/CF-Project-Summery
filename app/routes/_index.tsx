@@ -25,11 +25,12 @@ export const meta: MetaFunction = () => {
 };
 
 export type IndexProps = {
-  projectId?: string;
-  userId?: string;
-  compId?: string;
+  projectId: string;
+  userId: string;
+  compId: string;
   isLoading?: boolean;
   directoryId?: string;
+  currencyCode?: string;
 };
 
 // export default function Index() {
@@ -38,11 +39,22 @@ export default function Index({
   userId,
   compId,
   directoryId,
-}: IndexProps) {
+
   // const projectId = "137342";
   // const compId = "408"; // You might want to make this dynamic too
   // const userId = "50304"; // You might want to make this dynamic too
   // const directoryId = "54584"; // You might want to make this dynamic too
+  currencyCode,
+}: IndexProps) {
+  // const projectId = "137441";
+  // const compId = "408"; // You might want to make this dynamic too
+  // const userId = "50304"; // You might want to make this dynamic too
+  // const directoryId = "54584"; // You might want to make this dynamic too
+  // const compId = "422"; // You might want to make this dynamic too
+  // const userId = "51602"; // You might want to make this dynamic too
+  // const directoryId = "53740"; // You might want to make this dynamic too
+  // const currencyCode = "INR";
+
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
@@ -53,6 +65,7 @@ export default function Index({
   console.log("userId =======>>>>>>>>", userId);
   console.log("COMPiD =======>>>>>>>>", compId);
   console.log("Loading =======>>>>>>>>", isLoading);
+  console.log("currencyCode =======>>>>>>>>", currencyCode);
 
   const { project_summary, wip_widget, customer_additional_contacts } =
     data || {};
@@ -61,14 +74,18 @@ export default function Index({
     <>
       <div key={projectId}>
         <Suspense>
-          <Top data={data} isLoading={isLoading} />
+          <Top data={data} isLoading={isLoading} currencyCode={currencyCode} />
         </Suspense>
 
         <div className="row g-3 mt-1">
           <div className="col-xxl-4 col-xl-6 col-12">
             <div className="common_summary_block summary_details_block summary_projectsummery_block">
               <Suspense>
-                <ProjectSummary data={project_summary} isLoading={isLoading} />
+                <ProjectSummary
+                  data={project_summary}
+                  isLoading={isLoading}
+                  currencyCode={currencyCode}
+                />
               </Suspense>
             </div>
           </div>
@@ -76,7 +93,11 @@ export default function Index({
           <div className="col-xxl-4 col-xl-6 col-12">
             <div className="common_summary_block summary_details_block summary_costs_block">
               <Suspense>
-                <SummaryPercentages data={data} isLoading={isLoading} />
+                <SummaryPercentages
+                  data={data}
+                  isLoading={isLoading}
+                  currencyCode={currencyCode}
+                />
               </Suspense>
             </div>
           </div>
@@ -89,6 +110,7 @@ export default function Index({
                   userId={userId}
                   compId={compId}
                   isLoading={isLoading}
+                  currencyCode={currencyCode}
                 />
               </Suspense>
             </div>
@@ -105,6 +127,7 @@ export default function Index({
                       userId={userId}
                       compId={compId}
                       directoryId={directoryId}
+                      currencyCode={currencyCode}
                     />
                   </Suspense>
                 </div>
@@ -118,6 +141,7 @@ export default function Index({
                         customer_additional_contacts
                       }
                       isLoading={isLoading}
+                      currencyCode={currencyCode}
                     />
                   </Suspense>
                 </div>
@@ -127,14 +151,22 @@ export default function Index({
           <div className="col-xxl-4 col-xl-6 col-12">
             <div className="common_summary_block summary_details_block wip_details_block">
               <Suspense>
-                <WorkInprogress data={wip_widget} isLoading={isLoading} />
+                <WorkInprogress
+                  data={data}
+                  isLoading={isLoading}
+                  currencyCode={currencyCode}
+                />
               </Suspense>
             </div>
           </div>
           <div className="col-xxl-4 col-xl-6 col-12">
             <div className="common_summary_block summary_details_block summary_recentphotos_block">
               <Suspense>
-                <RecentPhotos data={data} isLoading={isLoading} />
+                <RecentPhotos
+                  data={data}
+                  isLoading={isLoading}
+                  currencyCode={currencyCode}
+                />
               </Suspense>
             </div>
           </div>
@@ -146,6 +178,7 @@ export default function Index({
                   userId={userId}
                   compId={compId}
                   isLoading={isLoading}
+                  currencyCode={currencyCode}
                 />
               </Suspense>
             </div>

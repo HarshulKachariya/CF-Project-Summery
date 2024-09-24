@@ -1,14 +1,14 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
-import { faSackDollar } from "@fortawesome/pro-solid-svg-icons";
+
 import CustomIcon from "./CustomIcon";
-import Skeleton from "./Skeletons/spin";
+
 import Spiner from "./Skeletons/spin";
-import { Float, formatCurrency, Int } from "~/helpers";
+import { chartFormatCurrency, Float, formatCurrency, Int } from "~/helpers";
 
 const ReactApexChart = require("react-apexcharts").default;
 
-const SummaryPercentages = ({ data, isLoading }: any) => {
+const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
   const [costsEstimate, setCostsEstimate] = useState<any>({
     budgeted: [],
     actual: [],
@@ -25,13 +25,18 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
   const commitedTotal = Number(all_item_total?.total?.commited_total) || 0;
   const actualTotal = Number(all_item_total?.total?.actual_total) || 0;
   const laborActualTotal = Number(all_item_total?.labor?.actual_total) || 0;
+  const estimated_labor_total =
+    Number(all_item_total?.labor?.estimated_total) || 0;
   const amountInvoiced =
     (Number(billing_vs_actual?.amount_invoiced) || 0) / 100;
   const estimatedTotal = Number(all_item_total?.total?.estimated_total) || 0;
   const originalContractAmount =
     (Number(billing_vs_actual?.original_contract_amount) || 0) / 100;
 
-  // Function to format currency
+  const invoiced_to_date =
+    Number(data?.finance_summary?.invoices?.amount_invoiced) || 0;
+  const total_project_amount =
+    Number(data?.project_summary?.total_project_amount) || 0;
 
   useEffect(() => {
     const totalPercentage = 100;
@@ -39,31 +44,32 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     setCostsEstimate({
       budgeted: [
         Float(
-          (isNaN((commitedTotal * 100) / estimatedTotal)
+          estimatedTotal === 0
             ? 0
-            : (commitedTotal * 100) / estimatedTotal
-          ).toFixed(0)
+            : isNaN((commitedTotal * 100) / estimatedTotal)
+            ? 0
+            : ((commitedTotal * 100) / estimatedTotal).toFixed(0)
         ),
         Float(
-          (isNaN((actualTotal * 100) / estimatedTotal)
+          estimatedTotal === 0
             ? 0
-            : (actualTotal * 100) / estimatedTotal
-          ).toFixed(0)
+            : isNaN((actualTotal * 100) / estimatedTotal)
+            ? 0
+            : ((actualTotal * 100) / estimatedTotal).toFixed(0)
         ),
         Float(
-          (isNaN((laborActualTotal * 100) / estimatedTotal)
+          estimated_labor_total === 0
             ? 0
-            : (laborActualTotal * 100) / estimatedTotal
-          ).toFixed(0)
+            : isNaN((laborActualTotal * 100) / estimated_labor_total)
+            ? 0
+            : ((laborActualTotal * 100) / estimated_labor_total).toFixed(0)
         ),
         Float(
-          (isNaN(
-            (billing_vs_actual?.amount_invoiced * 100) / originalContractAmount
-          )
+          total_project_amount === 0
             ? 0
-            : (billing_vs_actual?.amount_invoiced * 100) /
-              originalContractAmount
-          ).toFixed(0)
+            : isNaN((invoiced_to_date * 100) / total_project_amount)
+            ? 0
+            : ((invoiced_to_date * 100) / total_project_amount).toFixed(0)
         ),
       ],
       actual: [
@@ -85,7 +91,28 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
       },
     },
     grid: {
-      show: false,
+      show: true,
+      borderColor: "#ebebeb",
+      strokeDashArray: 4,
+      position: "back",
+      xaxis: {
+        lines: {
+          show: false,
+        },
+      },
+      yaxis: {
+        lines: {
+          show: false,
+        },
+      },
+      row: {
+        colors: undefined,
+        opacity: 1,
+      },
+      column: {
+        colors: undefined,
+        opacity: 1,
+      },
     },
     plotOptions: {
       bar: {
@@ -100,9 +127,6 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
           ],
         },
         columnWidth: "40%",
-        dataLabels: {
-          position: "top",
-        },
       },
     },
     xaxis: {
@@ -118,9 +142,13 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
       },
     },
     yaxis: {
+      title: {
+        text: "",
+      },
+
       labels: {
-        formatter: function (val: number) {
-          return `${val.toFixed(0)}%`;
+        formatter: function (value: any) {
+          return value.toFixed(0) + "%";
         },
       },
       // min: 0,
@@ -130,6 +158,7 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
       enabled: false,
     },
     stroke: {
+      show: true,
       colors: ["transparent"],
       width: 4,
     },
@@ -150,23 +179,23 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
         if (dataPointIndex === 0) {
           label1 = "Committed Cost";
           label2 = "Estimated Cost";
-          data1 = formatCurrency(commitedTotal);
-          data2 = formatCurrency(estimatedTotal);
+          data1 = chartFormatCurrency(commitedTotal, currencyCode);
+          data2 = chartFormatCurrency(estimatedTotal, currencyCode);
         } else if (dataPointIndex === 1) {
           label1 = "Actual Cost";
           label2 = "Estimated Cost";
-          data1 = formatCurrency(actualTotal);
-          data2 = formatCurrency(estimatedTotal);
+          data1 = chartFormatCurrency(actualTotal, currencyCode);
+          data2 = chartFormatCurrency(estimatedTotal, currencyCode);
         } else if (dataPointIndex === 2) {
           label1 = "Actual Labor Cost";
-          label2 = "Budgeted Labor";
-          data1 = formatCurrency(laborActualTotal);
-          data2 = formatCurrency(laborActualTotal);
+          label2 = "Est. Labor Cost";
+          data1 = chartFormatCurrency(laborActualTotal, currencyCode);
+          data2 = chartFormatCurrency(estimated_labor_total, currencyCode);
         } else if (dataPointIndex === 3) {
-          label1 = "Contract Billings";
-          label2 = "Contract Amount";
-          data1 = formatCurrency(amountInvoiced);
-          data2 = formatCurrency(originalContractAmount);
+          label1 = "Invoiced to Date";
+          label2 = "Total Project Amount";
+          data1 = chartFormatCurrency(amountInvoiced, currencyCode);
+          data2 = chartFormatCurrency(originalContractAmount, currencyCode);
         }
         return (
           "\
@@ -229,7 +258,7 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
   const series = [
     {
       name: "Budgeted",
-      data: costsEstimate?.budgeted ?? [],
+      data: costsEstimate?.budgeted,
     },
     {
       name: "Actual",

@@ -1,23 +1,68 @@
 import dayjs from "dayjs";
 
-import utc from "dayjs/plugin/utc";
 import ReactDOMServer from "react-dom/server";
 
-let CURRENCY_FORMAT = "$";
-
-export const formatCurrency = (value: any) => {
+export const formatCurrency = (
+  value: number | string,
+  code: string = "USD"
+) => {
   // Convert string to number, divide by 100 to get the correct decimal place
-  const number = parseFloat(value) / 100;
+  const number = parseFloat(value as string) / 100;
 
   // Format the number as currency
-  let formattedNumber = CURRENCY_FORMAT + number.toFixed(2);
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: code,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
-  // For negative values, insert the minus sign after the dollar sign
+  // Format the absolute value
+  let formattedNumber = formatter.format(Math.abs(number));
+
+  // For negative values, add the minus sign at the beginning
   if (number < 0) {
-    formattedNumber = formattedNumber.replace(
-      CURRENCY_FORMAT,
-      CURRENCY_FORMAT + "-"
-    );
+    // Extract the currency symbol
+    const parts = formatter.formatToParts(1);
+    const currencySymbol =
+      parts.find((part) => part.type === "currency")?.value || "";
+
+    // Remove the currency symbol, add the minus sign, then add the currency symbol back
+    formattedNumber = formattedNumber.replace(currencySymbol, "");
+    formattedNumber = currencySymbol + "-" + formattedNumber.trim();
+  }
+
+  return formattedNumber;
+};
+
+export const chartFormatCurrency = (
+  value: number | string,
+  code: string = "USD"
+) => {
+  // Convert string to number
+  const number = parseFloat(value as string);
+
+  // Format the number as currency
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: code,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  // Format the absolute value
+  let formattedNumber = formatter.format(Math.abs(number));
+
+  // For negative values, add the minus sign at the beginning
+  if (number < 0) {
+    // Extract the currency symbol
+    const parts = formatter.formatToParts(1);
+    const currencySymbol =
+      parts.find((part) => part.type === "currency")?.value || "";
+
+    // Remove the currency symbol, add the minus sign, then add the currency symbol back
+    formattedNumber = formattedNumber.replace(currencySymbol, "");
+    formattedNumber = currencySymbol + "-" + formattedNumber.trim();
   }
 
   return formattedNumber;

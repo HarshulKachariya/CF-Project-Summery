@@ -9,7 +9,7 @@ interface ItemsProps {
   color?: string;
   tooltipText?: string;
 }
-const WorkInprogress = ({ data, isLoading }: any) => {
+const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
   // if (!data) {
   //   return;
   // }
@@ -24,31 +24,33 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     under_billing,
   } = data || {};
 
+  const total_project_amount = data?.billing_vs_actual?.amount_invoiced || 0;
+
   const Items: ItemsProps[] = [
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
-      value: `${formatCurrency(Number(original_contract_amount))}
+      value: `${formatCurrency(Number(original_contract_amount), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 2,
       label: "Invoiced to Date (no/Tax)",
-      value: `${formatCurrency(Number(original_contract_amount))}
+      value: `${formatCurrency(Number(total_project_amount), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
       label: "Current Cost Budget",
-      value: `${formatCurrency(Number(current_cost_budget))}`,
+      value: `${formatCurrency(Number(current_cost_budget), currencyCode)}`,
       color: "text-danger",
     },
     {
       id: 4,
       label: "Total Actual Costs",
-      value: `${formatCurrency(Number(total_actual_cost))}`,
+      value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
       color: "text-danger",
     },
     {
@@ -68,14 +70,14 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     {
       id: 7,
       label: "Earned Revenue",
-      value: `${formatCurrency(Number(earned_revenue))}`,
+      value: `${formatCurrency(Number(earned_revenue), currencyCode)}`,
       color: "text-success",
       tooltipText: "Current Contact Value Multiplied by forecasted % Complete",
     },
     {
       id: 8,
       label: "Over Billings",
-      value: `${formatCurrency(Number(over_billing))}`,
+      value: `${formatCurrency(Number(over_billing), currencyCode)}`,
       color: "text-success",
       tooltipText:
         "Earned Revenue Minus Current Billings if Earned Revenue is less than Current Billings",
@@ -83,7 +85,7 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     {
       id: 9,
       label: " Under Billings",
-      value: `${formatCurrency(Number(under_billing))}`,
+      value: `${formatCurrency(Number(under_billing), currencyCode)}`,
       color: "text-danger",
       tooltipText:
         "Earned Revenue Minus Current Billings if Earned Revenue is greater than Current Billings",

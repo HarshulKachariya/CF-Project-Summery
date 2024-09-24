@@ -19,7 +19,7 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
     )}`;
   } else {
     // Handle case where neither coordinates nor address is provided
-    return <div>No location data available</div>;
+    return <></>;
   }
 
   return (
