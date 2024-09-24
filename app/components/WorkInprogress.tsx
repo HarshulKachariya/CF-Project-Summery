@@ -22,7 +22,6 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     over_billing,
     total_actual_cost,
     under_billing,
-    tooltipText,
   } = data || {};
 
   const Items: ItemsProps[] = [
@@ -120,7 +119,7 @@ const WorkInprogress = ({ data, isLoading }: any) => {
               {isLoading ? (
                 <div className="custom-shimmer amt_shimmer"></div>
               ) : (
-                <Tooltip title={tooltipText} placement="top">
+                <Tooltip title={i.tooltipText} placement="top">
                   <span className={`${i.color} project_summery_amt`}>
                     {i.value}
                   </span>
