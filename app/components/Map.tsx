@@ -1,25 +1,33 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faExpand } from "@fortawesome/sharp-regular-svg-icons";
 
 const MapComponent = ({ latitude, longitude, address }: any) => {
-  const location = address;
+  let iframeSrc, googleMapsUrl;
 
-  const iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
-    location
-  )}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
-
-  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    location
-  )}`;
+  if (latitude && longitude) {
+    // Use latitude and longitude if available
+    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&z=13&output=embed`;
+    googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+  } else if (address) {
+    // Use address if latitude and longitude are not available
+    iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+      address
+    )}&z=13&output=embed`;
+    googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      address
+    )}`;
+  } else {
+    // Handle case where neither coordinates nor address is provided
+    return <div>No location data available</div>;
+  }
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="relative">
       <iframe
         width="260"
         height="220"
-        style={{ border: 0 }}
+        className="border-0"
         src={iframeSrc}
         allowFullScreen
         aria-hidden="false"
@@ -29,15 +37,7 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
         href={googleMapsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          backgroundColor: "white",
-          border: "none",
-          cursor: "pointer",
-          zIndex: 30,
-        }}
+        className="absolute top-2 right-2 bg-white border-none cursor-pointer z-30"
       >
         <FontAwesomeIcon
           icon={faExpand}

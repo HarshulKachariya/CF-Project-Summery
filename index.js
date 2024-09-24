@@ -1,10 +1,13 @@
 let componentLoaded = false;
 
-async function getSummary(proId = 140199) {
+async function getSummary(proId = 137238) {
   const rootId = "root1";
-  const compId = "422"; // You might want to make this dynamic too
-  const userId = "51602"; // You might want to make this dynamic too
-  const directoryId = "53740"; // You might want to make this dynamic too
+  // const compId = "422"; // You might want to make this dynamic too
+  // const userId = "51602"; // You might want to make this dynamic too
+  // const directoryId = "53740"; // You might want to make this dynamic too
+  const compId = "408"; // You might want to make this dynamic too
+  const userId = "50304"; // You might want to make this dynamic too
+  const directoryId = "54584"; // You might want to make this dynamic too
 
   const root = document.getElementById(rootId);
   if (!root) {

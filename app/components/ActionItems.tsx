@@ -5,11 +5,12 @@ import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import Spiner from "./Skeletons/spin";
-import { base_url, curr_date, tz } from "~/helpers";
+import { base_url, curr_date, Int, tz } from "~/helpers";
 
 const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
+  const [actionItemsChart, setActionItemsChart] = useState<any>({});
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
@@ -70,6 +71,36 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     return () => clearTimeout(timer);
   }, [projectId, userId, compId]);
 
+  useEffect(() => {
+    setActionItemsChart((prev: any) => ({
+      ...(prev ?? {}),
+      close: [
+        Number(data?.open_incomplete_item?.opnIncoBills?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoRFI?.total_close),
+        Number(data?.open_incomplete_item?.opnIncoToDo?.total_close),
+      ],
+      open: [
+        Number(data?.open_incomplete_item?.opnIncoBills?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoRFI?.total_open),
+        Number(data?.open_incomplete_item?.opnIncoToDo?.total_open),
+      ],
+      due: [
+        Number(data?.open_incomplete_item?.opnIncoBills?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoRFI?.total_due),
+        Number(data?.open_incomplete_item?.opnIncoToDo?.total_due),
+      ],
+    }));
+  }, [data]);
+
   const options: ApexOptions = {
     chart: {
       id: "chart1",
@@ -105,6 +136,10 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const invoices = data?.open_incomplete_item?.opnIncoInvoice[0] || {};
   const bills = data?.open_incomplete_item?.opnIncoBills[0] || {};
   const pos = data?.open_incomplete_item?.opnIncoPurchaseOrder[0] || {};
+  const opnIncoPunchlist =
+    data?.open_incomplete_item?.opnIncoPunchlist[0] || {};
+  const opnIncoRFI = data?.open_incomplete_item?.opnIncoRFI[0] || {};
+  const opnIncoToDo = data?.open_incomplete_item?.opnIncoToDo[0] || {};
 
   const series = [
     {
@@ -131,11 +166,35 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(pos?.total_close) || 0,
       ],
     },
+    {
+      name: "opnIncoPunchlist",
+      data: [
+        Number(opnIncoPunchlist?.total_open) || 0,
+        Number(opnIncoPunchlist?.total_due) || 0,
+        Number(opnIncoPunchlist?.total_close) || 0,
+      ],
+    },
+    {
+      name: "opnIncoRFI",
+      data: [
+        Number(opnIncoRFI?.total_open) || 0,
+        Number(opnIncoRFI?.bill_count) || 0,
+        Number(opnIncoRFI?.total_close) || 0,
+      ],
+    },
+    {
+      name: "opnIncoToDo",
+      data: [
+        Number(opnIncoToDo?.total_open) || 0,
+        Number(opnIncoToDo?.bill_count) || 0,
+        Number(opnIncoToDo?.total_close) || 0,
+      ],
+    },
   ];
 
   if (data?.length <= 0) {
     console.log("<<<<<==== Data not Available ====>>>>>");
-    return <div>Loading Charts</div>;
+    return <Spiner />;
   }
 
   return (

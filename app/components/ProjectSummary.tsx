@@ -111,7 +111,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
               )}
             </span>
           </li>
-          {contract_amount_held && (
+          {Number(contract_amount_held) !== 0 && (
             <li className="d-flex justify-content-between">
               <span>
                 <b>Current Retention Held</b>

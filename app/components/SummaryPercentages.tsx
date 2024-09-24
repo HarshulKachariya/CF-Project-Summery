@@ -4,18 +4,32 @@ import { faSackDollar } from "@fortawesome/pro-solid-svg-icons";
 import CustomIcon from "./CustomIcon";
 import Skeleton from "./Skeletons/spin";
 import Spiner from "./Skeletons/spin";
+import { Float, Int } from "~/helpers";
 
 const ReactApexChart = require("react-apexcharts").default;
 
 const SummaryPercentages = ({ data, isLoading }: any) => {
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  const [costsEstimate, setCostsEstimate] = useState<any>({
+    budgeted: [],
+    actual: [],
+  });
 
+  // const [ReactApexChart, setReactApexChart] = useState<any>();
   // useEffect(() => {
   //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
   // }, []);
 
   const billing_vs_actual = data?.billing_vs_actual || {};
   const all_item_total = data?.all_item_total || {};
+
+  const commitedTotal = Number(all_item_total?.total?.commited_total) || 0;
+  const actualTotal = Number(all_item_total?.total?.actual_total) || 0;
+  const laborActualTotal = Number(all_item_total?.labor?.actual_total) || 0;
+  const amountInvoiced =
+    (Number(billing_vs_actual?.amount_invoiced) || 0) / 100;
+  const estimatedTotal = Number(all_item_total?.total?.estimated_total) || 0;
+  const originalContractAmount =
+    (Number(billing_vs_actual?.original_contract_amount) || 0) / 100;
 
   // Function to format currency
   const formatCurrency = (value: any) => {
@@ -27,15 +41,98 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     }).format(value);
   };
 
+  useEffect(() => {
+    const totalPercentage = 100;
+    let actualTotal = 0; // committed
+    let estimatedTotal = 0; // estimatted
+    let actualActualTotal = 0; // committed
+    let actualEstimatedTotal = 0; // estimatted
+    let laborTotal = 0; // committed
+    let laborEstimatedTotal = 0; // estimatted
+
+    let original_contract_amount = originalContractAmount;
+    let billed_amount = Int(data?.billed_amount) / 100;
+
+    let item_totals: any = data?.project_cost;
+    Array(
+      "material",
+      "equipment",
+      "labor",
+      "sub_contractor",
+      "other_item",
+      "total",
+      "expense",
+      "unassigned"
+    )?.forEach(function (ary, index) {
+      if (ary == "total") {
+        if (item_totals?.[ary]) {
+          actualTotal = item_totals?.[ary]?.["commited_total"];
+          estimatedTotal = item_totals?.[ary]?.["estimated_total"];
+          actualEstimatedTotal = item_totals?.[ary]?.["estimated_total"];
+          actualActualTotal = item_totals?.[ary]?.["actual_total"];
+        }
+      }
+      if (ary == "labor") {
+        if (item_totals?.[ary]) {
+          laborTotal = item_totals?.[ary]?.["commited_total"];
+          laborEstimatedTotal = item_totals?.[ary]?.["estimated_total"];
+        }
+      }
+    });
+
+    setCostsEstimate({
+      budgeted: [
+        Float(
+          (isNaN((actualTotal * 100) / estimatedTotal)
+            ? 0
+            : (actualTotal * 100) / estimatedTotal
+          ).toFixed(0)
+        ),
+        Float(
+          (isNaN((actualActualTotal * 100) / actualEstimatedTotal)
+            ? 0
+            : (actualActualTotal * 100) / actualEstimatedTotal
+          ).toFixed(0)
+        ),
+        Float(
+          (isNaN((laborTotal * 100) / laborEstimatedTotal)
+            ? 0
+            : (laborTotal * 100) / laborEstimatedTotal
+          ).toFixed(0)
+        ),
+        Float(
+          (isNaN((billed_amount * 100) / original_contract_amount)
+            ? 0
+            : (billed_amount * 100) / original_contract_amount
+          ).toFixed(0)
+        ),
+      ],
+      actual: [
+        totalPercentage,
+        totalPercentage,
+        totalPercentage,
+        totalPercentage,
+      ],
+      actual_total: !isNaN(actualTotal) ? Float(actualTotal) : 0,
+      estimated_total: !isNaN(estimatedTotal) ? Float(estimatedTotal) : 0,
+      actual_actual_total: !isNaN(actualActualTotal)
+        ? Float(actualActualTotal)
+        : 0,
+      actual_estimated_total: !isNaN(actualEstimatedTotal)
+        ? Float(actualEstimatedTotal)
+        : 0,
+      labor_total: !isNaN(laborTotal) ? Float(laborTotal) : 0,
+      labor_estimated_total: !isNaN(laborEstimatedTotal)
+        ? Float(laborEstimatedTotal)
+        : 0,
+      billed_amount: !isNaN(billed_amount) ? Float(billed_amount) : 0,
+      original_contract_amount: !isNaN(original_contract_amount)
+        ? Float(original_contract_amount)
+        : 0,
+    });
+  }, [data]);
+
   // Sanitize and validate data before using in chart
-  const commitedTotal = Number(all_item_total?.total?.commited_total) || 0;
-  const actualTotal = Number(all_item_total?.total?.actual_total) || 0;
-  const laborActualTotal = Number(all_item_total?.labor?.actual_total) || 0;
-  const amountInvoiced =
-    (Number(billing_vs_actual?.amount_invoiced) || 0) / 100;
-  const estimatedTotal = Number(all_item_total?.total?.estimated_total) || 0;
-  const originalContractAmount =
-    (Number(billing_vs_actual?.original_contract_amount) || 0) / 100;
 
   const options: ApexOptions = {
     chart: {
@@ -92,23 +189,23 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
         if (dataPointIndex === 0) {
           label1 = "Committed Cost";
           label2 = "Estimated Cost";
-          data1 = commitedTotal;
-          data2 = estimatedTotal;
+          data1 = commitedTotal.toFixed(0);
+          data2 = estimatedTotal.toFixed(0);
         } else if (dataPointIndex === 1) {
           label1 = "Actual Cost";
           label2 = "Estimated Cost";
-          data1 = actualTotal;
-          data2 = estimatedTotal;
+          data1 = actualTotal.toFixed(0);
+          data2 = estimatedTotal.toFixed(0);
         } else if (dataPointIndex === 2) {
           label1 = "Actual Labor Cost";
           label2 = "Budgeted Labor";
-          data1 = laborActualTotal;
-          data2 = laborActualTotal;
+          data1 = laborActualTotal.toFixed(0);
+          data2 = laborActualTotal.toFixed(0);
         } else if (dataPointIndex === 3) {
           label1 = "Contract Billings";
           label2 = "Contract Amount";
-          data1 = amountInvoiced;
-          data2 = originalContractAmount;
+          data1 = amountInvoiced.toFixed(0);
+          data2 = originalContractAmount.toFixed(0);
         }
         return (
           "\
@@ -153,23 +250,18 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
 
   const series = [
     {
-      name: "Invoiced to Date",
-      data: [commitedTotal, actualTotal, laborActualTotal, amountInvoiced],
+      name: "Budgeted",
+      data: costsEstimate?.budgeted ?? [],
     },
     {
-      name: "Total Project Amount",
-      data: [
-        estimatedTotal,
-        actualTotal,
-        laborActualTotal,
-        originalContractAmount,
-      ],
+      name: "Actual",
+      data: costsEstimate?.actual,
     },
   ];
 
   if (!data) {
     console.log("<<<<<==== Data not Available ====>>>>>");
-    return <div>Loading Charts</div>;
+    return <Spiner />;
   }
 
   return (
@@ -194,26 +286,3 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
 };
 
 export default SummaryPercentages;
-
-const ChartSkeleton = () => {
-  return (
-    <div className="relative h-64">
-      {/* Y-axis labels */}
-      <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between py-2">
-        {[...Array(6)].map((_, index) => (
-          <Skeleton key={index} className="w-10 h-2" />
-        ))}
-      </div>
-
-      {/* Chart bars */}
-      <div className="absolute left-14  right-0 top-0 bottom-8 flex justify-between items-end">
-        {[10, 16, 60, 20, 40].map((height, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <Skeleton className={`w-12 mb-1 h-${height}`} />
-            <Skeleton className="w-16 h-2" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
