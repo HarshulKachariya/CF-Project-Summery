@@ -225,20 +225,58 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     s.data.some((value) => value > 0)
   );
 
-  if (data?.length <= 0) {
-    console.log("<<<<<==== Data not Available ====>>>>>");
-    return <Spiner />;
-  }
+  // if (data?.length <= 0) {
+  //   console.log("<<<<<==== Data not Available ====>>>>>");
+  //   return <Spiner />;
+  // }
 
   return (
     <>
       <CustomIcon icon="fa-solid fa-box-circle-check" label="Action Items" />
-      <div className="summary_details_block_body">
-        {!ReactApexChart ? (
-          <Spiner />
+      <div className="summary_details_block_body position-relative">
+        {data?.length <= 0 ? (
+          <div
+            className="chart-bar-loader chart-horizontal"
+            style={{ height: 250 }}
+          >
+            <ul className="chart-bar-xaxis">
+              <li className="xaxis-1">
+                <span></span>
+              </li>
+              <li className="xaxis-2">
+                <span></span>
+              </li>
+              <li className="xaxis-3">
+                <span></span>
+              </li>
+              <li className="xaxis-4">
+                <span></span>
+              </li>
+              <li className="xaxis-5">
+                <span></span>
+              </li>
+              <li className="xaxis-6">
+                <span></span>
+              </li>
+            </ul>
+            <div className="chart-bar-shimmer">
+              <div className="bar-shimmer bar-1">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-2">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-3">
+                <span></span>
+              </div>
+            </div>
+          </div>
         ) : (
           <>
-            {!isLoading ? (
+            {" "}
+            {!ReactApexChart ? (
+              <></>
+            ) : (
               <Suspense>
                 <ReactApexChart
                   type="bar"
@@ -247,8 +285,6 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
                   series={filteredSeries}
                 />
               </Suspense>
-            ) : (
-              <Spiner />
             )}
           </>
         )}

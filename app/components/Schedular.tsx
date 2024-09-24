@@ -13,7 +13,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [scheduler, setscheduler] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const schedulerContainer = useRef<HTMLDivElement>(null);
-
+  // const rows = Array.from({ length: 6 });
   // Function to dynamically load the DHTMLX scheduler script
   const loadSchedulerScript = () => {
     return new Promise<void>((resolve, reject) => {
@@ -88,7 +88,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       scheduler.config.default_date = "%M %j, %Y";
       scheduler.locale.labels.section_title = "Title";
       scheduler.locale.labels.section_assigned_to = "Assigned To";
-      scheduler.locale.labels.export_tab = "<i class='fa fa-print'></i>";
+      scheduler.locale.labels.export_tab = "<i className='fa fa-print'></i>";
       scheduler.config.dblclick_create = false;
       scheduler.config.className = "dhtmlXTooltip tooltip";
       scheduler.config.timeout_to_display = 50;
@@ -135,7 +135,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
         end: any,
         event: any
       ) => {
-        return `<div class="event-title">${event.text}</div>`;
+        return `<div className="event-title">${event.text}</div>`;
       };
 
       // Customize multi-day events
@@ -145,7 +145,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
         end: any,
         event: any
       ) => {
-        return `<div class="custom-event-content">${event.text}</div>`;
+        return `<div className="custom-event-content">${event.text}</div>`;
       };
 
       const currentDate = new Date();
@@ -177,8 +177,80 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
             ></div>
           </div>
         ) : (
-          <div className="mt-3 h-full">
-            <Spiner className={`${!isLoading && "min-h-48"}`} />
+          <div className="loading center h-full">
+            <table className="table border mt-md">
+              <thead>
+                <tr className="shimmer_loader_table">
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                  <th className="text-center">
+                    <div className="wrapper_shimmer">
+                      <div className="shimmer-line"></div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Loop through rows to generate table body */}
+                {[...Array(6)].map((_, i) => (
+                  <tr className="shimmer_loader_table">
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                    <td className="text-start">
+                      <div className="wrapper_shimmer">
+                        <div className="shimmer-line"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

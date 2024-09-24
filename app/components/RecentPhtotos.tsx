@@ -28,12 +28,13 @@ const RecentPhotos = ({ data, isLoading }: any) => {
       <div className="summary_details_block_body">
         {isLoading ? (
           <div className="grid grid-cols-5 gap-4 mt-4 w-full">
-            {[...Array(10)].map((_, i) => (
-              <Skeleton
-                key={i}
-                className="w-20 h-20 rounded-md col-span-1"
-              ></Skeleton>
-            ))}
+            <div className="recent-photos-content mt-sm customScroll">
+              {[...Array(10)].map((_, i) => (
+                <>
+                  <div className="recent-photos-block rpb-shimmer"></div>
+                </>
+              ))}
+            </div>
           </div>
         ) : (
           <>

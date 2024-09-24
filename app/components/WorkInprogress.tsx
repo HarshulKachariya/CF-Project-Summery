@@ -1,14 +1,18 @@
-import { faFileLines } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
-import { useEffect, useState } from "react";
-import Skeleton from "./Skeletons/spin";
 import { Tooltip } from "antd";
 
+interface ItemsProps {
+  id: any;
+  label?: any;
+  value?: any;
+  color?: string;
+  tooltipText?: string;
+}
 const WorkInprogress = ({ data, isLoading }: any) => {
-  if (!data) {
-    return;
-  }
+  // if (!data) {
+  //   return;
+  // }
   const {
     cost_completed,
     current_cost_budget,
@@ -18,9 +22,10 @@ const WorkInprogress = ({ data, isLoading }: any) => {
     over_billing,
     total_actual_cost,
     under_billing,
-  } = data;
+    tooltipText,
+  } = data || {};
 
-  const Items = [
+  const Items: ItemsProps[] = [
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
@@ -52,30 +57,37 @@ const WorkInprogress = ({ data, isLoading }: any) => {
       label: "Cost % Complete",
       value: `${Number(cost_completed!).toFixed(2)}%`,
       color: "",
+      tooltipText: "Total Actual Costs Divided by Current Cost Budget",
     },
     {
       id: 6,
       label: "Forecasted % Complete",
       value: `${Number(forcast_completed)}%`,
       color: "",
+      tooltipText: "Project Manager input",
     },
     {
       id: 7,
       label: "Earned Revenue",
       value: `${formatCurrency(Number(earned_revenue))}`,
       color: "text-success",
+      tooltipText: "Current Contact Value Multiplied by forecasted % Complete",
     },
     {
       id: 8,
       label: "Over Billings",
       value: `${formatCurrency(Number(over_billing))}`,
       color: "text-success",
+      tooltipText:
+        "Earned Revenue Minus Current Billings if Earned Revenue is less than Current Billings",
     },
     {
       id: 9,
       label: " Under Billings",
       value: `${formatCurrency(Number(under_billing))}`,
       color: "text-danger",
+      tooltipText:
+        "Earned Revenue Minus Current Billings if Earned Revenue is greater than Current Billings",
     },
   ];
 
@@ -105,13 +117,15 @@ const WorkInprogress = ({ data, isLoading }: any) => {
           {Items.map((i) => (
             <li className="d-flex justify-content-between" key={i.id}>
               <span>{i.label}</span>
-              <span className="project_summery_amt">
-                {isLoading ? (
-                  <Skeleton className="odd:w-12 h-2.5 rounded-xl" />
-                ) : (
-                  <span className={`${i.color} font-semibold`}>{i.value}</span>
-                )}
-              </span>
+              {isLoading ? (
+                <div className="custom-shimmer amt_shimmer"></div>
+              ) : (
+                <Tooltip title={tooltipText} placement="top">
+                  <span className={`${i.color} project_summery_amt`}>
+                    {i.value}
+                  </span>
+                </Tooltip>
+              )}
             </li>
           ))}
         </ul>

@@ -55,20 +55,24 @@ const Invoiced = ({ data, isLoading }: any) => {
         label="Invoiced vs Actual"
       />
       <div className="summary_details_block_body">
-        {isLoading ? (
+        {/* {isLoading ? (
           <InvoicedSkeleton />
-        ) : (
-          <ul className="mt-sm">
-            {Items.map((i) => (
-              <li className="d-flex justify-content-between" key={i.id}>
-                <span>{i.label}</span>
+        ) : ( */}
+        <ul className="mt-sm">
+          {Items.map((i) => (
+            <li className="d-flex justify-content-between" key={i.id}>
+              <span>{i.label}</span>
+              {isLoading ? (
+                <div className="custom-shimmer amt_shimmer"></div>
+              ) : (
                 <span className={`${i.color} project_summery_amt`}>
                   {i.value}
                 </span>
-              </li>
-            ))}
-          </ul>
-        )}
+              )}
+            </li>
+          ))}
+        </ul>
+        {/* )} */}
       </div>
     </>
   );
@@ -76,30 +80,30 @@ const Invoiced = ({ data, isLoading }: any) => {
 
 export default Invoiced;
 
-const InvoicedSkeleton = () => {
-  const commonStyle = `flex justify-between items-center text-sm`;
+// const InvoicedSkeleton = () => {
+//   const commonStyle = `flex justify-between items-center text-sm`;
 
-  return (
-    <div className="space-y-1 mt-3">
-      <p className={commonStyle}>
-        Total Project Amount (no/Tax){" "}
-        <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-      </p>
-      <p className={commonStyle}>
-        Invoiced to Date (no/Tax) (77%){" "}
-        <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
-      </p>
-      <p className={commonStyle}>
-        Remaining to Invoice (no/Tax) (23%){" "}
-        <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-      </p>
-      <p className={commonStyle}>
-        Total Actual Costs{" "}
-        <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
-      </p>
-      <p className={commonStyle}>
-        Gross Profit <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-      </p>
-    </div>
-  );
-};
+//   return (
+//     <div className="space-y-1 mt-3">
+//       <p className={commonStyle}>
+//         Total Project Amount (no/Tax){" "}
+//         <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
+//       </p>
+//       <p className={commonStyle}>
+//         Invoiced to Date (no/Tax) (77%){" "}
+//         <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
+//       </p>
+//       <p className={commonStyle}>
+//         Remaining to Invoice (no/Tax) (23%){" "}
+//         <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
+//       </p>
+//       <p className={commonStyle}>
+//         Total Actual Costs{" "}
+//         <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
+//       </p>
+//       <p className={commonStyle}>
+//         Gross Profit <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
+//       </p>
+//     </div>
+//   );
+// };

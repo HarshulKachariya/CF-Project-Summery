@@ -200,7 +200,7 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
         );
       },
     },
-    colors: ["#7d89a9", "#f5c85e"],
+    colors: ["#63759A", "#F9BE3F"],
     legend: {
       show: false,
       position: "top",
