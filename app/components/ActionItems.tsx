@@ -241,11 +241,6 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     s.data.some((value) => value > 0)
   );
 
-  // if (data?.length <= 0) {
-  //   console.log("<<<<<==== Data not Available ====>>>>>");
-  //   return <Spiner />;
-  // }
-
   return (
     <>
       <CustomIcon icon="fa-solid fa-box-circle-check" label="Action Items" />

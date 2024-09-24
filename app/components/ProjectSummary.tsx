@@ -121,7 +121,7 @@ const ProjectSummary = ({ data, isLoading, currencyCode }: any) => {
             </span>
             <span className="project_summery_amt">
               {!isLoading ? (
-                <b>formatCurrency(Number(remain_invoices), currencyCode)</b>
+                <b>{formatCurrency(Number(remain_invoices), currencyCode)}</b>
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}

@@ -1,7 +1,4 @@
-import { faFileChartColumn } from "@fortawesome/pro-solid-svg-icons";
 import { formatCurrency } from "~/helpers";
-
-import Skeleton from "./Skeletons/spin";
 import CustomIcon from "./CustomIcon";
 
 const Invoiced = ({ data, isLoading, currencyCode }: any) => {
@@ -79,31 +76,3 @@ const Invoiced = ({ data, isLoading, currencyCode }: any) => {
 };
 
 export default Invoiced;
-
-// const InvoicedSkeleton = () => {
-//   const commonStyle = `flex justify-between items-center text-sm`;
-
-//   return (
-//     <div className="space-y-1 mt-3">
-//       <p className={commonStyle}>
-//         Total Project Amount (no/Tax){" "}
-//         <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-//       </p>
-//       <p className={commonStyle}>
-//         Invoiced to Date (no/Tax) (77%){" "}
-//         <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
-//       </p>
-//       <p className={commonStyle}>
-//         Remaining to Invoice (no/Tax) (23%){" "}
-//         <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-//       </p>
-//       <p className={commonStyle}>
-//         Total Actual Costs{" "}
-//         <Skeleton className="w-10 h-2.5 rounded-xl"></Skeleton>
-//       </p>
-//       <p className={commonStyle}>
-//         Gross Profit <Skeleton className="w-12 h-2.5 rounded-xl"></Skeleton>
-//       </p>
-//     </div>
-//   );
-// };
