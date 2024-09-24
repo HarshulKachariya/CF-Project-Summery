@@ -99,6 +99,28 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     legend: {
       show: true,
       position: "top",
+      onItemClick: {
+        toggleDataSeries: false,
+      },
+    },
+    states: {
+      normal: {
+        filter: {
+          type: "none",
+        },
+      },
+      hover: {
+        filter: {
+          type: "none",
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "none",
+          value: 0.35,
+        },
+      },
     },
   };
 

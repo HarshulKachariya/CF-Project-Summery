@@ -58,6 +58,15 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     },
     xaxis: {
       categories: ["Committed", "Actual", "Labor", "Invoiced"],
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        rotate: 0,
+        rotateAlways: false,
+        hideOverlappingLabels: false,
+        trim: true,
+      },
     },
     yaxis: {
       labels: {
@@ -112,35 +121,33 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
         }
         return (
           "\
-                            <div class='tooltip-box-block'>\
-                                <div class='tooltip_inner_block'>\
-                                    <div class='bg-[#ECEFF1] border-b border-solid border-[#ddd] text-13 font-medium leading-4 p-1.5 mb-1'>" +
+                    <div class='tooltip_outer_block'>\
+                        <div class='tooltip_inner_block'>\
+                            <div class='apexcharts-tooltip-title'>" +
           title +
           "</div>\
-                                    <div class='tooltip-box-body'>\
-                                        <div class='tooltip-group-div !py-1 gap-1'>\
-                                            <div class='flex items-center text-xs text-primary-900'>\
-                                                <small class='w-2.5 h-2.5 bg-[#63759A] rounded-full mr-0.5 inline-block'></small>\
-                                                " +
+                            <div class='budget_amount'>\
+                                <div class='lable_text'>\
+                                    <small class='blue_dot'></small>\
+                                    " +
           label1 +
           ": </div>\
-                                                <CFTypography title='small' class='text-xs text-primary-900'> " +
+                                <span class='lable_amount'> " +
           data1 +
-          "</CFTypography >\
-                                        </div >\
-                                        <div class='tooltip-group-div !py-1 gap-1'>\
-                                            <div class='flex items-center text-xs text-primary-900'>\
-                                            <small class='w-2.5 h-2.5 bg-[#F9BE3F] rounded-full mr-0.5 inline-block'></small>\
-                                            " +
+          "</span >\
+                            </div >\
+                            <div class='actual_amount'>\
+                                <div class='lable_text'>\
+                                <small class='yellow_dot'></small>\
+                                " +
           label2 +
           ": </div >\
-                                            <CFTypography title='small' class='text-xs text-primary-900'> " +
+                                <span class='lable_amount'> " +
           data2 +
-          "</CFTypography>\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                            </div>"
+          "</span>\
+                            </div>\
+                        </div>\
+                    </div>"
         );
       },
     },
@@ -148,6 +155,25 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     legend: {
       show: false,
       position: "top",
+    },
+    states: {
+      normal: {
+        filter: {
+          type: "none",
+        },
+      },
+      hover: {
+        filter: {
+          type: "none",
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "none",
+          value: 0.35,
+        },
+      },
     },
   };
 

@@ -32,8 +32,8 @@ const ProjectSummary = ({ data, isLoading }: any) => {
         {/* top */}
         <ul className="project_summery_list mt-sm">
           <li className="d-flex justify-content-between">
-            Original Contract Amount (w/Tax){" "}
-            <span className="text-emerald-600 font-semibold">
+            <span>Original Contract Amount (w/Tax) </span>
+            <span className="project_summery_amt text-success">
               {!isLoading ? (
                 formatCurrency(Number(original_contract_amount))
               ) : (
@@ -41,16 +41,16 @@ const ProjectSummary = ({ data, isLoading }: any) => {
               )}
             </span>
           </li>
-          <p className="d-flex justify-content-between ">
-            Change Orders (w/Tax)
-            <span className="text-emerald-600 font-semibold">
+          <li className="d-flex justify-content-between">
+            <span>Change Orders (w/Tax)</span>
+            <span className="project_summery_amt text-success">
               {!isLoading ? (
                 formatCurrency(Number(change_orders!))
               ) : (
                 <Skeleton className="w-10 h-2.5 rounded-xl" />
               )}
             </span>
-          </p>
+          </li>
           <i className="fa-regular fa-plus maths-symbols"></i>
         </ul>
 
@@ -105,7 +105,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
             </span>
             <span className="project_summery_amt">
               {!isLoading ? (
-                formatCurrency(Number(remain_invoices))
+                <b>{formatCurrency(Number(remain_invoices))}</b>
               ) : (
                 <Skeleton className="w-12 h-2.5 rounded-xl" />
               )}
@@ -118,7 +118,7 @@ const ProjectSummary = ({ data, isLoading }: any) => {
               </span>
               <span className="project_summery_amt">
                 {!isLoading ? (
-                  formatCurrency(Number(contract_amount_held))
+                  <b>{formatCurrency(Number(contract_amount_held))}</b>
                 ) : (
                   <Skeleton className="w-10 h-2.5 rounded-xl" />
                 )}
