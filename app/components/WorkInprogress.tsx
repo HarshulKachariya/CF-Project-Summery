@@ -26,6 +26,7 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
       value: `${formatCurrency(Number(original_contract_amount), currencyCode)}
 `,
       color: "text-success",
+      tooltipLabel: "",
     },
     {
       id: 2,
@@ -33,48 +34,58 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
       value: `${formatCurrency(Number(total_project_amount), currencyCode)}
 `,
       color: "text-success",
+      tooltipLabel: "",
     },
     {
       id: 3,
       label: "Current Cost Budget",
       value: `${formatCurrency(Number(current_cost_budget), currencyCode)}`,
       color: "text-danger",
+      tooltipLabel: "",
     },
     {
       id: 4,
       label: "Total Actual Costs",
       value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
       color: "text-danger",
+      tooltipLabel: "",
     },
     {
       id: 5,
       label: "Cost % Complete",
       value: `${Number(cost_completed!).toFixed(2)}%`,
       color: "",
+      tooltipLabel: "Total Actual cost Divided by current Cost Budget",
     },
     {
       id: 6,
       label: "Forecasted % Complete",
       value: `${Number(forcast_completed)}%`,
       color: "",
+      tooltipLabel: "Project Manager Input",
     },
     {
       id: 7,
       label: "Earned Revenue",
       value: `${formatCurrency(Number(earned_revenue), currencyCode)}`,
       color: "text-success",
+      tooltipLabel: "Current Conatct value Multiplied by Forecasted % Complete",
     },
     {
       id: 8,
       label: "Over Billings",
       value: `${formatCurrency(Number(over_billing), currencyCode)}`,
       color: "text-success",
+      tooltipLabel:
+        "Earned Revenue Minus Current Billings if Earned Revenue is less than Current Billings",
     },
     {
       id: 9,
       label: " Under Billings",
       value: `${formatCurrency(Number(under_billing), currencyCode)}`,
       color: "text-danger",
+      tooltipLabel:
+        "Earned Revenue Minus Current Billings if Earned Revenue is greater than Current Billings",
     },
   ];
 
@@ -108,7 +119,11 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
                 {isLoading ? (
                   <Skeleton className="odd:w-12 h-2.5 rounded-xl" />
                 ) : (
-                  <span className={`${i.color} font-semibold`}>{i.value}</span>
+                  <Tooltip title={i.value !== "" && i.value} placement="left">
+                    <span className={`${i.color} font-semibold`}>
+                      {i.value}
+                    </span>
+                  </Tooltip>
                 )}
               </span>
             </li>
