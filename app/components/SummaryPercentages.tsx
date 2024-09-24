@@ -237,26 +237,71 @@ const SummaryPercentages = ({ data, isLoading }: any) => {
     },
   ];
 
-  if (!data) {
-    console.log("<<<<<==== Data not Available ====>>>>>");
-    return <Spiner />;
-  }
+  // if (!data) {
+  //   console.log("<<<<<==== Data not Available ====>>>>>");
+  //   return <Spiner />;
+  // }
 
   return (
     <>
       <CustomIcon icon="fa-solid fa-sack-dollar" label="Summary Percentages" />
-      <div className="summary_details_block_body">
-        {!ReactApexChart ? (
-          <Spiner />
+      <div className="summary_details_block_body position-relative">
+        {!data ? (
+          <div className="chart-bar-loader" style={{ height: 250 }}>
+            <ul className="chart-bar-yaxis">
+              <li className="yaxis-1">
+                <span></span>
+              </li>
+              <li className="yaxis-2">
+                <span></span>
+              </li>
+              <li className="yaxis-3">
+                <span></span>
+              </li>
+              <li className="yaxis-4">
+                <span></span>
+              </li>
+              <li className="yaxis-5">
+                <span></span>
+              </li>
+              <li className="yaxis-6">
+                <span></span>
+              </li>
+            </ul>
+            <div className="chart-bar-shimmer">
+              <div className="bar-shimmer bar-1">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-2">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-3">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-4">
+                <span></span>
+              </div>
+              <div className="bar-shimmer bar-5">
+                <span></span>
+              </div>
+            </div>
+          </div>
         ) : (
-          <Suspense>
-            <ReactApexChart
-              type="bar"
-              options={options}
-              series={series}
-              height={250}
-            />
-          </Suspense>
+          <>
+            {" "}
+            {!ReactApexChart ? (
+              <></>
+            ) : (
+              <Suspense>
+                <ReactApexChart
+                  type="bar"
+                  options={options}
+                  series={series}
+                  height={250}
+                />
+              </Suspense>
+            )}
+          </>
         )}
       </div>
     </>

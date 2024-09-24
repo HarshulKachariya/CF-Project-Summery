@@ -126,7 +126,13 @@ const Customer = ({
                 </div>
               </>
             ) : (
-              <Spiner />
+              <div className="d-flex justify-content-between align-items-center ">
+                <div className="custom-shimmer cust_name"></div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="custom-shimmer cust_icon"></div>
+                  <div className="custom-shimmer cust_icon"></div>
+                </div>
+              </div>
             )}{" "}
           </h5>
         </div>

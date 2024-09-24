@@ -123,7 +123,7 @@ const Top = ({ data, isLoading }: any) => {
                           href={link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="truncate font-medium"
+                          className="truncate link_custom"
                         >
                           {label2}
                         </a>
@@ -140,7 +140,12 @@ const Top = ({ data, isLoading }: any) => {
                     )}
                   </p>
                 ) : (
-                  <Skeleton className="rounded-xl h-3.5" />
+                  <p className="d-flex justify-content-between mt-8">
+                    <div className="custom-shimmer amount-shimmer ms-0"></div>
+                    {values && (
+                      <div className="custom-shimmer amount-shimmer me-0"></div>
+                    )}
+                  </p>
                 )}
               </div>
             </div>
