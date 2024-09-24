@@ -49,6 +49,7 @@ export default function Index({
   // const userId = "51602"; // You might want to make this dynamic too
   // const directoryId = "53740"; // You might want to make this dynamic too
   // const currencyCode = "INR";
+
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,
     userId,
@@ -59,6 +60,7 @@ export default function Index({
   console.log("userId =======>>>>>>>>", userId);
   console.log("COMPiD =======>>>>>>>>", compId);
   console.log("Loading =======>>>>>>>>", isLoading);
+  console.log("currencyCode =======>>>>>>>>", currencyCode);
 
   const { project_summary, wip_widget, customer_additional_contacts } =
     data || {};

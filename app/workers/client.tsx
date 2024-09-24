@@ -8,10 +8,10 @@ function hydrateComponent(
   projectId: string,
   userId: string,
   compId: string,
-  directoryId: string,
-  currencyCode: string
+  directoryId: string
 ) {
   const container = document.getElementById(containerId);
+  const currencyCode = (window as any).currencyCode;
   if (container) {
     const root = hydrateRoot(
       container,
