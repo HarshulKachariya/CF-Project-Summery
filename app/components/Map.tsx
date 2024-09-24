@@ -7,13 +7,13 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
 
   if (latitude && longitude) {
     // Use latitude and longitude if available
-    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&z=13&output=embed`;
+    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&z=17&output=embed`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
   } else if (address) {
     // Use address if latitude and longitude are not available
     iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
       address
-    )}&z=13&output=embed`;
+    )}&z=17&output=embed`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address
     )}`;

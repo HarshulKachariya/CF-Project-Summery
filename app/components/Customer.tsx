@@ -25,7 +25,7 @@ const Customer = ({
     try {
       const formData = new FormData();
       formData.append("op", "get_directory_detail");
-      formData.append("directory_id", directoryId.toString());
+      formData.append("directory_id", data?.customer_id.toString());
       formData.append("need_more_data", "0");
       formData.append("for_module_key", "");
       formData.append("version", "web");
@@ -95,7 +95,7 @@ const Customer = ({
                   target="_blank"
                   className="link_custom"
                 >
-                  {data?.customer_name}
+                  {data?.customer_name !== "" ? data?.customer_name : "-"}
                 </a>
                 <div className="d-flex align-items-center">
                   <Tooltip title="Contact Details" placement="top">

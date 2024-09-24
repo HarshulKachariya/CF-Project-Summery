@@ -1,22 +1,23 @@
 import dayjs from "dayjs";
 
 import utc from "dayjs/plugin/utc";
+import ReactDOMServer from "react-dom/server";
+
+let CURRENCY_FORMAT = "$";
 
 export const formatCurrency = (value: any) => {
   // Convert string to number, divide by 100 to get the correct decimal place
   const number = parseFloat(value) / 100;
 
   // Format the number as currency
-  let formattedNumber = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(Math.abs(number));
+  let formattedNumber = CURRENCY_FORMAT + number.toFixed(2);
 
   // For negative values, insert the minus sign after the dollar sign
   if (number < 0) {
-    formattedNumber = formattedNumber.replace("$", "$-");
+    formattedNumber = formattedNumber.replace(
+      CURRENCY_FORMAT,
+      CURRENCY_FORMAT + "-"
+    );
   }
 
   return formattedNumber;
@@ -50,3 +51,9 @@ export const Int = (value: string | number | boolean | undefined) => {
 export const Float = (value: string | number | boolean | undefined) => {
   return Number(value);
 };
+
+export function generateHtml(component: any) {
+  let html = ReactDOMServer.renderToString(component);
+
+  return html;
+}

@@ -17,7 +17,7 @@ interface ItemsProps {
 }
 
 const Top = ({ data, isLoading }: any) => {
-  const { billing_vs_actual } = data;
+  const { billing_vs_actual } = data || {};
 
   const Items: ItemsProps[] = [
     {
