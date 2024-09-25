@@ -92,14 +92,16 @@ const Customer = ({
                   {data?.customer_name !== "" ? data?.customer_name : "-"}
                 </a>
                 <div className="d-flex align-items-center">
-                  <Tooltip title="Contact Details" placement="top">
-                    <span className="icon_link" onClick={handleModalOpen}>
-                      <i
-                        className="fa-regular fa-address-card"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </Tooltip>
+                  {data?.customer_name !== "" && (
+                    <Tooltip title="Contact Details" placement="top">
+                      <span className="icon_link" onClick={handleModalOpen}>
+                        <i
+                          className="fa-regular fa-address-card"
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </Tooltip>
+                  )}
                   <Tooltip
                     title="Open the Contact Details in New Tab"
                     placement="top"
