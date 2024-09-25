@@ -78,7 +78,7 @@ const Customer = ({
           <i className="fa-solid fa-user-group"></i>
         </div>
         <div className="profile_info_content">
-          <h6>Customer</h6>
+          <h6 onClick={handleModalOpen}>Customer</h6>
           <h5 className="d-flex justify-content-between align-items-center text-wrap">
             {!isLoading ? (
               <>

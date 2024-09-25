@@ -10,9 +10,6 @@ interface ItemsProps {
   tooltipText?: string;
 }
 const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
-  // if (!data) {
-  //   return;
-  // }
   const {
     cost_completed,
     current_cost_budget,
@@ -22,13 +19,29 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
     over_billing,
     total_actual_cost,
     under_billing,
-  } = data || {};
+  } = data?.wip_widget || {};
+
+  console.log(
+    "qwerty",
+    cost_completed,
+    current_cost_budget,
+    earned_revenue,
+    forcast_completed,
+    original_contract_amount,
+    over_billing,
+    total_actual_cost,
+    under_billing
+  );
 
   const total_project_amount = data?.billing_vs_actual?.amount_invoiced || 0;
 
   // Function to handle NaN or 0 values
   const formatValue = (value: any) => {
-    return isNaN(value) || value === null ? 0 : value;
+    console.log(
+      "format",
+      isNaN(Number(value)) || Number(value) === null ? 0 : Number(value)
+    );
+    return isNaN(Number(value)) || Number(value) === null ? 0 : Number(value);
   };
 
   const Items: ItemsProps[] = [
@@ -38,8 +51,7 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
       value: `${formatCurrency(
         formatValue(original_contract_amount),
         currencyCode
-      )}
-`,
+      )}`,
       color: "text-success",
     },
     {

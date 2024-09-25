@@ -1,23 +1,20 @@
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import { ApexOptions } from "apexcharts";
-import { faBoxCircleCheck } from "@fortawesome/pro-solid-svg-icons";
 import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
-import Spiner from "./Skeletons/spin";
 import { base_url, curr_date, Int, tz } from "~/helpers";
 
-const ReactApexChart = require("react-apexcharts").default;
+// const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
-  const [actionItemsChart, setActionItemsChart] = useState<any>({});
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
-  // useEffect(() => {
-  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  // }, []);
+  const [ReactApexChart, setReactApexChart] = useState<any>();
+  useEffect(() => {
+    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,39 +68,6 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     return () => clearTimeout(timer);
   }, [projectId, userId, compId]);
 
-  useEffect(() => {
-    setActionItemsChart((prev: any) => ({
-      ...(prev ?? {}),
-      close: [
-        Number(data?.open_incomplete_item?.opnIncoBills?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoRFI?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoToDo?.total_close),
-        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_close),
-      ],
-      open: [
-        Number(data?.open_incomplete_item?.opnIncoBills?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoRFI?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoToDo?.total_open),
-        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_open),
-      ],
-      due: [
-        Number(data?.open_incomplete_item?.opnIncoBills?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoInvoice?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoPurchaseOrder?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoPunchlist?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoRFI?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoToDo?.total_due),
-        Number(data?.open_incomplete_item?.opnIncoCompliance?.total_due),
-      ],
-    }));
-  }, [data]);
-
   const options: ApexOptions = {
     chart: {
       id: "chart1",
@@ -128,16 +92,9 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         },
       },
     },
+
     xaxis: { categories: ["OPEN", "DUE", "CLOSED"], tickPlacement: "on" },
-    colors: [
-      "#D53E4F",
-      "#303A52",
-      "#684CC7",
-      "#3836A1",
-      "#F46D43",
-      "#2494A4",
-      "#CC9F5D",
-    ],
+
     legend: {
       show: true,
       position: "top",
@@ -175,27 +132,34 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     data?.open_incomplete_item?.opnIncoPunchlist[0] || {};
   const opnIncoRFI = data?.open_incomplete_item?.opnIncoRFI[0] || {};
   const ToDos = data?.open_incomplete_item?.opnIncoToDo[0] || {};
-  const Compliance =
-    (data?.open_incomplete_item?.opnIncoCompliance > 0 &&
-      data?.open_incomplete_item?.opnIncoCompliance[0]) ||
-    {};
+  const Compliance = data?.open_incomplete_item?.opnIncoCompliance[0] || {};
+
+  console.log("invoices", invoices);
+  console.log("bills", bills[0]);
+  console.log("pos", pos);
+  console.log("opnIncoPunchlist", opnIncoPunchlist);
+  console.log("opnIncoRFI", opnIncoRFI);
+  console.log("ToDos", ToDos);
+  console.log("Compliance", Compliance);
 
   const series = [
     {
       name: "Bills",
       data: [
-        Number(bills?.bill_count) || 0,
+        Number(bills[2]?.bill_count) || 0,
         Number(bills[0]?.bill_count) || 0,
         Number(bills[1]?.bill_count) || 0,
       ],
+      color: "#D53E4F",
     },
     {
       name: "Compliance",
       data: [
         Number(Compliance?.total_open) || 0,
-        Number(Compliance[0]?.total_due) || 0,
-        Number(Compliance[1]?.total_close) || 0,
+        Number(Compliance?.total_due) || 0,
+        Number(Compliance?.total_close) || 0,
       ],
+      color: "#303A52",
     },
     {
       name: "Invoices",
@@ -204,6 +168,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(invoices?.total_due) || 0,
         Number(invoices?.total_close) || 0,
       ],
+      color: "#684CC7",
     },
     {
       name: "PO's",
@@ -212,6 +177,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(pos?.bill_count) || 0,
         Number(pos?.total_close) || 0,
       ],
+      color: "#3836A1",
     },
     {
       name: "Punchlists",
@@ -220,6 +186,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(opnIncoPunchlist?.total_due) || 0,
         Number(opnIncoPunchlist?.total_close) || 0,
       ],
+      color: "#F46D43",
     },
     {
       name: "RFI's",
@@ -228,14 +195,16 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         Number(opnIncoRFI?.bill_count) || 0,
         Number(opnIncoRFI?.total_close) || 0,
       ],
+      color: "#2494A4",
     },
     {
       name: "To Do's",
       data: [
         Number(ToDos?.total_open) || 0,
-        Number(ToDos?.bill_count) || 0,
+        Number(ToDos?.total_due) || 0,
         Number(ToDos?.total_close) || 0,
       ],
+      color: "#CC9F5D",
     },
   ];
 
