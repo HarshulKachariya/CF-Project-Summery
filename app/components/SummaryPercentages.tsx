@@ -108,17 +108,16 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
     },
     plotOptions: {
       bar: {
-        horizontal: false,
-        columnWidth: "40%",
         colors: {
           ranges: [
             {
-              from: 0,
-              to: 1,
+              from: -999999999999999999,
+              to: 0,
               color: "#f65200",
             },
           ],
         },
+        columnWidth: "40%",
       },
     },
     xaxis: {
