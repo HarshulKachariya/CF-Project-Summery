@@ -30,6 +30,12 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
       : Number(value).toFixed(0);
   };
 
+  const formatValue2 = (value: any) => {
+    return isNaN(Number(value)) || Number(value) === null
+      ? 0
+      : Number(value).toFixed(2);
+  };
+
   const Items: ItemsProps[] = [
     {
       id: 1,
@@ -67,7 +73,7 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
       label: "Cost % Complete",
       value: `${
         Number(cost_completed!) !== 0
-          ? formatAsCurrency(formatValue(cost_completed!))
+          ? formatAsCurrency(formatValue2(cost_completed!))
           : 0
       }%`,
       color: "",

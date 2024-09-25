@@ -31,7 +31,8 @@ export type IndexProps = {
   isLoading?: boolean;
   directoryId?: string;
   currencyCode?: string;
-  cf?: any;
+  moduleName?: any;
+  woName?: any;
 };
 
 // export default function Index() {
@@ -41,7 +42,8 @@ export default function Index({
   compId,
   directoryId,
   currencyCode,
-  cf,
+  moduleName,
+  woName,
 }: IndexProps) {
   // const projectId = "140584";
   // // const projectId = "140583";
@@ -64,7 +66,8 @@ export default function Index({
   console.log("COMPiD =======>>>>>>>>", compId);
   console.log("Loading =======>>>>>>>>", isLoading);
   console.log("currencyCode =======>>>>>>>>", currencyCode);
-  console.log("CF =======>>>>>>>>>>>>>>>>>", cf);
+  console.log("moduleName =======>>>>>>>>>>>>>>>>>", moduleName);
+  console.log("woName =======>>>>>>>>>>>>>>>>>", woName);
 
   const { project_summary, wip_widget, customer_additional_contacts } =
     data || {};
@@ -84,7 +87,8 @@ export default function Index({
                   data={project_summary}
                   isLoading={isLoading}
                   currencyCode={currencyCode}
-                  cf={cf}
+                  moduleName={moduleName}
+                  woName={woName}
                 />
               </Suspense>
             </div>

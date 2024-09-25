@@ -1,7 +1,13 @@
 import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 
-const ProjectSummary = ({ data, isLoading, currencyCode, cf }: any) => {
+const ProjectSummary = ({
+  data,
+  isLoading,
+  currencyCode,
+  moduleName,
+  woName,
+}: any) => {
   console.log("Project summery ===>>>>>>>>>", data);
 
   const {
@@ -45,7 +51,7 @@ const ProjectSummary = ({ data, isLoading, currencyCode, cf }: any) => {
           </li>
           {Number(work_orders) > 0 && (
             <li className="d-flex justify-content-between ">
-              <span>Work Orders (w/Tax)</span>
+              <span>{woName !== "" ? woName : "Work Orders"} (w/Tax)</span>
               <span className="project_summery_amt text-success">
                 {!isLoading ? (
                   formatCurrency(Number(work_orders), currencyCode)
@@ -98,9 +104,7 @@ const ProjectSummary = ({ data, isLoading, currencyCode, cf }: any) => {
             </span>
           </li>
           <li className="d-flex justify-content-between align-items-center">
-            <span>
-              Unpaid {cf ? cf.modules.invoice_merge.plural_name : "Invoices"}
-            </span>
+            <span>Unpaid {moduleName !== "" ? moduleName : "Invoices"}</span>
             <span className="project_summery_amt text-danger">
               {!isLoading ? (
                 formatCurrency(Number(unpaid_invoices), currencyCode)
