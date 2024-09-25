@@ -10,13 +10,13 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
 
   if (latitude && longitude) {
     // Use latitude and longitude if available
-    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&t=m&z=15&ie=UTF8&iwloc=&output=embed`;
+    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&t=m&z=17&iwloc=&output=embed&disableDefaultUI=true`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
   } else if (address) {
     // Use address if latitude and longitude are not available
     iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
       address
-    )}&t=m&z=15&ie=UTF8&iwloc=&output=embed`;
+    )}&t=m&z=17&iwloc=&output=embed&disableDefaultUI=true`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address
     )}`;
@@ -28,13 +28,15 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
   return (
     <div className="relative">
       <iframe
-        width="260"
-        height="220"
+        width="100%"
+        height="100%"
         className="border-0"
         src={iframeSrc}
         allowFullScreen
+        loading="lazy"
         aria-hidden="false"
         title="Google Map"
+        referrerPolicy="no-referrer-when-downgrade"
       ></iframe>
       <a
         href={googleMapsUrl}
