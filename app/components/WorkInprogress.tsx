@@ -144,7 +144,7 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
               {isLoading ? (
                 <div className="custom-shimmer amt_shimmer"></div>
               ) : (
-                <Tooltip title={i.tooltipText} placement="top">
+                <Tooltip title={i.tooltipText} placement="right">
                   <span className={`${i.color} project_summery_amt`}>
                     {i.value}
                   </span>

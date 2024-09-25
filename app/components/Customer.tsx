@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-
-import Skeleton from "./Skeletons/spin";
-
 import axios from "axios";
 import MapComponent from "./Map";
 import { CFModal } from "./antdmodal";
 import { Tooltip } from "antd";
 import { base_url, curr_date, redirect_url, tz } from "~/helpers";
-import Spiner from "./Skeletons/spin";
 
 const Customer = ({
   data,
@@ -164,7 +160,26 @@ const Customer = ({
                 >
                   <div className="d-flex align-items-start">
                     <span className="contact_label">{name}</span>
-                    <span className="contact_ans">{value}</span>
+                    {name !== "Email" ? (
+                      <span className="contact_ans">{value}</span>
+                    ) : (
+                      <span className="contact_ans">
+                        <a className="label_ans_link mr-5" href="">
+                          hiten.pipaliya@weenggs.in
+                        </a>
+                        <Tooltip
+                          title="Open the Contact Details in New Tab"
+                          placement="top"
+                        >
+                          <a href="" className="icon_link">
+                            <i
+                              className="fa-regular fa-envelope"
+                              aria-hidden="true"
+                            ></i>
+                          </a>
+                        </Tooltip>
+                      </span>
+                    )}
                   </div>
                 </li>
               ))}
