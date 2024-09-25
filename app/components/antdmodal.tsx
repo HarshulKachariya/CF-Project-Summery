@@ -71,7 +71,7 @@ export const CFModal = React.forwardRef<HTMLDivElement, CFModalProps>(
     const customHeader = (
       <>
         {header ? (
-          <div className="modal-draggable-header d-flex justify-content-between">
+          <div className="d-flex justify-content-between">
             <div className="d-flex align-items-center">
               {icon ? <div className="modal_head_icon">{icon}</div> : <></>}
               <div className="d-flex align-items-center flex-column">
