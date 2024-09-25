@@ -22,10 +22,10 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  const [ReactApexChart, setReactApexChart] = useState<any>();
-  useEffect(() => {
-    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  }, []);
+  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  // useEffect(() => {
+  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
