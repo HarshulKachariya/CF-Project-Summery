@@ -24,7 +24,7 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
       id: 1,
       label: "Gross Profit",
       label2: `(${
-        Number(billing_vs_actual?.gross_profit) > 0
+        Number(billing_vs_actual?.gross_profit) !== 0
           ? (
               (billing_vs_actual?.gross_profit * 100) /
               billing_vs_actual?.amount_invoiced

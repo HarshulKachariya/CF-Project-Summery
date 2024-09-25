@@ -37,11 +37,16 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
 
   // Function to handle NaN or 0 values
   const formatValue = (value: any) => {
-    console.log(
-      "format",
-      isNaN(Number(value)) || Number(value) === null ? 0 : Number(value)
-    );
-    return isNaN(Number(value)) || Number(value) === null ? 0 : Number(value);
+    return isNaN(Number(value)) || Number(value) === null
+      ? 0
+      : Number(value).toFixed(0);
+  };
+
+  const formatAsCurrency = (value: any): any => {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
   };
 
   const Items: ItemsProps[] = [
@@ -79,14 +84,22 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
     {
       id: 5,
       label: "Cost % Complete",
-      value: `${formatValue(cost_completed!).toFixed(2)}%`,
+      value: `${
+        Number(cost_completed!) !== 0
+          ? formatAsCurrency(formatValue(cost_completed!))
+          : 0
+      }%`,
       color: "",
       tooltipText: "Total Actual Costs Divided by Current Cost Budget",
     },
     {
       id: 6,
       label: "Forecasted % Complete",
-      value: `${formatValue(forcast_completed)}%`,
+      value: `${
+        Number(forcast_completed) !== 0
+          ? formatAsCurrency(formatValue(forcast_completed))
+          : 0
+      }%`,
       color: "",
       tooltipText: "Project Manager input",
     },

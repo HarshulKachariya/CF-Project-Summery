@@ -10,6 +10,10 @@ const Invoiced = ({ data, isLoading, currencyCode }: any) => {
     gross_profit,
   } = data?.billing_vs_actual || {};
 
+  // $("#lbl_ba_current_billings_percantage").html("(" + Math.round((unformatNumber(data.amount_invoiced)*100) / unformatNumber(data.original_contract_amount)) + "%)");
+
+  // $("#lbl_ba_remain_to_be_billed_percantage").html("(" + Math.round((unformatNumber(data.remain_to_invoice)*100) / unformatNumber(data.original_contract_amount)) + "%)");
+
   const Items = [
     {
       id: 1,
@@ -20,14 +24,29 @@ const Invoiced = ({ data, isLoading, currencyCode }: any) => {
     },
     {
       id: 2,
-      label: "Invoiced to Date (no/Tax)",
+      label: `Invoiced to Date (no/Tax) (${
+        Number(amount_invoiced) !== 0 || Number(original_contract_amount) !== 0
+          ? (
+              (Number(amount_invoiced) * 100) /
+              Number(original_contract_amount)
+            ).toFixed(0)
+          : 0
+      }%)`,
       value: `${formatCurrency(Number(amount_invoiced), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
-      label: "Remaining to Invoice (no/Tax)",
+      label: `Remaining to Invoice (no/Tax) (${
+        Number(remain_to_invoice) !== 0 ||
+        Number(original_contract_amount) !== 0
+          ? (
+              (Number(remain_to_invoice) * 100) /
+              Number(original_contract_amount)
+            ).toFixed(0)
+          : 0
+      }%)`,
       value: `${formatCurrency(Number(remain_to_invoice), currencyCode)}`,
       color: "text-success",
     },

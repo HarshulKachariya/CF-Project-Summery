@@ -61,12 +61,12 @@ const Customer = ({
     }
   };
 
-  const handleModalOpen = () => {
-    if (!isDataLoaded) {
-      fetchData();
-    }
-    setIsModalVisible(true);
-  };
+  // const handleModalOpen = () => {
+  //   if (!isDataLoaded) {
+  //     fetchData();
+  //   }
+  //   setIsModalVisible(true);
+  // };
 
   const formatAddress = (data: any) => {
     const addressParts = [
@@ -112,7 +112,10 @@ const Customer = ({
               <div className="d-flex align-items-center">
                 {data?.customer_name && (
                   <Tooltip title="Contact Details" placement="top">
-                    <span className="icon_link" onClick={handleModalOpen}>
+                    <span
+                      className="icon_link customer-contact-detail"
+                      // onClick={handleModalOpen}
+                    >
                       <i
                         className="fa-regular fa-address-card"
                         aria-hidden="true"
@@ -147,7 +150,7 @@ const Customer = ({
         </h5>
       </div>
 
-      <CFModal
+      {/* <CFModal
         open={isModalVisible}
         size="800px"
         className="p-0 m-0 remix_customer_contact_modal"
@@ -227,7 +230,7 @@ const Customer = ({
             />
           )}
         </div>
-      </CFModal>
+      </CFModal> */}
     </>
   );
 };
