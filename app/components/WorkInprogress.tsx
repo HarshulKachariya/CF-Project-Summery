@@ -1,4 +1,4 @@
-import { formatCurrency } from "~/helpers";
+import { formatAsCurrency, formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 import { Tooltip } from "antd";
 
@@ -40,13 +40,6 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
     return isNaN(Number(value)) || Number(value) === null
       ? 0
       : Number(value).toFixed(0);
-  };
-
-  const formatAsCurrency = (value: any): any => {
-    return new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
   };
 
   const Items: ItemsProps[] = [

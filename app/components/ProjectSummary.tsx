@@ -1,7 +1,7 @@
 import { formatCurrency } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 
-const ProjectSummary = ({ data, isLoading, currencyCode }: any) => {
+const ProjectSummary = ({ data, isLoading, currencyCode, cf }: any) => {
   console.log("Project summery ===>>>>>>>>>", data);
 
   const {
@@ -98,7 +98,9 @@ const ProjectSummary = ({ data, isLoading, currencyCode }: any) => {
             </span>
           </li>
           <li className="d-flex justify-content-between align-items-center">
-            <span>Unpaid Invoices</span>
+            <span>
+              Unpaid {cf ? cf.modules.invoice_merge.plural_name : "Invoices"}
+            </span>
             <span className="project_summery_amt text-danger">
               {!isLoading ? (
                 formatCurrency(Number(unpaid_invoices), currencyCode)

@@ -102,3 +102,10 @@ export function generateHtml(component: any) {
 
   return html;
 }
+
+export const formatAsCurrency = (value: any): any => {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+};

@@ -12,8 +12,8 @@ function hydrateComponent(
 ) {
   const container = document.getElementById(containerId);
   const currencyCode = (window as any).currencyCode;
-  const CF = (window as any).CF;
-  console.log("CF =======>>>>>>>>>>>>>>>>>", CF);
+  let CF;
+  const cf: any = CF;
   if (container) {
     const root = hydrateRoot(
       container,
@@ -23,6 +23,7 @@ function hydrateComponent(
         compId={compId}
         directoryId={directoryId}
         currencyCode={currencyCode}
+        cf={cf}
       />
     );
 
@@ -42,6 +43,7 @@ function hydrateComponent(
           compId={newCompId}
           directoryId={directoryId}
           currencyCode={currencyCode}
+          cf={cf}
         />
       );
     };
