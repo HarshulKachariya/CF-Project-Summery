@@ -31,10 +31,7 @@ const CustomIcon = ({
             className={iconClassName}
             
           /> */}
-          <i
-            className={`${icon}`} // Using the icon prop directly in className
-            style={{ color: color }}
-          ></i>
+          <i className={`${icon}`} style={{ color: color }}></i>
         </div>
         <span className="d-block ml-9">{label}</span>
         {children}

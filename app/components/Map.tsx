@@ -12,15 +12,17 @@ const MapComponent = ({ latitude, longitude, address }: any) => {
     // Use latitude and longitude if available
     iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&t=m&z=17&iwloc=&output=embed&disableDefaultUI=true`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
-  } else if (address) {
-    // Use address if latitude and longitude are not available
-    iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
-      address
-    )}&t=m&z=17&iwloc=&output=embed&disableDefaultUI=true`;
-    googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      address
-    )}`;
-  } else {
+  }
+  // else if (address) {
+  //   // Use address if latitude and longitude are not available
+  //   iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+  //     address
+  //   )}&t=m&z=17&iwloc=&output=embed&disableDefaultUI=true`;
+  //   googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  //     address
+  //   )}`;
+  // }
+  else {
     // Handle case where neither coordinates nor address is provided
     return <></>;
   }

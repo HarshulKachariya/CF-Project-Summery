@@ -99,6 +99,39 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       scheduler.config.drag_move = false;
       scheduler.config.drag_create = false;
 
+      scheduler.config.lightbox.sections = [
+        {
+          name: "title",
+          height: 43,
+          map_to: "title",
+          type: "textarea",
+          focus: true,
+        },
+        {
+          name: "description",
+          height: 130,
+          map_to: "description",
+          type: "textarea",
+        },
+        {
+          name: "time",
+          height: 72,
+          type: "time",
+          map_to: "auto",
+        },
+      ];
+
+      scheduler.attachEvent("onAfterLightbox", function () {
+        const inputs = document.querySelectorAll(
+          ".dhx_cal_light input, .dhx_cal_light textarea, .dhx_cal_light select"
+        );
+
+        inputs.forEach((input: any) => {
+          input.setAttribute("readonly", "readonly");
+          input.setAttribute("disabled", "disabled");
+        });
+      });
+
       scheduler.ignore_week = (date: Date) => {
         return date.getDay() === 0 || date.getDay() === 6; // Ignore Saturday and Sunday
       };
@@ -106,7 +139,7 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       scheduler.templates.week_date = (start: Date) => {
         const end = scheduler.date.add(start, 6, "day");
         const formatDate = (date: Date) => {
-          const day = date.getDate() - 1;
+          const day = date.getDate();
           const month = date.toLocaleString("default", { month: "short" });
           return `${day} ${month}`;
         };

@@ -1,6 +1,6 @@
 let componentLoaded = false;
 
-async function getSummary(proId = 140583) {
+async function getSummary(proId = 140769) {
   const rootId = "root1";
   const compId = "1"; // You might want to make this dynamic too
   const userId = "2513"; // You might want to make this dynamic too

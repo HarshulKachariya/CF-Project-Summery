@@ -96,13 +96,13 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
     {
       id: 5,
       label: "Schedule Completed",
-      label2: `${Number(data?.progress || 0).toFixed(0)}%`,
+      label2: `${Number(data?.progress * 100 || 0).toFixed(0)}%`,
       values: "",
       icon: "fa-solid fa-calendar-days",
       summaryClassName: "project_summary_schedule",
       tooltipLabel: `${
-        Number(data?.progress || 0) > 0
-          ? Number(data?.progress || 0).toFixed(0) + "%"
+        Number(data?.progress * 100 || 0) > 0
+          ? Number(data?.progress * 100 || 0).toFixed(0) + "%"
           : ""
       }`,
     },

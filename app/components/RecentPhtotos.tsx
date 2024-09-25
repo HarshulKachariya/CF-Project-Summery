@@ -6,6 +6,7 @@ import { CFGallery } from "./LightGallery";
 
 const RecentPhotos = ({ data, isLoading }: any) => {
   const [photos, setPhotos] = useState(0);
+  const [filteredFiles, setFilteredFiles] = useState([]);
 
   useEffect(() => {
     function resize() {
@@ -20,6 +21,18 @@ const RecentPhotos = ({ data, isLoading }: any) => {
     resize();
     window.addEventListener("resize", resize);
   }, []);
+
+  useEffect(() => {
+    if (data?.aws_files?.length > 0) {
+      const filteredFiles = data?.aws_files?.filter(
+        (file: any) => file.file_ext.toLowerCase() !== "pdf"
+      );
+
+      setFilteredFiles(filteredFiles);
+    }
+  }, [data]);
+
+  console.log("filteredFiles", filteredFiles);
 
   return (
     <>
@@ -40,7 +53,7 @@ const RecentPhotos = ({ data, isLoading }: any) => {
           <>
             {data?.aws_files?.length > 0 ? (
               <CFGallery className="recent-photos-content mt-sm customScroll">
-                {data?.aws_files
+                {filteredFiles
                   ?.slice(0, photos)
                   .map(
                     (
