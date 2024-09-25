@@ -19,25 +19,6 @@ interface ItemsProps {
 const Top = ({ data, isLoading, currencyCode }: any) => {
   const { billing_vs_actual } = data || {};
 
-  console.log(
-    "sfdgkdgndhjbg djgndgdg",
-    Number(billing_vs_actual?.gross_profit) !== 0
-      ? formatAsCurrency(
-          (billing_vs_actual?.gross_profit * 100) /
-            billing_vs_actual?.amount_invoiced !==
-            0 &&
-            (billing_vs_actual?.gross_profit * 100) /
-              billing_vs_actual?.amount_invoiced
-        )
-      : 0
-  );
-
-  console.log(
-    "billing_vs_actual?.gross_profit",
-    billing_vs_actual?.gross_profit
-  );
-  console.log("billing_vs_actual?.amount_invoiced", billing_vs_actual);
-
   const Items: ItemsProps[] = [
     {
       id: 1,

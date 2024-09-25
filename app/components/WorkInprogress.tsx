@@ -21,18 +21,6 @@ const WorkInprogress = ({ data, isLoading, currencyCode }: any) => {
     under_billing,
   } = data?.wip_widget || {};
 
-  console.log(
-    "qwerty",
-    cost_completed,
-    current_cost_budget,
-    earned_revenue,
-    forcast_completed,
-    original_contract_amount,
-    over_billing,
-    total_actual_cost,
-    under_billing
-  );
-
   const total_project_amount = data?.billing_vs_actual?.amount_invoiced || 0;
 
   // Function to handle NaN or 0 values

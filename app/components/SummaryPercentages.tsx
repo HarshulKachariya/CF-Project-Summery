@@ -257,9 +257,6 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
     },
   ];
 
-  console.log("costsEstimate?.budgeted", costsEstimate?.budgeted);
-  console.log("costsEstimate?.actual", costsEstimate?.actual);
-
   return (
     <>
       <CustomIcon icon="fa-solid fa-sack-dollar" label="Summary Percentages" />

@@ -32,8 +32,6 @@ const RecentPhotos = ({ data, isLoading }: any) => {
     }
   }, [data]);
 
-  console.log("filteredFiles", filteredFiles);
-
   return (
     <>
       <CustomIcon icon="fa-solid fa-file-image" label="Recent Photos" />
