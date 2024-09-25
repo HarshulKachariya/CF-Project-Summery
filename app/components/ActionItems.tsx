@@ -105,7 +105,9 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     },
 
     xaxis: { categories: ["OPEN", "DUE", "CLOSED"], tickPlacement: "on" },
-
+    fill: {
+      opacity: 1,
+    },
     legend: {
       show: true,
       position: "top",
