@@ -119,7 +119,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         dataLabels: {
           total: {
             enabled: true,
-            offsetX: 0,
+            offsetX: 7,
             style: {
               fontSize: "13px",
               fontWeight: 900,
@@ -141,6 +141,8 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
     legend: {
       show: true,
       position: "top",
+      horizontalAlign: "center",
+      offsetX: 40,
       onItemClick: {
         toggleDataSeries: false,
       },
@@ -248,7 +250,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         {data?.length <= 0 ? (
           <div
             className="chart-bar-loader chart-horizontal"
-            style={{ height: 250 }}
+            style={{ height: 238 }}
           >
             <ul className="chart-bar-xaxis">
               <li className="xaxis-1">
@@ -291,7 +293,7 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
               <Suspense>
                 <ReactApexChart
                   type="bar"
-                  height={250}
+                  height={238}
                   options={options}
                   series={filteredSeries}
                 />

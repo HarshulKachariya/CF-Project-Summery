@@ -276,7 +276,7 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
       <CustomIcon icon="fa-solid fa-sack-dollar" label="Summary Percentages" />
       <div className="summary_details_block_body position-relative">
         {!data ? (
-          <div className="chart-bar-loader" style={{ height: 250 }}>
+          <div className="chart-bar-loader" style={{ height: 238 }}>
             <ul className="chart-bar-yaxis">
               <li className="yaxis-1">
                 <span></span>
@@ -326,7 +326,7 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
                   type="bar"
                   options={options}
                   series={series}
-                  height={250}
+                  height={238}
                 />
               </Suspense>
             )}

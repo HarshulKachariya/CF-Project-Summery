@@ -140,7 +140,7 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
                   <p className="d-flex justify-content-between">
                     <Tooltip
                       title={tooltipLabel !== "" && tooltipLabel}
-                      placement="top"
+                      placement="bottom"
                     >
                       {link && label2 !== "-" ? (
                         <a
@@ -156,7 +156,7 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
                       )}
                     </Tooltip>
                     {values && (
-                      <Tooltip title={tooltipText} placement="top">
+                      <Tooltip title={tooltipText} placement="bottom">
                         <span className="project_summery_amt text-success">
                           {values}
                         </span>
