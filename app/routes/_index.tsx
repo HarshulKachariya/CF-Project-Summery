@@ -41,8 +41,7 @@ export default function Index() {
   //   directoryId,
   //   currencyCode,
   // }: IndexProps) {
-  const projectId = "140584";
-  // const projectId = "140583";
+  const projectId = "141764";
   // const compId = "408"; // You might want to make this dynamic too
   // const userId = "50304"; // You might want to make this dynamic too
   // const directoryId = "54584"; // You might want to make this dynamic too

@@ -46,30 +46,22 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
         Float(
           estimatedTotal === 0
             ? 0
-            : isNaN((commitedTotal * 100) / estimatedTotal)
-            ? 0
-            : ((commitedTotal * 100) / estimatedTotal).toFixed(0)
+            : ((commitedTotal * 100) / estimatedTotal).toFixed(2)
         ),
         Float(
           estimatedTotal === 0
             ? 0
-            : isNaN((actualTotal * 100) / estimatedTotal)
-            ? 0
-            : ((actualTotal * 100) / estimatedTotal).toFixed(0)
+            : ((actualTotal * 100) / estimatedTotal).toFixed(2)
         ),
         Float(
           estimated_labor_total === 0
             ? 0
-            : isNaN((laborActualTotal * 100) / estimated_labor_total)
-            ? 0
-            : ((laborActualTotal * 100) / estimated_labor_total).toFixed(0)
+            : ((laborActualTotal * 100) / estimated_labor_total).toFixed(2)
         ),
         Float(
           total_project_amount === 0
             ? 0
-            : isNaN((invoiced_to_date * 100) / total_project_amount)
-            ? 0
-            : ((invoiced_to_date * 100) / total_project_amount).toFixed(0)
+            : ((invoiced_to_date * 100) / total_project_amount).toFixed(2)
         ),
       ],
       actual: [
@@ -117,16 +109,16 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
     plotOptions: {
       bar: {
         horizontal: false,
+        columnWidth: "40%",
         colors: {
           ranges: [
             {
-              from: -999999999999999999,
-              to: 0,
+              from: 0,
+              to: 1,
               color: "#f65200",
             },
           ],
         },
-        columnWidth: "40%",
       },
     },
     xaxis: {
@@ -145,14 +137,12 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
       title: {
         text: "",
       },
-
       labels: {
         formatter: function (value: any) {
           return value.toFixed(0) + "%";
         },
       },
-      // min: 0,
-      // max: 1000,
+      min: 0,
     },
     dataLabels: {
       enabled: false,
@@ -258,7 +248,9 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
   const series = [
     {
       name: "Budgeted",
-      data: costsEstimate?.budgeted,
+      data: costsEstimate?.budgeted.map((value: number) =>
+        value === 0 ? null : value
+      ),
     },
     {
       name: "Actual",
@@ -266,10 +258,8 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
     },
   ];
 
-  // if (!data) {
-  //   console.log("<<<<<==== Data not Available ====>>>>>");
-  //   return <Spiner />;
-  // }
+  console.log("costsEstimate?.budgeted", costsEstimate?.budgeted);
+  console.log("costsEstimate?.actual", costsEstimate?.actual);
 
   return (
     <>

@@ -173,15 +173,13 @@ const Customer = ({
             <></>
           )}
 
-          {dirData.latitude ||
-            dirData.longitude ||
-            (address && (
-              <MapComponent
-                latitude={dirData?.latitude}
-                longitude={dirData?.longitude}
-                address={address}
-              />
-            ))}
+          {address && (
+            <MapComponent
+              latitude={dirData?.latitude}
+              longitude={dirData?.longitude}
+              address={address}
+            />
+          )}
         </div>
       </CFModal>
     </>
