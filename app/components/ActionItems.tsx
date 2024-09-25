@@ -5,16 +5,27 @@ import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import { base_url, curr_date, Int, tz } from "~/helpers";
 
+interface BillStatus {
+  bill_status: string;
+  bill_count: string;
+}
+
+interface Data {
+  open_incomplete_item?: {
+    opnIncoBills?: BillStatus[];
+  };
+}
+
 const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
-  // useEffect(() => {
-  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  // }, []);
+  const [ReactApexChart, setReactApexChart] = useState<any>();
+  useEffect(() => {
+    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,22 +145,34 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const ToDos = data?.open_incomplete_item?.opnIncoToDo[0] || {};
   const Compliance = data?.open_incomplete_item?.opnIncoCompliance[0] || {};
 
-  console.log("invoices", invoices);
-  console.log("bills", bills[0]);
-  console.log("pos", pos);
-  console.log("opnIncoPunchlist", opnIncoPunchlist);
-  console.log("opnIncoRFI", opnIncoRFI);
-  console.log("ToDos", ToDos);
-  console.log("Compliance", Compliance);
+  const [billCounts, setBillCounts] = useState<number[]>([0, 0, 0]);
+
+  useEffect(() => {
+    const bills = data?.open_incomplete_item?.opnIncoBills || [];
+    const newBillCounts = [0, 0, 0]; // [open, due, closed]
+
+    bills.forEach(({ bill_status, bill_count }: BillStatus) => {
+      const count = parseInt(bill_count, 10);
+      switch (bill_status.toLowerCase()) {
+        case "open":
+          newBillCounts[0] += count;
+          break;
+        case "due":
+          newBillCounts[1] += count;
+          break;
+        case "closed":
+          newBillCounts[2] += count;
+          break;
+      }
+    });
+
+    setBillCounts(newBillCounts);
+  }, [data]);
 
   const series = [
     {
       name: "Bills",
-      data: [
-        Number(bills[2]?.bill_count) || 0,
-        Number(bills[0]?.bill_count) || 0,
-        Number(bills[1]?.bill_count) || 0,
-      ],
+      data: billCounts,
       color: "#D53E4F",
     },
     {

@@ -4,15 +4,19 @@ import { faExpand } from "@fortawesome/sharp-regular-svg-icons";
 const MapComponent = ({ latitude, longitude, address }: any) => {
   let iframeSrc, googleMapsUrl;
 
+  console.log("latitude=============>>>>>>>>>>", latitude);
+  console.log("longitude=============>>>>>>>>>>", longitude);
+  console.log("address=============>>>>>>>>>>", address);
+
   if (latitude && longitude) {
     // Use latitude and longitude if available
-    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&z=17&output=embed`;
+    iframeSrc = `https://maps.google.com/maps?q=${latitude},${longitude}&t=m&z=15&ie=UTF8&iwloc=&output=embed`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
   } else if (address) {
     // Use address if latitude and longitude are not available
     iframeSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
       address
-    )}&z=17&output=embed`;
+    )}&t=m&z=15&ie=UTF8&iwloc=&output=embed`;
     googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       address
     )}`;
