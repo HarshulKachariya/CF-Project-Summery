@@ -33,22 +33,23 @@ export type IndexProps = {
   currencyCode?: string;
 };
 
-// export default function Index() {
-export default function Index({
-  projectId,
-  userId,
-  compId,
-  directoryId,
-  currencyCode,
-}: IndexProps) {
-  // const projectId = "137441";
+export default function Index() {
+  // export default function Index({
+  //   projectId,
+  //   userId,
+  //   compId,
+  //   directoryId,
+  //   currencyCode,
+  // }: IndexProps) {
+  const projectId = "140584";
+  // const projectId = "140583";
   // const compId = "408"; // You might want to make this dynamic too
   // const userId = "50304"; // You might want to make this dynamic too
   // const directoryId = "54584"; // You might want to make this dynamic too
-  // const compId = "422"; // You might want to make this dynamic too
-  // const userId = "51602"; // You might want to make this dynamic too
-  // const directoryId = "53740"; // You might want to make this dynamic too
-  // const currencyCode = "INR";
+  const compId = "1"; // You might want to make this dynamic too
+  const userId = "2513"; // You might want to make this dynamic too
+  const directoryId = "53740"; // You might want to make this dynamic too
+  const currencyCode = "INR";
 
   const { data, isLoading, error } = useFetchProjectDetails(
     projectId,

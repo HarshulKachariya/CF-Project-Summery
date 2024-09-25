@@ -5,16 +5,16 @@ import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 import { base_url, curr_date, Int, tz } from "~/helpers";
 
-const ReactApexChart = require("react-apexcharts").default;
+// const ReactApexChart = require("react-apexcharts").default;
 
 const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>([]);
 
   const [isLoading, setisLoading] = useState(true);
-  // const [ReactApexChart, setReactApexChart] = useState<any>();
-  // useEffect(() => {
-  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  // }, []);
+  const [ReactApexChart, setReactApexChart] = useState<any>();
+  useEffect(() => {
+    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,16 +92,9 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
         },
       },
     },
+
     xaxis: { categories: ["OPEN", "DUE", "CLOSED"], tickPlacement: "on" },
-    // colors: [
-    //   "#D53E4F",
-    //   "#303A52",
-    //   "#684CC7",
-    //   "#3836A1",
-    //   "#F46D43",
-    //   "#2494A4",
-    //   "#CC9F5D",
-    // ],
+
     legend: {
       show: true,
       position: "top",
@@ -139,6 +132,12 @@ const ActionItems = ({ projectId, userId, compId }: IndexProps) => {
   const ToDos = data?.open_incomplete_item?.opnIncoToDo[0] || {};
   const Compliance = data?.open_incomplete_item?.opnIncoCompliance[0] || {};
 
+  console.log("invoices", invoices);
+  console.log("bills", bills[0]);
+  console.log("pos", pos);
+  console.log("opnIncoPunchlist", opnIncoPunchlist);
+  console.log("opnIncoRFI", opnIncoRFI);
+  console.log("ToDos", ToDos);
   console.log("Compliance", Compliance);
 
   const series = [
