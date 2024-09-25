@@ -6,7 +6,7 @@ import CustomIcon from "./CustomIcon";
 import Spiner from "./Skeletons/spin";
 import { chartFormatCurrency, Float, formatCurrency, Int } from "~/helpers";
 
-// const ReactApexChart = require("react-apexcharts").default;
+const ReactApexChart = require("react-apexcharts").default;
 
 const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
   const [costsEstimate, setCostsEstimate] = useState<any>({
@@ -14,10 +14,10 @@ const SummaryPercentages = ({ data, isLoading, currencyCode }: any) => {
     actual: [],
   });
 
-  const [ReactApexChart, setReactApexChart] = useState<any>();
-  useEffect(() => {
-    import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
-  }, []);
+  // const [ReactApexChart, setReactApexChart] = useState<any>();
+  // useEffect(() => {
+  //   import("react-apexcharts").then((d) => setReactApexChart(() => d.default));
+  // }, []);
 
   const billing_vs_actual = data?.billing_vs_actual || {};
   const all_item_total = data?.all_item_total || {};
