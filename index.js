@@ -1,11 +1,11 @@
 let componentLoaded = false;
 
-async function getSummary(proId = 147402) {
+async function getSummary(proId = 140969) {
   const rootId = "root1";
   const compId = "1"; // You might want to make this dynamic too
   const userId = "2513"; // You might want to make this dynamic too
   const directoryId = "53740"; // You might want to make this dynamic too
-  const currencyCode = "USD"; // You might want to make this dynamic too
+  const currencyCode = "INR"; // You might want to make this dynamic too
   // const compId = "408"; // You might want to make this dynamic too
   // const userId = "50304"; // You might want to make this dynamic too
   // const directoryId = "54584"; // You might want to make this dynamic too

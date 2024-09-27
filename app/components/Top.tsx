@@ -19,12 +19,25 @@ interface ItemsProps {
 const Top = ({ data, isLoading, currencyCode }: any) => {
   const { billing_vs_actual } = data || {};
 
+  const formatValue = (value: any): string => {
+    return isNaN(Number(value)) || value === null
+      ? "0"
+      : Number(value).toFixed(0);
+  };
+
+  const formatValue2 = (value: any): string => {
+    const numValue = Number(value);
+    if (isNaN(numValue) || value === null) return "0";
+    return numValue === 0 ? "0" : numValue.toFixed(2);
+  };
+
   const Items: ItemsProps[] = [
     {
       id: 1,
       label: "Gross Profit",
       label2: `(${
-        Number(billing_vs_actual?.gross_profit) !== 0 &&
+        !isNaN(billing_vs_actual?.gross_profit) &&
+        !isNaN(billing_vs_actual?.amount_invoiced) &&
         billing_vs_actual?.amount_invoiced !== ""
           ? formatAsCurrency(
               (billing_vs_actual?.gross_profit * 100) /
@@ -33,7 +46,7 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
           : 0
       }%)`,
       values: `${formatCurrency(
-        Number(billing_vs_actual?.gross_profit),
+        formatValue2(billing_vs_actual?.gross_profit),
         currencyCode
       )}`,
       icon: "fa-solid fa-chart-mixed",
@@ -97,13 +110,13 @@ const Top = ({ data, isLoading, currencyCode }: any) => {
     {
       id: 5,
       label: "Schedule Completed",
-      label2: `${Number(data?.progress * 100 || 0).toFixed(0)}%`,
+      label2: `${formatValue(data?.progress * 100 || 0)}%`,
       values: "",
       icon: "fa-solid fa-calendar-days",
       summaryClassName: "project_summary_schedule",
       tooltipLabel: `${
-        Number(data?.progress * 100 || 0) > 0
-          ? Number(data?.progress * 100 || 0).toFixed(0) + "%"
+        Number(formatValue(data?.progress * 100 || 0)) > 0
+          ? formatValue(data?.progress * 100 || 0) + "%"
           : ""
       }`,
     },

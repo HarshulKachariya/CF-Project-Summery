@@ -4,18 +4,24 @@ import { useFetchProjectDetails } from "~/hooks/usefetchProjectDetails";
 import Customer from "~/components/Customer";
 import Spiner from "~/components/Skeletons/spin";
 import { generateHtml } from "~/helpers";
+import Top from "~/components/Top";
+import ProjectSummary from "~/components/ProjectSummary";
+import Invoiced from "~/components/Invoiced";
+import WorkInprogress from "~/components/WorkInprogress";
+import RecentPhotos from "~/components/RecentPhtotos";
+import Scheduler from "~/components/Schedular";
 
 // Lazy-loaded components
-const ProjectSummary = lazy(() => import("../components/ProjectSummary"));
-const Invoiced = lazy(() => import("../components/Invoiced"));
+// const ProjectSummary = lazy(() => import("../components/ProjectSummary"));
+// const Invoiced = lazy(() => import("../components/Invoiced"));
 const ActionItems = lazy(() => import("../components/ActionItems"));
 const SummaryPercentages = lazy(
   () => import("../components/SummaryPercentages")
 );
-const WorkInprogress = lazy(() => import("../components/WorkInprogress"));
-const RecentPhotos = lazy(() => import("../components/RecentPhtotos"));
-const Scheduler = lazy(() => import("../components/Schedular"));
-const Top = lazy(() => import("../components/Top"));
+// const WorkInprogress = lazy(() => import("../components/WorkInprogress"));
+// const RecentPhotos = lazy(() => import("../components/RecentPhtotos"));
+// const Scheduler = lazy(() => import("../components/Schedular"));
+// const Top = lazy(() => import("../components/Top"));
 
 export const meta: MetaFunction = () => {
   return [

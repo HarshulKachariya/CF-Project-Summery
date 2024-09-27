@@ -109,3 +109,9 @@ export const formatAsCurrency = (value: any): any => {
     maximumFractionDigits: 2,
   }).format(value);
 };
+
+export const formatValue2 = (value: any): string => {
+  const numValue = Number(value);
+  if (isNaN(numValue) || value === null || value === "") return "0";
+  return numValue === 0 ? "0" : numValue.toFixed(2);
+};

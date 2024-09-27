@@ -1,4 +1,4 @@
-import { formatCurrency } from "~/helpers";
+import { formatCurrency, formatValue2 } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 
 const ProjectSummary = ({
@@ -33,7 +33,10 @@ const ProjectSummary = ({
             <span>Original Contract Amount (w/Tax) </span>
             <span className="project_summery_amt text-success">
               {!isLoading ? (
-                formatCurrency(Number(original_contract_amount), currencyCode)
+                formatCurrency(
+                  formatValue2(original_contract_amount),
+                  currencyCode
+                )
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -43,7 +46,7 @@ const ProjectSummary = ({
             <span>Change Orders (w/Tax)</span>
             <span className="project_summery_amt text-success">
               {!isLoading ? (
-                formatCurrency(Number(change_orders), currencyCode)
+                formatCurrency(formatValue2(change_orders), currencyCode)
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -54,7 +57,7 @@ const ProjectSummary = ({
               <span>{woName !== "" ? woName : "Work Orders"} (w/Tax)</span>
               <span className="project_summery_amt text-success">
                 {!isLoading ? (
-                  formatCurrency(Number(work_orders), currencyCode)
+                  formatCurrency(formatValue2(work_orders), currencyCode)
                 ) : (
                   <div className="custom-shimmer summary-shimmer me-0"></div>
                 )}
@@ -66,7 +69,7 @@ const ProjectSummary = ({
               <span>Service Tickets (w/Tax)</span>
               <span className="project_summery_amt text-success">
                 {!isLoading ? (
-                  formatCurrency(Number(service_tickets), currencyCode)
+                  formatCurrency(formatValue2(service_tickets), currencyCode)
                 ) : (
                   <div className="custom-shimmer summary-shimmer me-0"></div>
                 )}
@@ -82,7 +85,7 @@ const ProjectSummary = ({
             <span> Total Project Amount (w/Tax)</span>
             <span className="project_summery_amt">
               {!isLoading ? (
-                formatCurrency(Number(total_project_amount), currencyCode)
+                formatCurrency(formatValue2(total_project_amount), currencyCode)
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -97,7 +100,7 @@ const ProjectSummary = ({
             <span>Customer Payments</span>
             <span className="project_summery_amt text-danger">
               {!isLoading ? (
-                formatCurrency(Number(invoice_payments), currencyCode)
+                formatCurrency(formatValue2(invoice_payments), currencyCode)
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -107,7 +110,7 @@ const ProjectSummary = ({
             <span>Unpaid {moduleName !== "" ? moduleName : "Invoices"}</span>
             <span className="project_summery_amt text-danger">
               {!isLoading ? (
-                formatCurrency(Number(unpaid_invoices), currencyCode)
+                formatCurrency(formatValue2(unpaid_invoices), currencyCode)
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -127,7 +130,9 @@ const ProjectSummary = ({
             </span>
             <span className="project_summery_amt">
               {!isLoading ? (
-                <b>{formatCurrency(Number(remain_invoices), currencyCode)}</b>
+                <b>
+                  {formatCurrency(formatValue2(remain_invoices), currencyCode)}
+                </b>
               ) : (
                 <div className="custom-shimmer summary-shimmer me-0"></div>
               )}
@@ -141,7 +146,10 @@ const ProjectSummary = ({
               <span className="project_summery_amt">
                 {!isLoading ? (
                   <b>
-                    {formatCurrency(Number(contract_amount_held), currencyCode)}
+                    {formatCurrency(
+                      formatValue2(contract_amount_held),
+                      currencyCode
+                    )}
                   </b>
                 ) : (
                   <div className="custom-shimmer summary-shimmer me-0"></div>

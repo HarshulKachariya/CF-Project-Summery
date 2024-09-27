@@ -5,8 +5,9 @@ import axios from "axios";
 import CustomIcon from "./CustomIcon";
 import { IndexProps } from "~/routes/_index";
 
-import Spiner from "./Skeletons/spin";
 import { base_url, curr_date, tz } from "~/helpers";
+
+let EXCLUDE_WEEKEND_DAYS = 2;
 
 const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
   const [data, setData] = useState<any>();
@@ -133,7 +134,39 @@ const Scheduler = ({ projectId, userId, compId }: IndexProps) => {
       });
 
       scheduler.ignore_week = (date: Date) => {
-        return date.getDay() === 0 || date.getDay() === 6; // Ignore Saturday and Sunday
+        if (EXCLUDE_WEEKEND_DAYS == 1) {
+          //Ignore Sunday
+          if (date.getDay() == 0) {
+            return true;
+          }
+        } else if (EXCLUDE_WEEKEND_DAYS == 2) {
+          if (date.getDay() == 6 || date.getDay() == 0) {
+            //hides Saturdays and Sundays
+            return true;
+          }
+        } else if (EXCLUDE_WEEKEND_DAYS == 3) {
+          if (date.getDay() == 6 || date.getDay() == 5 || date.getDay() == 0) {
+            return true;
+          }
+        } // Ignore Saturday and Sunday
+      };
+
+      scheduler.ignore_month = function (date: Date) {
+        if (EXCLUDE_WEEKEND_DAYS == 1) {
+          //Ignore Sunday
+          if (date.getDay() == 0) {
+            return true;
+          }
+        } else if (EXCLUDE_WEEKEND_DAYS == 2) {
+          if (date.getDay() == 6 || date.getDay() == 0) {
+            //hides Saturdays and Sundays
+            return true;
+          }
+        } else if (EXCLUDE_WEEKEND_DAYS == 3) {
+          if (date.getDay() == 6 || date.getDay() == 5 || date.getDay() == 0) {
+            return true;
+          }
+        }
       };
 
       scheduler.templates.week_date = (start: Date) => {

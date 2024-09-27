@@ -1,4 +1,4 @@
-import { formatCurrency } from "~/helpers";
+import { formatCurrency, formatValue2 } from "~/helpers";
 import CustomIcon from "./CustomIcon";
 
 const Invoiced = ({ data, isLoading, currencyCode }: any) => {
@@ -14,52 +14,62 @@ const Invoiced = ({ data, isLoading, currencyCode }: any) => {
 
   // $("#lbl_ba_remain_to_be_billed_percantage").html("(" + Math.round((unformatNumber(data.remain_to_invoice)*100) / unformatNumber(data.original_contract_amount)) + "%)");
 
+  const formatValue2 = (value: any): string => {
+    const numValue = Number(value);
+    if (isNaN(numValue) || value === null || value === "") return "0";
+    return numValue === 0 ? "0" : numValue.toFixed(2);
+  };
+
   const Items = [
     {
       id: 1,
       label: "Total Project Amount (no/Tax)",
-      value: `${formatCurrency(original_contract_amount, currencyCode)}
+      value: `${formatCurrency(
+        formatValue2(original_contract_amount),
+        currencyCode
+      )}
 `,
       color: "text-success",
     },
     {
       id: 2,
       label: `Invoiced to Date (no/Tax) (${
-        Number(amount_invoiced) !== 0 || Number(original_contract_amount) !== 0
+        formatValue2(amount_invoiced) !== "0" &&
+        formatValue2(original_contract_amount) !== "0"
           ? (
-              (Number(amount_invoiced) * 100) /
-              Number(original_contract_amount)
+              (Number(formatValue2(amount_invoiced)) * 100) /
+              Number(formatValue2(original_contract_amount))
             ).toFixed(0)
           : 0
       }%)`,
-      value: `${formatCurrency(Number(amount_invoiced), currencyCode)}
+      value: `${formatCurrency(formatValue2(amount_invoiced), currencyCode)}
 `,
       color: "text-success",
     },
     {
       id: 3,
       label: `Remaining to Invoice (no/Tax) (${
-        Number(remain_to_invoice) !== 0 ||
-        Number(original_contract_amount) !== 0
+        formatValue2(remain_to_invoice) !== "0" &&
+        formatValue2(original_contract_amount) !== "0"
           ? (
               (Number(remain_to_invoice) * 100) /
               Number(original_contract_amount)
             ).toFixed(0)
           : 0
       }%)`,
-      value: `${formatCurrency(Number(remain_to_invoice), currencyCode)}`,
+      value: `${formatCurrency(formatValue2(remain_to_invoice), currencyCode)}`,
       color: "text-success",
     },
     {
       id: 4,
       label: "Total Actual Costs",
-      value: `${formatCurrency(Number(total_actual_cost), currencyCode)}`,
+      value: `${formatCurrency(formatValue2(total_actual_cost), currencyCode)}`,
       color: "text-danger",
     },
     {
       id: 5,
       label: "Gross Profit",
-      value: `${formatCurrency(Number(gross_profit), currencyCode)}`,
+      value: `${formatCurrency(formatValue2(gross_profit), currencyCode)}`,
       color: "text-success",
     },
   ];
